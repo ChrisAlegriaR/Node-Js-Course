@@ -43,5 +43,9 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// ^Archivos JavaScript.
-// ^
+// ^Ejecucion de archivos JavaScript.
+// ^Node.JS puede ser utilizado para ejecutar archivos de JavaScript directamente desde la terminal. Esto nos permite trabajar con JavaScript principalmente del lado del backend, ya que, como bien sabemos, también podemos trabajar con JavaScript del lado del frontend vinculándolo a un archivo HTML, donde todo lo que ejecutemos normalmente se mostrará en la consola del navegador. Sin embargo, ejecutar JavaScript con Node.JS nos permite trabajar directamente con el lenguaje sin necesidad de un entorno de navegador, es decir, sin depender de HTML ni de las herramientas del navegador. Para realizar esto, es necesario abrir una terminal y ubicarnos en el directorio donde se encuentra el archivo `.js` que queremos ejecutar. Una vez estando en el mismo directorio, únicamente deberemos ejecutar el comando `node nombreArchivoJS`, y de esta manera Node.JS ejecutará nuestro archivo. Es importante entender que esta ejecución es de una sola vez, es decir, cada vez que queramos volver a ejecutar el archivo deberemos volver a escribir el comando correspondiente en la terminal.
+// node nombreArchivo.js  //* Comando que ejecuta un archivo JavaScript ubicado en el directorio actual utilizando Node.JS.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
