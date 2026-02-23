@@ -72,7 +72,6 @@ const fs = require('fs'); //* Importa el módulo interno `fs` y lo asigna a la c
 
 // ~Uso de la libreria fs.
 // ~El uso de la librería File System es relativamente directo, ya que únicamente debemos utilizar el nombre de la variable a la cual asignamos la librería (`fs`) seguido de un punto (`.`). Al hacer esto, el editor de código nos mostrará todas las funciones disponibles dentro del módulo, como `readFileSync`, `writeFileSync`, `appendFileSync`, entre otras. El uso específico dependerá de la acción que deseemos realizar. Por ejemplo, si queremos trabajar con un archivo, primero podemos asignarlo a una variable utilizando `fs.readFileSync`, o bien crear o modificar archivos utilizando funciones como `writeFileSync`. El patrón general es: nombreVariable.accion('rutaDelArchivo').
-
 // ?Asignacion de un archivo a variable con fs.
 // ?La asignación de un archivo a una variable mediante `fs` es bastante sencilla. Debemos declarar una variable que almacenará el contenido del archivo o que hará referencia a este. Para ello utilizamos `fs.readFileSync()`, donde `readFileSync` significa “leer archivo de forma síncrona”. La palabra “Sync” indica que el proceso se ejecuta de manera bloqueante, es decir, Node.JS esperará a que termine la lectura antes de continuar con la ejecución del código. Dentro de los paréntesis debemos especificar la ruta del archivo y el tipo de codificación que queremos usar (por ejemplo 'utf-8' para texto legible). Una vez hecho esto, si imprimimos la variable, veremos en consola todo el contenido del archivo leído. Cabe mencionar que existen métodos síncronos y asíncronos; en este ejemplo estamos utilizando la versión síncrona para simplificar el flujo de trabajo.
 console.log('--- Asignacion de un archivo a variable con fs. ---'); //* Muestra encabezado del ejemplo.
@@ -88,7 +87,84 @@ fs.writeFileSync('../assets/docs/Libro_1_copia.txt', libro_1); //* Crea un nuevo
 // ?Un aspecto interesante respecto al uso de `fs` es que las modificaciones directas sobre archivos no se realizan editando el archivo en memoria y guardándolo automáticamente. En realidad, el flujo consiste en leer el archivo, modificar su contenido en una variable (por ejemplo utilizando métodos como `replace()`), y posteriormente escribir un nuevo archivo con el contenido modificado. Es decir, el proceso implica crear una nueva versión del archivo aplicando los cambios deseados. Esto ocurre porque el contenido leído se almacena como texto en memoria, y cualquier transformación se realiza sobre esa representación en memoria antes de volver a escribirla en el sistema.
 console.log('--- Modificar archivo asignado a variable con fs. ---'); //* Encabezado del ejemplo de modificación.
 
-const Libro_1_modificacion = libro_1.replace(/Libro 1/ig, 'la copia del libro 2'); //* Reemplaza todas las coincidencias de "Libro 1" por el nuevo texto.
+const Libro_1_modificacion = libro_1.replace(/Libro 1/ig, 'libro 2'); //* Reemplaza todas las coincidencias de "Libro 1" por el nuevo texto.
 fs.writeFileSync('../assets/docs/Libro_2.txt', Libro_1_modificacion); //* Crea un nuevo archivo aplicando la modificación realizada.
+const libro_2 = fs.readFileSync('../assets/docs/Libro_2.txt', 'utf-8'); //* Lee el archivo especificado y guarda su contenido en la variable `libro_2`.
+console.log(libro_2); //* Imprime en consola el contenido completo del archivo modificado.
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// !Proyectos con Node.JS
+// !Anteriormente vimos teoria, funciones basicas, ejecutamos archivos JS de forma individual con Node.js, lo cual es útil para scripts pequeños. A partir de ahora, daremos el salto a proyectos estructurados de Node.js, donde aprenderemos a organizar aplicaciones extensas utilizando módulos, dependencias de npm y una estructura de carpetas profesional, permitiéndonos crear sistemas escalables y no solo archivos sueltos.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ^Npm init & package.json
+// ^Una de las partes mas importantes del uso de Node.JS en proyectos es que este se puede trabajar en los mismos, por lo que para ello y poder trabajar con Node en los proyectos se debera utilizar la palabra npm init para instalar las dependencias necesarias al proyecto y que este pueda usar node, creando asi el package.json. Por otro lado otro de los componentes clave para el trabajo de Node ne poryectos es el archivo package.json el cual es el corazon de node dentro de nuestrs proyectos, ya que este funciona como un archivo de configuracion central que registra metadatos (nombre, versión), gestiona las dependencias (librerías externas) y define los scripts para ejecutar, probar o compilar la aplicación.
+// ~Npm init.
+// ~El comando Npm init es un comando reservado de node package manager de ahi lo e npm, el cual nops permite inicializar node en nuestros poryectos, el cual generara e package.json el cual es necesario para poder tener node en nuestor proyecto, la inicializacion e instalacion de Node en proyectos comunmenbte realiza ciertas preguntas clave para la instalacion correcta de Node. De igual manera existe otras manera de poderinicializar de manera mas rapida, pero es importante conocer la forma base, ya que esto nos permitira configurar o instalar Node de ciertas maneras. Por ende el comando npm inti debe ser ejecutado en una terminalk y en el directorio raiz de nuestro proyecto. Las preguntas que se nos hacen es para especificar el nombre del proyecto que usara package.jso, para especificar una vewrsion de node, descripcion del proyecto, entrada node, comando para bruevas, vincular a un repoositoriop de git, palabras clabe para ubicar enfuturo el proyecto en npm, autor(es),  licencias, y finalmente el permiso para crear el package.json, comunmente solanmente debemos teclrar lo que queremos modificar y usar entera para siguiente, estos aspectos son opcionales y podemos dar enter a cada uno ausando asi los valores por defecto.
+// PS D:\Trabajos\Cursos\Node-Js-Course\Course\scripts> npm init
+// This utility will walk you through creating a package.json file.
+// It only covers the most common items, and tries to guess sensible defaults.
+
+// See `npm help init` for definitive documentation on these fields
+// and exactly what they do.
+
+// Use `npm install <pkg>` afterwards to install a package and
+// save it as a dependency in the package.json file.
+
+// Press ^C at any time to quit.
+// package name: (scripts) node_js_course
+// version: (1.0.0)                                                                   
+// description: Scripts and course section of the Node course.
+// entry point: (index.js)
+// test command:
+// git repository:
+// keywords:          
+// author: Chris Alegria
+// license:(ISC)
+// About to write to D:\Trabajos\Cursos\Node-Js-Course\Course\scripts\package.json:
+
+// {
+//   "name": "node_js_course",
+//   "version": "1.0.0",
+//   "description": "Scripts and course section of the Node course.",
+//   "main": "index.js",
+//   "scripts": {
+//     "test": "echo \"Error: no test specified\" && exit 1"
+//   },
+//   "author": "Chris Alegria",
+//   "license": "ISC"
+// }
+
+// Is this OK? (yes) yes
+
+// ~Package.json.
+// ~El archivo package.json es creado mediante npm init, el cual nos preguntara diversas cuestiones con las que trabajara nuestro package.json, ahora bien este archivo es indispensable ya que es el corazon de node dentro de nuestrs proyectos, ya que este funciona como un archivo de configuracion central que registra metadatos (nombre, versión), gestiona las dependencias (librerías externas) y define los scripts para ejecutar, probar o compilar la aplicación ademas esta presente ya que tanto los proyectos react como los proyectos angular se ejecuitan encima de node. 
+// ?Contenido de Package.json.
+// ?Dentro de nuestro package.json encontraremos nombre del proyecto con el que trabaja, version de node que usa, descripcion del proyecto, punto de entrada (donde sera el corazon de codigo que use node.), scripts de comandos para usar npm y hacer test. autor y licencias. Ademas dentro de este mismo archivo podemos especificar mas datos o informacion.
+// {
+//   "name": "node_js_course",
+//   "version": "1.0.0",
+//   "description": "Scripts and course section of the Node course.",
+//   "main": "index.js",
+//   "scripts": {
+//     "test": "echo \"Error: no test specified\" && exit 1",
+//     "dev": "node index.js",
+//     "start": "node index.js",
+//     "build": "node index.js"
+//   },
+//   "author": "Chris Alegria",
+//   "license": "ISC"
+// }
+
+// ?Seccion de scripts dentro de package.json
+// ?Como ya se comento previamen te la seccion de scripts dentro de nuestro package.json nos permite declarar comandops los cuales al ejecutarlos segun la seccion en los que los dimos de alta haran una cosa u otra. Ahora bien un ejemplo de esto es "start": "", el cual nos permite dar de alta un comando que al ejecutarlo ejecutara nuestro punto de entrada, tenemos ifualmente "dev": "" el cual a diferencia de start se usa para cuando esta en desarrollo y dejar a stary para produccion, tenemostambien "build": el cual prepara la aplicacion para produccion. Por lo que el comando a espeicifcar debera siempre contener la palabra node, ya que ejecutara dicho comando. Ahora bien, como podemos ver estos estan divididoa en 2 partes tenemos el lado izquierdo donde se tiene por ejemplo "star": aqui es donde asignaremos el nombre o palabra que queramos, y lo que esta al lado derecho sera el comando o lo que ejecutara node por ejemplo node index.js.
+//   "scripts": {
+//     "test": "echo \"Error: no test specified\" && exit 1",
+//     "dev": "node index.js",
+//     "start": "node index.js",
+//     "build": "node index.js"
+//   },
+
+// ?
