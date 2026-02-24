@@ -174,3 +174,51 @@ console.log(libro_2); //* Imprime en consola el contenido completo del archivo m
 // npm run nombreComando  //* Ejecuta el script definido bajo el nombre especificado en la sección `scripts`.
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ^Nodemon
+// ^Nodemon es una paquetería o librería de terceros, lo que significa que no viene incluida por defecto con Node.JS, sino que debe instalarse manualmente. Su propósito principal es permitir la ejecución automática de nuestro código cada vez que detecta cambios en los archivos del proyecto. En lugar de ejecutar manualmente `node index.js` cada vez que guardamos un archivo, Nodemon actúa como un **listener**, es decir, un proceso que permanece escuchando cambios en el sistema de archivos. Cada vez que nosotros realizamos y guardamos modificaciones, Nodemon vuelve a ejecutar el script automáticamente. Esto mejora considerablemente la productividad durante el desarrollo. Al ser una librería externa, es necesario descargarla e instalarla, ya sea de manera global en el dispositivo o únicamente dentro de un proyecto específico. Al instalar Nodemon en un proyecto, se generarán archivos y carpetas como `package-lock.json` (que registra versiones exactas de dependencias para mantener consistencia) y la carpeta `node_modules` (donde se almacenan físicamente las dependencias instaladas).
+
+// ~Descarga e instalacion de Nodemon.
+// ~Como Nodemon es una paquetería de terceros, es necesario descargarla e instalarla en nuestro dispositivo utilizando Node Package Manager (npm). Existen dos maneras principales de hacerlo: instalarlo de forma global o instalarlo únicamente a nivel de proyecto. La diferencia radica en el alcance y control que deseemos tener sobre su uso.
+// ?Instalar Nodemon a nivel global.
+// ?La primera manera consiste en instalar Nodemon de manera global. Esto significa que Nodemon estará disponible en todo nuestro sistema y podrá utilizarse en cualquier proyecto Node sin necesidad de volver a instalarlo. Para lograr esto utilizamos el comando `npm install -g nodemon`. El parámetro `-g` indica que la instalación será global, agregando Nodemon al PATH del sistema, lo que nos permite ejecutar el comando `nodemon` directamente desde cualquier terminal sin configuraciones adicionales.
+// npm install -g nodemon   //* Instala Nodemon de manera global en el sistema.
+
+// ?Instalar Nodemon a nivel proyecto.
+// ?La segunda manera es instalar Nodemon únicamente dentro de un proyecto específico. Esto implica que Nodemon solo estará disponible dentro de ese proyecto, brindando mayor control y evitando dependencias globales innecesarias. Para hacerlo utilizamos `npm install nodemon`. Sin embargo, es importante entender que este comando lo instalará como una dependencia normal, lo que significa que podría incluirse incluso en producción. Para evitar esto y usarlo únicamente durante el desarrollo, se recomienda instalarlo como dependencia de desarrollo usando `npm install --save-dev nodemon`.
+// npm install nodemon              //* Instala Nodemon como dependencia normal.
+// npm install --save-dev nodemon   //* Instala Nodemon como dependencia solo de desarrollo.
+
+// ~Instalacion de Nodemon como devDependencies.
+// ~Como se mencionó anteriormente, instalar Nodemon con `--save-dev` lo registrará dentro de la sección `devDependencies` en el archivo `package.json`. Esto significa que Nodemon solo será necesario durante el desarrollo y no se incluirá en entornos de producción cuando se instalen dependencias con `npm install --production`. La diferencia clave es que `dependencies` contiene librerías necesarias para que la aplicación funcione en producción, mientras que `devDependencies` contiene herramientas auxiliares como Nodemon, ESLint o Jest.
+// "devDependencies": {
+//    "nodemon": "^3.1.14"   //* Indica la versión instalada de Nodemon como dependencia de desarrollo.
+//  }
+
+// ~Dar de alta el uso de Nodemon en Package.json.
+// ~Una vez que tenemos Nodemon instalado, debemos definir cómo lo ejecutaremos. Si fue instalado de manera global, podemos usar directamente `nodemon index.js` en la consola. Sin embargo, si fue instalado a nivel proyecto, no podremos ejecutarlo directamente desde la terminal, ya que no está en el PATH global. En ese caso, debemos declararlo dentro de la sección `scripts` de nuestro `package.json`. Esto permite que npm tenga acceso al ejecutable interno ubicado en `node_modules/.bin`. Posteriormente, ejecutaremos el comando usando `npm run nombreScript`.
+// "scripts": {
+//     "dev": "nodemon index.js",   //* Define un script llamado "dev" que ejecuta Nodemon sobre index.js.
+//   },
+
+// ~Ejecucion de listener con Nodemon.
+// ~Una vez que ejecutamos Nodemon, ya sea mediante `npm run dev` o `nodemon index.js`, este iniciará su proceso de escucha. En la consola veremos información relacionada con la versión de Nodemon, los archivos que está monitoreando y el comando que ejecutará. Posteriormente, veremos la salida normal de nuestro programa (por ejemplo console.log). Finalmente, Nodemon mostrará un mensaje indicando que está esperando cambios. Mientras no cancelemos el proceso con `Ctrl + C`, cada vez que guardemos el archivo, Nodemon reiniciará automáticamente la aplicación.
+// PS D:\Trabajos\Cursos\Node-Js-Course\Course\src> npm run dev        //* Ejecuta el script "dev" definido en package.json.
+
+// > node_js_course@1.0.0 dev
+// > nodemon index.js
+
+// [nodemon] 3.1.14                               //* Versión de Nodemon.
+// [nodemon] to restart at any time, enter `rs`   //* Permite reiniciar manualmente escribiendo rs.
+// [nodemon] watching path(s): *.*                //* Indica los archivos que está monitoreando.
+// [nodemon] watching extensions: js,mjs,cjs,json //* Extensiones que está observando.
+// [nodemon] starting `node index.js`             //* Comando que ejecuta internamente.
+// =========== Fyle sistem. ===========           //* Salida normal de nuestro programa.
+// --- Asignacion de un archivo a variable con fs. ---
+// Este es el Libro 1.
+// --- Modificar archivo asignado a variable con fs. ---
+// Este es el libro 2.
+// [nodemon] clean exit - waiting for changes before restart  //* Indica que está esperando cambios para reiniciar.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
