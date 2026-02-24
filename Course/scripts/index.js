@@ -100,11 +100,12 @@ console.log(libro_2); //* Imprime en consola el contenido completo del archivo m
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // ^Npm init & package.json
-// ^Una de las partes mas importantes del uso de Node.JS en proyectos es que este se puede trabajar en los mismos, por lo que para ello y poder trabajar con Node en los proyectos se debera utilizar la palabra npm init para instalar las dependencias necesarias al proyecto y que este pueda usar node, creando asi el package.json. Por otro lado otro de los componentes clave para el trabajo de Node ne poryectos es el archivo package.json el cual es el corazon de node dentro de nuestrs proyectos, ya que este funciona como un archivo de configuracion central que registra metadatos (nombre, versión), gestiona las dependencias (librerías externas) y define los scripts para ejecutar, probar o compilar la aplicación.
+// ^Una de las partes más importantes del uso de Node.JS en proyectos es que este entorno no solo se ejecuta de manera aislada, sino que puede y debe integrarse formalmente dentro de proyectos estructurados. Para poder trabajar con Node.JS en un proyecto es necesario inicializarlo correctamente, y para ello se utiliza el comando `npm init`. Este comando prepara el entorno del proyecto para trabajar con Node, generando automáticamente el archivo `package.json`. Por otro lado, uno de los componentes clave en el trabajo con Node dentro de proyectos es precisamente el archivo `package.json`, el cual puede considerarse el corazón de Node dentro de nuestros proyectos, ya que funciona como un archivo de configuración central que registra metadatos (nombre, versión), gestiona las dependencias (librerías externas) y define los scripts que permiten ejecutar, probar o compilar la aplicación.
+
 // ~Npm init.
-// ~El comando Npm init es un comando reservado de node package manager de ahi lo e npm, el cual nops permite inicializar node en nuestros poryectos, el cual generara e package.json el cual es necesario para poder tener node en nuestor proyecto, la inicializacion e instalacion de Node en proyectos comunmenbte realiza ciertas preguntas clave para la instalacion correcta de Node. De igual manera existe otras manera de poderinicializar de manera mas rapida, pero es importante conocer la forma base, ya que esto nos permitira configurar o instalar Node de ciertas maneras. Por ende el comando npm inti debe ser ejecutado en una terminalk y en el directorio raiz de nuestro proyecto. Las preguntas que se nos hacen es para especificar el nombre del proyecto que usara package.jso, para especificar una vewrsion de node, descripcion del proyecto, entrada node, comando para bruevas, vincular a un repoositoriop de git, palabras clabe para ubicar enfuturo el proyecto en npm, autor(es),  licencias, y finalmente el permiso para crear el package.json, comunmente solanmente debemos teclrar lo que queremos modificar y usar entera para siguiente, estos aspectos son opcionales y podemos dar enter a cada uno ausando asi los valores por defecto.
-// PS D:\Trabajos\Cursos\Node-Js-Course\Course\scripts> npm init
-// This utility will walk you through creating a package.json file.
+// ~El comando `npm init` es un comando propio de Node Package Manager (de ahí la abreviatura npm). Este comando nos permite inicializar Node dentro de nuestros proyectos, generando el archivo `package.json`, el cual es indispensable para que el proyecto pueda trabajar formalmente con Node. La inicialización comúnmente realiza una serie de preguntas clave que ayudan a configurar correctamente el entorno. Aunque existe una versión más rápida como `npm init -y` que acepta valores por defecto automáticamente, es fundamental conocer la forma base interactiva, ya que esto nos permite comprender cada uno de los campos que conforman el archivo `package.json`. Este comando debe ejecutarse en la terminal y dentro del directorio raíz de nuestro proyecto. Las preguntas que realiza incluyen el nombre del proyecto, la versión, descripción, punto de entrada (entry point), comandos de prueba, repositorio de Git, palabras clave, autor, licencia y finalmente la confirmación para crear el archivo. Todos estos campos pueden modificarse o aceptarse con Enter para usar valores por defecto.
+// PS D:\Trabajos\Cursos\Node-Js-Course\Course\scripts> npm init  //* Ejecuta el comando de inicialización en la raíz del proyecto.
+// This utility will walk you through creating a package.json file. //* Indica que el asistente interactivo comenzará.
 // It only covers the most common items, and tries to guess sensible defaults.
 
 // See `npm help init` for definitive documentation on these fields
@@ -114,15 +115,16 @@ console.log(libro_2); //* Imprime en consola el contenido completo del archivo m
 // save it as a dependency in the package.json file.
 
 // Press ^C at any time to quit.
-// package name: (scripts) node_js_course
-// version: (1.0.0)                                                                   
-// description: Scripts and course section of the Node course.
-// entry point: (index.js)
-// test command:
-// git repository:
-// keywords:          
-// author: Chris Alegria
-// license:(ISC)
+
+// package name: (scripts) node_js_course          //* Nombre del proyecto.
+// version: (1.0.0)                                //* Versión inicial.
+// description: Scripts and course section of the Node course. //* Descripción.
+// entry point: (index.js)                         //* Punto de entrada principal.
+// test command:                                   //* Comando para pruebas.
+// git repository:                                 //* Repositorio Git.
+// keywords:                                       //* Palabras clave.
+// author: Chris Alegria                           //* Autor.
+// license:(ISC)                                   //* Licencia.
 // About to write to D:\Trabajos\Cursos\Node-Js-Course\Course\scripts\package.json:
 
 // {
@@ -137,17 +139,17 @@ console.log(libro_2); //* Imprime en consola el contenido completo del archivo m
 //   "license": "ISC"
 // }
 
-// Is this OK? (yes) yes
+// Is this OK? (yes) yes   //* Confirmación final para crear el archivo.
 
 // ~Package.json.
-// ~El archivo package.json es creado mediante npm init, el cual nos preguntara diversas cuestiones con las que trabajara nuestro package.json, ahora bien este archivo es indispensable ya que es el corazon de node dentro de nuestrs proyectos, ya que este funciona como un archivo de configuracion central que registra metadatos (nombre, versión), gestiona las dependencias (librerías externas) y define los scripts para ejecutar, probar o compilar la aplicación ademas esta presente ya que tanto los proyectos react como los proyectos angular se ejecuitan encima de node. 
+// ~El archivo `package.json` es creado mediante `npm init`. Este archivo es absolutamente indispensable dentro de un proyecto Node, ya que funciona como el centro de control del mismo. En él se registran los metadatos del proyecto, se gestionan las dependencias externas y se definen scripts personalizados para ejecutar tareas específicas. Además, tecnologías como React, Angular o cualquier framework moderno de frontend funcionan sobre Node y también utilizan `package.json` como base de configuración. Este archivo no solo organiza dependencias, sino que permite estandarizar la ejecución del proyecto en cualquier entorno.
 // ?Contenido de Package.json.
-// ?Dentro de nuestro package.json encontraremos nombre del proyecto con el que trabaja, version de node que usa, descripcion del proyecto, punto de entrada (donde sera el corazon de codigo que use node.), scripts de comandos para usar npm y hacer test. autor y licencias. Ademas dentro de este mismo archivo podemos especificar mas datos o informacion.
+// ?Dentro de nuestro `package.json` encontraremos campos como el nombre del proyecto, versión, descripción, punto de entrada (main), sección de scripts, autor y licencia. También se pueden agregar dependencias, devDependencies, configuraciones adicionales y mucho más.
 // {
-//   "name": "node_js_course",
-//   "version": "1.0.0",
+//   "name": "node_js_course",                  //* Nombre del proyecto.
+//   "version": "1.0.0",                        //* Versión actual.
 //   "description": "Scripts and course section of the Node course.",
-//   "main": "index.js",
+//   "main": "index.js",                        //* Archivo principal.
 //   "scripts": {
 //     "test": "echo \"Error: no test specified\" && exit 1",
 //     "dev": "node index.js",
@@ -158,13 +160,17 @@ console.log(libro_2); //* Imprime en consola el contenido completo del archivo m
 //   "license": "ISC"
 // }
 
-// ?Seccion de scripts dentro de package.json
-// ?Como ya se comento previamen te la seccion de scripts dentro de nuestro package.json nos permite declarar comandops los cuales al ejecutarlos segun la seccion en los que los dimos de alta haran una cosa u otra. Ahora bien un ejemplo de esto es "start": "", el cual nos permite dar de alta un comando que al ejecutarlo ejecutara nuestro punto de entrada, tenemos ifualmente "dev": "" el cual a diferencia de start se usa para cuando esta en desarrollo y dejar a stary para produccion, tenemostambien "build": el cual prepara la aplicacion para produccion. Por lo que el comando a espeicifcar debera siempre contener la palabra node, ya que ejecutara dicho comando. Ahora bien, como podemos ver estos estan divididoa en 2 partes tenemos el lado izquierdo donde se tiene por ejemplo "star": aqui es donde asignaremos el nombre o palabra que queramos, y lo que esta al lado derecho sera el comando o lo que ejecutara node por ejemplo node index.js.
+// ?Seccion de scripts dentro de package.json.
+// ?La sección de `scripts` dentro de `package.json` nos permite declarar comandos personalizados. Estos comandos pueden ejecutarse desde la terminal y realizar diferentes acciones dependiendo de cómo los configuremos. Por ejemplo, `"start"` suele utilizarse para ejecutar el punto de entrada principal del proyecto, `"dev"` suele emplearse durante el desarrollo, `"build"` puede preparar la aplicación para producción y `"test"` ejecuta pruebas automatizadas. Cada script se compone de dos partes: el lado izquierdo representa el nombre del comando, y el lado derecho representa lo que se ejecutará realmente. Generalmente estos comandos incluyen la palabra `node`, ya que será el motor que ejecute el archivo indicado.
 //   "scripts": {
-//     "test": "echo \"Error: no test specified\" && exit 1",
-//     "dev": "node index.js",
-//     "start": "node index.js",
-//     "build": "node index.js"
+//     "test": "echo \"Error: no test specified\" && exit 1", //* Script de prueba.
+//     "dev": "node index.js",                                //* Script para desarrollo.
+//     "start": "node index.js",                              //* Script principal.
+//     "build": "node index.js"                               //* Script de construcción.
 //   },
 
-// ?
+// ?Ejecución de scripts de package.json.
+// ?Para ejecutar cualquier script definido en la sección `scripts`, es necesario utilizar el comando `npm run` seguido del nombre del script. El prefijo `npm` indica que estamos interactuando con Node Package Manager, y `run` indica que queremos ejecutar uno de los comandos definidos en el archivo `package.json`. Esto permite centralizar la ejecución del proyecto y estandarizar comandos para cualquier desarrollador que trabaje en él.
+// npm run nombreComando  //* Ejecuta el script definido bajo el nombre especificado en la sección `scripts`.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
