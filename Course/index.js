@@ -68,7 +68,8 @@ console.log('=========== Fyle sistem. ==========='); //* Muestra en consola el e
 
 // ~Asignacion de libreria fs a variable.
 // ~El uso de la librería `fs` dentro de Node.JS únicamente consta de asignarla a una variable, ya que esta librería no requiere un proceso adicional de inicialización como ocurre con otras librerías como `express`. Para realizar esta asignación es suficiente con declarar una variable de tipo constante (`const`) con el nombre `fs` (que es el nombre convencionalmente usado), y posteriormente asignarla utilizando `require('fs')`. Con esto ya tendremos acceso a todas las funcionalidades que ofrece el módulo File System, y será todo lo necesario para comenzar a trabajar con archivos dentro de nuestro sistema.
-const fs = require('fs'); //* Importa el módulo interno `fs` y lo asigna a la constante `fs`.
+// const fs = require('fs'); //* Forma vieja de importacion: Importa el módulo interno `fs` y lo asigna a la constante `fs`.
+import * as fs from 'node:fs'; // *Forma nueva de importacion.
 
 // ~Uso de la libreria fs.
 // ~El uso de la librería File System es relativamente directo, ya que únicamente debemos utilizar el nombre de la variable a la cual asignamos la librería (`fs`) seguido de un punto (`.`). Al hacer esto, el editor de código nos mostrará todas las funciones disponibles dentro del módulo, como `readFileSync`, `writeFileSync`, `appendFileSync`, entre otras. El uso específico dependerá de la acción que deseemos realizar. Por ejemplo, si queremos trabajar con un archivo, primero podemos asignarlo a una variable utilizando `fs.readFileSync`, o bien crear o modificar archivos utilizando funciones como `writeFileSync`. El patrón general es: nombreVariable.accion('rutaDelArchivo').
@@ -76,20 +77,20 @@ const fs = require('fs'); //* Importa el módulo interno `fs` y lo asigna a la c
 // ?La asignación de un archivo a una variable mediante `fs` es bastante sencilla. Debemos declarar una variable que almacenará el contenido del archivo o que hará referencia a este. Para ello utilizamos `fs.readFileSync()`, donde `readFileSync` significa “leer archivo de forma síncrona”. La palabra “Sync” indica que el proceso se ejecuta de manera bloqueante, es decir, Node.JS esperará a que termine la lectura antes de continuar con la ejecución del código. Dentro de los paréntesis debemos especificar la ruta del archivo y el tipo de codificación que queremos usar (por ejemplo 'utf-8' para texto legible). Una vez hecho esto, si imprimimos la variable, veremos en consola todo el contenido del archivo leído. Cabe mencionar que existen métodos síncronos y asíncronos; en este ejemplo estamos utilizando la versión síncrona para simplificar el flujo de trabajo.
 console.log('--- Asignacion de un archivo a variable con fs. ---'); //* Muestra encabezado del ejemplo.
 
-const libro_1 = fs.readFileSync('../assets/docs/Libro_1.txt', 'utf-8'); //* Lee el archivo especificado y guarda su contenido en la variable `libro_1`.
+const libro_1 = fs.readFileSync('./assets/docs/Libro_1.txt', 'utf-8'); //* Lee el archivo especificado y guarda su contenido en la variable `libro_1`.
 console.log(libro_1); //* Imprime en consola el contenido completo del archivo leído.
 
 // ?Crear copia de archivo asignado a variable con fs.
 // ?Para crear una copia de un archivo que previamente asignamos a una variable, utilizamos el método `fs.writeFileSync()`. Este método nos permite crear un nuevo archivo o sobrescribir uno existente de manera síncrona. Dentro de los paréntesis debemos especificar dos elementos fundamentales: primero, la ruta y nombre del nuevo archivo que queremos crear (incluyendo su extensión); segundo, el contenido que se escribirá en ese archivo, que en este caso será la variable que contiene el texto original. De esta manera, estaremos generando una copia exacta del archivo previamente leído.
-fs.writeFileSync('../assets/docs/Libro_1_copia.txt', libro_1); //* Crea un nuevo archivo con el mismo contenido que `libro_1`.
+fs.writeFileSync('./assets/docs/Libro_1_copia.txt', libro_1); //* Crea un nuevo archivo con el mismo contenido que `libro_1`.
 
 // ?Modificar archivo asignado a variable con fs.
 // ?Un aspecto interesante respecto al uso de `fs` es que las modificaciones directas sobre archivos no se realizan editando el archivo en memoria y guardándolo automáticamente. En realidad, el flujo consiste en leer el archivo, modificar su contenido en una variable (por ejemplo utilizando métodos como `replace()`), y posteriormente escribir un nuevo archivo con el contenido modificado. Es decir, el proceso implica crear una nueva versión del archivo aplicando los cambios deseados. Esto ocurre porque el contenido leído se almacena como texto en memoria, y cualquier transformación se realiza sobre esa representación en memoria antes de volver a escribirla en el sistema.
 console.log('--- Modificar archivo asignado a variable con fs. ---'); //* Encabezado del ejemplo de modificación.
 
 const Libro_1_modificacion = libro_1.replace(/Libro 1/ig, 'libro 2'); //* Reemplaza todas las coincidencias de "Libro 1" por el nuevo texto.
-fs.writeFileSync('../assets/docs/Libro_2.txt', Libro_1_modificacion); //* Crea un nuevo archivo aplicando la modificación realizada.
-const libro_2 = fs.readFileSync('../assets/docs/Libro_2.txt', 'utf-8'); //* Lee el archivo especificado y guarda su contenido en la variable `libro_2`.
+fs.writeFileSync('./assets/docs/Libro_2.txt', Libro_1_modificacion); //* Crea un nuevo archivo aplicando la modificación realizada.
+const libro_2 = fs.readFileSync('./assets/docs/Libro_2.txt', 'utf-8'); //* Lee el archivo especificado y guarda su contenido en la variable `libro_2`.
 console.log(libro_2); //* Imprime en consola el contenido completo del archivo modificado.
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -222,3 +223,44 @@ console.log(libro_2); //* Imprime en consola el contenido completo del archivo m
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// ^Importaciones y exportaciones.
+// ^Las importaciones y exportaciones dentro de Node.JS nos permiten, como su nombre lo indica, exportar e importar información entre distintos archivos. En este contexto podemos exportar prácticamente cualquier tipo de información: funciones, variables, objetos, clases, constantes y más. El uso correcto de exportaciones e importaciones nos permite distribuir nuestro código de manera estructurada y modular, por ejemplo, teniendo credenciales en un solo archivo y exportando únicamente la información necesaria hacia otros archivos, sin necesidad de declarar toda la información repetidamente. Esto mejora la organización, mantenibilidad y escalabilidad del proyecto. Además, es importante resaltar que los modelos modernos de exportación e importación (introducidos desde ES6) requieren realizar ajustes dentro de nuestro `package.json` para que Node.JS pueda admitir este nuevo sistema de módulos.
+console.log('\n=========== Importaciones y exportaciones. ==========='); //* Muestra en consola el encabezado principal de la sección.
+
+// ~Exportar informacion.
+// ~Actualmente existen 2 maneras diferentes de exportar información en Node.JS. La primera es la forma tradicional (CommonJS), utilizando `module.exports` para exportar y `require()` para importar. La segunda es la forma moderna (ES Modules), utilizando la palabra reservada `export` para exportar y `import` para importar. Ambas cumplen la misma función, pero pertenecen a sistemas de módulos distintos.
+// ?Forma antigua de exportacion "module.exports".
+// ?El método antiguo para realizar exportaciones es mediante el uso de `module.exports = {}`. Internamente, Node.JS trabaja bajo el sistema CommonJS, donde cada archivo es tratado como un módulo. `module.exports` es el objeto que define qué parte del archivo será accesible desde otros archivos. Dentro de las llaves `{}` podemos incluir el nombre de variables, funciones u otros valores que deseamos exportar. Se utiliza `module.exports` porque cada archivo en Node está encapsulado dentro de un módulo, y esta propiedad es el punto de salida del mismo.
+const variableAExportarFormaVieja = () => 'Esta funcion se exporto mediante la forma antigua.'; //* Función que será exportada usando CommonJS.
+
+// module.exports = {
+//     variableAExportarFormaVieja, //* Exporta la función dentro del objeto module.exports.
+// }
+
+// ?Forma nueva de exportar "export".
+// ?La forma moderna de exportar en Node.JS es mediante el uso de la palabra reservada `export`. Esta sintaxis pertenece al sistema ES Modules (ESM). En este modelo simplemente se coloca la palabra `export` antes de la declaración de la función, variable o clase que queremos exportar. A diferencia del modelo antiguo, este sistema funciona bajo módulos ECMAScript, por lo que es obligatorio configurar el `package.json` para indicar que el proyecto utilizará `"type": "module"`. Sin esta configuración, Node no interpretará correctamente la sintaxis `import/export`.
+export const variableAExportarFormaNueva = () => 'Esta funcion se exporto mediante la forma nueva.'; //* Exportación moderna usando ES Modules.
+
+// ~Importar informacion.
+// ~Cuando exportamos información en Node.JS, podemos recibirla en cualquier otro archivo mediante la importación. Importar significa traer información exportada desde otro módulo para poder utilizarla en el archivo actual. Al igual que con la exportación, existen dos formas distintas de importar: la tradicional con `require()` y la moderna con `import`.
+// ?Forma antigua de importacion "require('')".
+// ?La forma tradicional de importación es mediante el uso de `require('')`. Esta función recibe como argumento la ruta del archivo desde el cual queremos importar. Lo que devuelve `require()` es el objeto exportado mediante `module.exports`, por lo que debemos almacenarlo en una variable. Si no desestructuramos, tendremos que acceder a las propiedades mediante `nombreVariable.propiedad`. Para evitar esto, podemos usar desestructuración directamente en la asignación. Cabe resaltar que en el modelo CommonJS no es obligatorio colocar la extensión `.js` al especificar la ruta del archivo.
+// const informacionImportada = require('./src/Importaciones y exportaciones'); //* Importa todo el objeto exportado.
+// console.log(informacionImportada.nombre); //* Accede a una propiedad del objeto importado.
+
+// const { nombre, edad } = require('./src/Importaciones y exportaciones'); //* Desestructura directamente las propiedades.
+// console.log(edad); //* Usa la variable importada directamente.
+
+// ?Forma nueva de importacion "import".
+// ?La forma moderna de importación es mediante el uso de la palabra reservada `import`. En este caso, dentro de llaves `{}` debemos especificar exactamente el nombre de lo que queremos importar, respetando el mismo nombre con el que fue exportado. Después se utiliza la palabra `from` para indicar la ruta del archivo. A diferencia del modelo antiguo, en ES Modules sí es obligatorio especificar la extensión del archivo (por ejemplo `.js`). Este modelo es más estricto y estandarizado, alineado con el estándar ECMAScript.
+console.log('--- Forma nueva de importacion "import". ---'); //* Encabezado visual en consola.
+
+import { functionAImportar } from './src/Importaciones y exportaciones.js'; //* Importa función específica usando ES Modules.
+console.log(functionAImportar()); //* Ejecuta la función importada.
+
+// ~Especificacion de tipo de importaciones/exportaciones en Package.json.
+// ~Para que Node.JS pueda reconocer si estamos usando el sistema moderno (ES Modules) o el tradicional (CommonJS), es necesario especificarlo dentro del `package.json`. Esto se hace agregando la propiedad `"type"`. Si especificamos `"module"`, estaremos habilitando la sintaxis moderna `import/export`. Si especificamos `"commonjs"` (o no colocamos nada, ya que es el valor por defecto), estaremos utilizando el modelo tradicional `require/module.exports`. Es importante entender que dentro de un mismo proyecto solo puede utilizarse uno de los dos sistemas de módulos de manera coherente.
+//   "type": "module",   //* Habilita ES Modules (import/export).
+//   "type": "commonjs", //* Usa el sistema tradicional CommonJS (require/module.exports).
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
