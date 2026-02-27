@@ -370,3 +370,27 @@ const varaibleQueExtraeMedianteEnvVar = env
 console.log(varaibleQueExtraeMedianteEnvVar); //* Imprime en consola el valor validado y tipado correctamente.
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ^Herramientas y bibliotecas para prácticas.
+// ^Existen diferentes herramientas y bibliotecas que nos ayudan a construir aplicaciones en Node, las cuales implementaremos en nuestras prácticas del curso. Estas herramientas nos permiten estructurar mejor nuestros proyectos, manejar bases de datos, gestionar servidores y desplegar aplicaciones en la nube. Entre estas herramientas se encuentra Express, que sirve para el manejo de solicitudes HTTP y rutas, facilitando la creación de servidores y APIs de manera organizada y sencilla mediante el uso de middlewares. También está MongoDB, que utilizaremos como sistema de base de datos NoSQL para almacenar y gestionar la información de nuestras aplicaciones en formato de documentos. Además, trabajaremos con Mongoose, que nos permitirá definir esquemas y modelos para mantener una estructura clara y validada en nuestra base de datos. Para el despliegue y administración en la nube utilizaremos Railway, que simplifica la publicación de nuestras aplicaciones y la conexión con bases de datos. Finalmente, emplearemos Docker para crear entornos aislados mediante contenedores, lo que nos ayudará a ejecutar nuestras aplicaciones y bases de datos de forma consistente en cualquier sistema.
+
+// ~Express.JS.
+// ~Express.JS proporciona una capa de abstracción sobre el manejo de solicitudes HTTP y rutas, lo que permite a los desarrolladores definir fácilmente rutas, manejar solicitudes y respuestas, y configurar middlewares para agregar funcionalidades adicionales. Los desarrolladores pueden crear aplicaciones web de manera rápida y sencilla, enfocándose en la lógica de la aplicación en lugar de preocuparse por detalles de bajo nivel del manejo de solicitudes y respuestas HTTP. Express.JS es un paquete sumamente popular y casi siempre va de la mano con Node cuando se habla de armar una API REST.
+
+// ~MongoDB.
+// ~MongoDB es una base de datos que almacena datos en formato de documentos JSON, permitiendo una alta flexibilidad y escalabilidad. Es ampliamente utilizada en el desarrollo de aplicaciones modernas debido a su capacidad para manejar diferentes tipos de datos y su capacidad de escalar horizontalmente para manejar grandes volúmenes de información. Recordar que escalar horizontalmente es distribuir la información en múltiples servidores y verticalmente es aumentar los recursos de hardware.
+
+// ~Mongoose.
+// ~Mongoose es una biblioteca de modelado de datos para Node.JS que se utiliza comúnmente con MongoDB. Proporciona una forma sencilla y flexible de definir esquemas de datos, realizar validaciones y ejecutar operaciones en la base de datos. Con Mongoose, los desarrolladores pueden interactuar con la base de datos MongoDB de manera intuitiva y escribir código más limpio y legible al definir la estructura y las relaciones de los datos de la aplicación. Esto significa que la base de datos mantiene cierta consistencia, ya que Mongoose actúa como una especie de plantilla o esquema.
+
+// ~Railway.
+// ~Railway es una plataforma en la nube que simplifica el proceso de implementación y administración de aplicaciones web y API desarrolladas en Node.JS. Proporciona herramientas y servicios integrados, como alojamiento, bases de datos y gestión de entornos, lo que permite a los desarrolladores centrarse en la creación de sus aplicaciones sin tener que preocuparse por la configuración de la infraestructura.
+
+// ~Docker.
+// ~Docker es una plataforma que permite empaquetar, distribuir y ejecutar aplicaciones en contenedores. La ejecución de MongoDB en Docker implica la descarga de una imagen de MongoDB desde el registro de Docker y luego la creación y ejecución de un contenedor basado en esta imagen. Esto permite a los desarrolladores crear y gestionar fácilmente instancias de MongoDB aisladas y reproducibles en cualquier sistema que ejecute Docker, independientemente del entorno subyacente.
+
+// ~Body-Parser.
+// ~Body-Parser es un middleware de Express.JS que analiza los cuerpos de las solicitudes entrantes antes de que sean manejadas por sus controladores. Esto permite a los desarrolladores acceder fácilmente a los datos enviados en el cuerpo de una solicitud HTTP, ya sea en formato JSON, URL codificada o datos de texto sin procesar.
+
+// ?¿Qué es un Middleware?
+// ?Un Middleware en Node.JS es una función que se ejecuta entre la solicitud de un cliente y la respuesta del servidor, proporcionando una forma flexible de manejar diversas tareas y funcionalidades en una aplicación web o API.
