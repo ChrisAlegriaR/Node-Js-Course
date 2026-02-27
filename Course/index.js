@@ -264,3 +264,109 @@ console.log(functionAImportar()); //* Ejecuta la función importada.
 //   "type": "commonjs", //* Usa el sistema tradicional CommonJS (require/module.exports).
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ^Variables de entorno.
+// ^Las variables de entorno son valores externos al código fuente que permiten configurar el comportamiento de una aplicación sin necesidad de modificar directamente el programa. En el contexto de Node.JS, las variables de entorno son fundamentales para gestionar configuraciones sensibles como puertos, credenciales, claves de API, nombres de bases de datos y otros parámetros que pueden cambiar dependiendo del entorno (desarrollo, pruebas o producción).
+console.log('\n=========== Variables de entorno. ==========='); //* Imprime un encabezado visual en consola para separar esta sección del resto del programa.
+
+// ~Process
+// ~El objeto **process** es un objeto global propio de Node.JS que representa el proceso actual en ejecución. Este objeto proporciona información detallada sobre el entorno donde se está ejecutando la aplicación, incluyendo versiones de Node, arquitectura del sistema, directorios actuales, argumentos de ejecución y variables de entorno. Debido a que es un objeto global, no requiere importación y puede utilizarse directamente en cualquier archivo. Imprimirlo en consola nos mostrará una gran cantidad de información estructurada que describe el estado completo del proceso Node. Por esta razón, **process** es considerado uno de los pilares fundamentales para inspeccionar, depurar y comprender cómo se está ejecutando nuestra aplicación en tiempo real.
+// ?Mirar informacion del objeto "process".
+// ?Para visualizar la información contenida dentro del objeto `process`, basta con imprimirlo utilizando `console.log(process)`. Al hacerlo, podremos observar todas sus propiedades internas como `version`, `platform`, `arch`, `cwd()`, `argv`, `memoryUsage()`, entre muchas otras. Es importante entender que `process` funciona como una variable global que representa el entorno completo de ejecución.
+// console.log(process); //* Descomentar esta línea mostrará en consola todo el objeto global del proceso actual.
+
+// ?Visualizar las variables de entorno mediante process.
+// ?Las variables de entorno dentro de Node.JS se encuentran específicamente en la propiedad `process.env`. La palabra `env` proviene de "environment", es decir, entorno. Cuando ejecutamos `console.log(process.env)`, obtenemos un objeto que contiene todas las variables de entorno disponibles en el sistema donde se está ejecutando la aplicación. Si deseamos consultar una variable específica, podemos acceder mediante notación de punto, por ejemplo `process.env.PORT`. Si la variable no existe, el resultado será `undefined`, lo cual nos permite validar configuraciones faltantes.
+// console.log(process.env); //* Muestra todas las variables de entorno disponibles en el sistema.
+
+// ?Declarar una variable de entorno con valor dentro de process.env.
+// ?Aunque las variables de entorno suelen configurarse a nivel del sistema operativo o mediante archivos externos, también es posible declarar o modificar una variable directamente en `process.env` durante la ejecución del programa. Esto se realiza asignando un valor como si se tratara de una propiedad normal de un objeto. Es importante aclarar que este cambio solo afectará al proceso actual y no modificará permanentemente las variables del sistema.
+console.log('--- Declarar una variable de entorno con valor dentro de process.env. ---'); //* Encabezado visual que indica el inicio del ejemplo.
+
+console.log(
+    process.env.variableEntornoACrear = 'Variable de entorno creada'
+); //* Se crea dinámicamente una nueva variable dentro de process.env y se imprime su valor inmediatamente.
+
+// ?Agregar valor secundario a variable de entorno en caso de no tener un valor.
+// ?En muchos escenarios, una variable de entorno puede existir pero no tener un valor definido, o incluso no existir. Para manejar este tipo de casos, JavaScript ofrece el operador **nullish coalescing (`??`)**, el cual permite definir un valor alternativo únicamente cuando el valor original es `undefined` o `null`. Esto es especialmente útil para establecer configuraciones por defecto sin sobrescribir valores válidos como `0` o cadenas vacías.
+console.log('--- Agregar valor secundario a variable de entorno en caso de no tener un valor. ---'); //* Encabezado visual del ejemplo de valor por defecto.
+
+process.env.variableEntornoValorSecundario; //* Se intenta acceder a una variable que probablemente no existe.
+
+console.log(
+    process.env.variableEntornoValorSecundario ?? 
+    'Valor secundario que almacena variable de entorno sin valor definido'
+); //* Si la variable es undefined o null, se mostrará el texto alternativo definido después del operador ??.
+
+// ~Importancia de las variables de entorno en process.
+// ~La pregunta más importante es: ¿por qué es tan necesario utilizar `process.env` en aplicaciones backend? La respuesta principal es **seguridad y flexibilidad**. En desarrollo backend, uno de los principios más importantes es evitar el *hardcoding*, es decir, no escribir directamente en el código contraseñas, tokens, claves privadas o credenciales sensibles. Si estos datos se escriben directamente en el código, podrían subirse accidentalmente a repositorios como GitHub, comprometiendo la seguridad del sistema. Además, el uso de variables de entorno permite cambiar configuraciones (por ejemplo, conectarse a una base de datos de pruebas o de producción) sin modificar el código fuente. Esta práctica es estándar en servicios en la nube como Docker, AWS o Vercel, donde las configuraciones se gestionan mediante variables inyectadas al proceso en tiempo de ejecución.
+
+// ~Archivos .env
+// ~Dentro del desarrollo backend moderno, es altamente recomendable utilizar archivos `.env` para centralizar la configuración del entorno. Estos archivos permiten definir información sensible como contraseñas, puertos, nombres de bases de datos, usuarios, claves de API, entre otros. El uso de archivos `.env` aporta seguridad (evita hardcodear datos sensibles), flexibilidad (permite cambiar configuraciones dependiendo del entorno) y organización (centraliza todas las variables en un solo archivo). Además, es una buena práctica incluir el archivo `.env` dentro de `.gitignore` para evitar subirlo a repositorios públicos.
+// ?Creacion de archivo .env.
+// ?La creación de un archivo `.env` es sencilla: dentro del editor de código se crea un nuevo archivo y se le asigna el nombre `.env`. Este archivo no contiene código JavaScript ejecutable, sino únicamente declaraciones de variables en formato clave-valor. El punto inicial indica que es un archivo oculto en muchos sistemas.
+// .env //* Nombre literal del archivo donde se almacenarán las variables de entorno.
+
+// ?Estructura dentro de archivos .env.
+// ?Los archivos `.env` siguen una estructura sencilla basada en el formato `NOMBRE_VARIABLE=valor`. A diferencia de JavaScript, no se utilizan palabras reservadas como `var`, `let` o `const`. Simplemente se declara el nombre de la variable, seguido del signo igual y el valor correspondiente. Es importante no dejar espacios innecesarios alrededor del signo `=` para evitar errores de interpretación por parte de librerías como dotenv.
+// PORT=3030            //* Variable que normalmente define el puerto donde se ejecutará el servidor.
+// DB_PASSWORD=2F-4d23  //* Contraseña de la base de datos (ejemplo ilustrativo).
+// DB_NAME=RH_DB        //* Nombre de la base de datos.
+// DB_USER=chris_alegria_r //* Usuario de la base de datos.
+
+// ~Dotenv
+// ~Dotenv es una **paquetería o librería externa para Node.JS** cuya función principal es leer las variables definidas dentro de un archivo `.env` y cargarlas automáticamente dentro de `process.env`. Es importante entender que el archivo `.env` por sí solo no tiene ningún efecto en la ejecución del programa, ya que Node.JS no lo interpreta automáticamente. Si no utilizáramos Dotenv, tendríamos que declarar manualmente cada variable dentro de `process.env`, por ejemplo: `process.env.DB_USER = 'nombreBD'`. Dotenv automatiza este proceso, leyendo el archivo `.env` al iniciar la aplicación e inyectando sus valores dentro del entorno del proceso actual. Esto permite mantener el código limpio, seguro y desacoplado de configuraciones sensibles.
+// ?Instalar Dotenv
+// ?Al tratarse de una librería externa, Dotenv debe instalarse utilizando **Node Package Manager (npm)**. Existen dos formas principales de instalación: como dependencia normal (`dependencies`) o como dependencia de desarrollo (`devDependencies`). Si instalamos Dotenv con `npm install dotenv`, estará disponible incluso en producción. Si lo instalamos con `npm install --save-dev dotenv`, solo será utilizado durante el desarrollo. La decisión depende de la arquitectura del proyecto y del entorno donde se ejecutará la aplicación.
+// npm install dotenv              //* Instala Dotenv como dependencia normal del proyecto.
+// npm install --save-dev dotenv   //* Instala Dotenv únicamente como dependencia de desarrollo.
+
+// ?Dotenv en Package.json.
+// ?Una vez instalado Dotenv, este aparecerá registrado automáticamente dentro del archivo `package.json`. Dependiendo de cómo lo hayamos instalado, aparecerá dentro de la sección `"dependencies"` o `"devDependencies"`. Esto nos permite verificar que la instalación fue exitosa y también controlar qué librerías son necesarias en producción y cuáles solo durante el desarrollo.
+// "dependencies": {
+//    "dotenv": "^17.3.1"  //* Indica la versión instalada de Dotenv dentro del proyecto.
+// }
+
+// ?Uso de Dotenv.
+// ?Para utilizar Dotenv correctamente es necesario realizar **dos pasos fundamentales**: primero, importar la función `config` desde la librería; segundo, ejecutar dicha función. La función `config()` es la encargada de leer el archivo `.env`, parsear su contenido y asignar automáticamente cada variable definida dentro de él a `process.env`. Es recomendable ejecutar `config()` al inicio del archivo principal del proyecto (por ejemplo, index.js o app.js) para asegurar que todas las variables estén disponibles antes de ser utilizadas.
+console.log('--- Uso de Dotenv. ---'); //* Encabezado visual para indicar el inicio del ejemplo de uso.
+
+import { config } from 'dotenv'; //* Se importa la función config desde la librería dotenv utilizando sintaxis ES Modules.
+config(); //* Se ejecuta config(), lo que provoca que Dotenv lea el archivo .env y cargue sus variables en process.env.
+
+// ?Ejecucion de Dotenv.
+// ?Al ejecutar `config()`, Dotenv mostrará en consola un mensaje indicando que ha cargado correctamente las variables desde el archivo `.env`. Este mensaje incluye la versión de Dotenv y el número de variables inyectadas. A partir de este momento, cualquier variable definida dentro del archivo `.env` podrá accederse mediante `process.env.NOMBRE_VARIABLE`. Es importante recordar que siempre debemos acceder a las variables usando `process.env`, ya que ahí es donde Dotenv las registra.
+console.log('--- Ejecucion de Dotenv. ---'); //* Encabezado visual que indica que ahora verificaremos el resultado.
+
+// [dotenv@17.3.1] injecting env (1) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+console.log(process.env.variableEnDotenv); //* Imprime en consola una variable previamente definida en el archivo .env.
+
+// ~Env-var
+// ~Env-var es otra librería externa para Node.JS cuya función principal es **validar y tipar las variables de entorno**. Si Dotenv se encarga de cargar las variables desde `.env` hacia `process.env`, Env-var se encarga de asegurarse de que esas variables tengan el formato correcto antes de utilizarlas. Esto es importante porque `process.env` siempre devuelve valores como strings (texto), incluso si representan números o booleanos. Env-var permite convertir esos valores al tipo adecuado y validar que existan, que no estén vacíos o que cumplan ciertas reglas. De esta manera, hacemos nuestro código más robusto y prevenimos errores en tiempo de ejecución.
+// ?Instalar Env-var
+// ?Env-var se instala de la misma forma que cualquier otra librería en Node.JS. Puede instalarse como dependencia normal o como dependencia de desarrollo, dependiendo de si será utilizada en producción o solo en el entorno de desarrollo.
+// npm install env-var              //* Instala Env-var como dependencia normal.
+// npm install --save-dev env-var   //* Instala Env-var como dependencia de desarrollo.
+
+// ?Env-var en Package.json.
+// ?Después de la instalación, Env-var aparecerá registrado dentro del archivo `package.json`, permitiendo verificar su correcta integración dentro del proyecto.
+// "dependencies": {
+//   "env-var": "^7.5.0"  //* Indica la versión instalada de Env-var.
+// }
+
+// ?Importar Env-var.
+// ?Para utilizar Env-var es necesario importarlo en el archivo donde realizaremos las validaciones. Generalmente se importa como valor por defecto con el nombre `env`, lo cual nos permitirá acceder a sus métodos como `get()`, `required()`, `asString()`, `asInt()`, entre otros.
+import env from 'env-var'; //* Importa la librería Env-var y la asigna a la variable env.
+
+// ?Uso de Env-var.
+// ?El uso de Env-var consiste en extraer una variable desde `process.env` utilizando el método `env.get('NOMBRE_VARIABLE')`. Este método recibe como parámetro el nombre exacto de la variable que queremos validar. Posteriormente, se pueden encadenar métodos mediante notación de punto (`.`) para aplicar validaciones o conversiones de tipo. Por ejemplo, `.required()` obliga a que la variable exista; `.asString()` la convierte explícitamente en string; `.asInt()` la convierte en número entero. Este patrón encadenado permite construir reglas claras y declarativas para validar configuraciones antes de usarlas en la aplicación.
+console.log('--- Uso de Env-var. ---'); //* Encabezado visual del ejemplo de validación.
+
+const varaibleQueExtraeMedianteEnvVar = env
+    .get('variableEnEnvVar') //* Busca la variable dentro de process.env.
+    .required() //* Indica que la variable es obligatoria; si no existe, el programa lanzará un error.
+    .asString(); //* Convierte explícitamente el valor a tipo string.
+
+console.log(varaibleQueExtraeMedianteEnvVar); //* Imprime en consola el valor validado y tipado correctamente.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
