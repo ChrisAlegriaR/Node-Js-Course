@@ -395,3 +395,83 @@ console.log(varaibleQueExtraeMedianteEnvVar); //* Imprime en consola el valor va
 // ?Un Middleware en Node.JS es una función que se ejecuta entre la solicitud de un cliente y la respuesta del servidor, proporcionando una forma flexible de manejar diversas tareas y funcionalidades en una aplicación web o API.
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ^Archivos JSON.
+// ^Los archivos **JSON (JavaScript Object Notation)** son un formato de texto ligero e independiente del lenguaje de programación, diseñado específicamente para el **intercambio de datos estructurados**. Aunque su sintaxis está inspirada en los objetos de JavaScript, JSON no pertenece exclusivamente a JavaScript, ya que puede ser interpretado por prácticamente cualquier lenguaje moderno como Python, Java, C#, PHP, Go, entre otros. JSON es ampliamente utilizado en el desarrollo backend y frontend para transmitir información entre servidores y aplicaciones cliente (por ejemplo, navegadores). Su popularidad radica en que es **fácil de leer para humanos**, fácil de parsear para máquinas y extremadamente eficiente en APIs REST. En términos prácticos, JSON es el formato estándar mediante el cual un servidor envía datos a una aplicación y viceversa.
+
+// ~Estructura.
+// ~La estructura de un archivo JSON es muy similar a la de un **objeto o HashMap**, ya que se compone de pares clave-valor. Siempre comienza con llaves `{}` cuando representa un objeto, y puede contener arreglos `[]` en su interior. Las claves deben ir entre comillas dobles `"clave"` y los valores pueden ser strings, números, booleanos, arrays u otros objetos. Es importante entender que JSON es un formato estrictamente estructurado: no permite comentarios, no permite variables, y no permite comas finales. La anidación (objetos dentro de arreglos y arreglos dentro de objetos) permite representar estructuras complejas de datos de manera jerárquica.
+// {
+//     "profesores": [  //* Clave principal que contiene un arreglo de objetos profesor.
+//         {
+//             "nombre": "Sergie",  //* Propiedad tipo string.
+//             "apellido": "Code",  //* Otra propiedad string.
+//             "materias": [        //* Arreglo anidado que contiene objetos.
+//                 {
+//                     "nombre": "NodeJS dese cero" //* Objeto dentro del arreglo materias.
+//                 },
+//                 {
+//                     "nombre": "ReactJS dese cero" //* Otro objeto dentro del arreglo.
+//                 },
+//                 {
+//                     "nombre": "JavaScript desde cero" //* Otro objeto más.
+//                 }
+//             ]
+//         }
+//     ],
+
+//     "estudiantes": [  //* Segunda clave principal con arreglo de estudiantes.
+//         {
+//             "nombre": "Christian",
+//             "apellido": "Alegria",
+//             "promedio": 8.2  //* Valor numérico (JSON distingue números sin comillas).
+//         },
+//         {
+//             "nombre": "Alfonsina",
+//             "apellido": "Storni",
+//             "promedio": 10
+//         }
+//     ],
+// }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ^Json-Server
+// ^Json-server es una **paquetería externa de Node.JS** que permite convertir rápidamente un archivo JSON en una **API REST simulada**. Es decir, toma un archivo como `db.json` y lo expone automáticamente como endpoints accesibles desde `http://localhost`. Esto es extremadamente útil durante el desarrollo frontend, ya que permite simular un backend sin necesidad de programar un servidor real. Json-server crea automáticamente rutas GET, POST, PUT, PATCH y DELETE basadas en la estructura del archivo JSON.
+
+// ~Instalar json-server
+// ~Al tratarse de una librería externa, json-server debe instalarse utilizando **npm**. Puede instalarse como dependencia normal si se utilizará en producción, o como dependencia de desarrollo si solo se usará para pruebas locales. Generalmente se instala como devDependency porque su propósito principal es simular APIs durante el desarrollo.
+// npm install json-server              //* Instala json-server como dependencia normal del proyecto.
+// npm install --save-dev json-server   //* Instala json-server como dependencia solo de desarrollo.
+
+// ~Json-server en Package.json.
+// ~Después de la instalación, json-server aparecerá dentro del archivo `package.json`. Esto nos permite verificar que la librería está correctamente integrada y también nos ayuda a controlar las versiones utilizadas dentro del proyecto.
+// "dependencies": {
+//    "json-server": "^1.0.0-beta.10"  //* Indica la versión instalada dentro del proyecto.
+// }
+
+// ~Uso de Json-server.
+// ~Para utilizar json-server correctamente, debemos ejecutar el comando `json-server --watch nombreArchivo.json`. El parámetro `--watch` indica que el servidor debe monitorear cambios en el archivo JSON y actualizar automáticamente la API cuando el archivo se modifique. Este comando puede declararse dentro de la sección `"scripts"` del `package.json` para facilitar su ejecución mediante `npm run`.
+// "start": "json-server --watch db.json"  //* Script personalizado que ejecuta json-server usando el archivo db.json.
+
+// ~Ejecucion de Json-server.
+// ~Una vez ejecutado el script con `npm run start`, json-server iniciará un servidor local (generalmente en el puerto 3000). A partir de ese momento, cada clave principal del archivo JSON se convierte automáticamente en un endpoint accesible. Por ejemplo, si en el JSON existe la clave `"estudiantes"`, podremos acceder a `http://localhost:3000/estudiantes`. Además, json-server mostrará en consola información detallada sobre las rutas disponibles y el puerto activo.
+// PS D:\Trabajos\Cursos\Node-Js-Course\Projects\Project_1> npm run start  //* Se ejecuta el script start definido en package.json.
+
+// > project_1_json_server@1.0.0 start
+// > json-server --watch db.json
+
+// --watch/-w can be omitted, JSON Server 1+ watches for file changes by default  //* Indica que el monitoreo es automático.
+// JSON Server started on PORT :3000  //* Confirma que el servidor se ejecuta en el puerto 3000.
+// Press CTRL-C to stop               //* Indica cómo detener el servidor.
+// Watching db.json...                //* Confirma que está observando cambios en el archivo JSON.
+
+// ♡( ◡‿◡ )
+
+// Index:
+// http://localhost:3000/  //* URL base donde se expone la API.
+
+// Static files:
+// Serving ./public        //* Carpeta pública que puede servir archivos estáticos si existe.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
