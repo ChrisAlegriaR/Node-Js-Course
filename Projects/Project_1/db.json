@@ -1,0 +1,50 @@
+{
+    "profesores": [
+        {
+            "nombre": "Sergie",
+            "apellido": "Code",
+            "materias": [
+                {
+                    "nombre": "NodeJS dese cero"
+                },
+                {
+                    "nombre": "ReactJS dese cero"
+                },
+                {
+                    "nombre": "JavaScript desde cero"
+                }
+            ]
+        }
+    ],
+
+    "estudiantes": [
+        {
+            "nombre": "Christian",
+            "apellido": "Alegria",
+            "promedio": 8.2
+        },
+        {
+            "nombre": "Alfonsina",
+            "apellido": "Storni",
+            "promedio": 10
+        }
+    ],
+
+    "cursos": [
+        {
+            "nombre": "NodeJS dese cero",
+            "duracion": 7,
+            "dificultad": "Intermedia"
+        },
+                {
+            "nombre": "ReactJS dese cero",
+            "duracion": 8,
+            "dificultad": "Intermedia"
+        },
+                {
+            "nombre": "JavaScript desde cero",
+            "duracion": 8,
+            "dificultad": "alta"
+        }
+    ]
+}

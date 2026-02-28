@@ -314,7 +314,7 @@ console.log(
 // DB_NAME=RH_DB        //* Nombre de la base de datos.
 // DB_USER=chris_alegria_r //* Usuario de la base de datos.
 
-// ~Dotenv
+// ~Dotenv.
 // ~Dotenv es una **paquetería o librería externa para Node.JS** cuya función principal es leer las variables definidas dentro de un archivo `.env` y cargarlas automáticamente dentro de `process.env`. Es importante entender que el archivo `.env` por sí solo no tiene ningún efecto en la ejecución del programa, ya que Node.JS no lo interpreta automáticamente. Si no utilizáramos Dotenv, tendríamos que declarar manualmente cada variable dentro de `process.env`, por ejemplo: `process.env.DB_USER = 'nombreBD'`. Dotenv automatiza este proceso, leyendo el archivo `.env` al iniciar la aplicación e inyectando sus valores dentro del entorno del proceso actual. Esto permite mantener el código limpio, seguro y desacoplado de configuraciones sensibles.
 // ?Instalar Dotenv
 // ?Al tratarse de una librería externa, Dotenv debe instalarse utilizando **Node Package Manager (npm)**. Existen dos formas principales de instalación: como dependencia normal (`dependencies`) o como dependencia de desarrollo (`devDependencies`). Si instalamos Dotenv con `npm install dotenv`, estará disponible incluso en producción. Si lo instalamos con `npm install --save-dev dotenv`, solo será utilizado durante el desarrollo. La decisión depende de la arquitectura del proyecto y del entorno donde se ejecutará la aplicación.
@@ -391,6 +391,7 @@ console.log(varaibleQueExtraeMedianteEnvVar); //* Imprime en consola el valor va
 
 // ~Body-Parser.
 // ~Body-Parser es un middleware de Express.JS que analiza los cuerpos de las solicitudes entrantes antes de que sean manejadas por sus controladores. Esto permite a los desarrolladores acceder fácilmente a los datos enviados en el cuerpo de una solicitud HTTP, ya sea en formato JSON, URL codificada o datos de texto sin procesar.
-
 // ?¿Qué es un Middleware?
 // ?Un Middleware en Node.JS es una función que se ejecuta entre la solicitud de un cliente y la respuesta del servidor, proporcionando una forma flexible de manejar diversas tareas y funcionalidades en una aplicación web o API.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
