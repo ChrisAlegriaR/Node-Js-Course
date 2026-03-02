@@ -475,3 +475,143 @@ console.log(varaibleQueExtraeMedianteEnvVar); //* Imprime en consola el valor va
 // Serving ./public        //* Carpeta pública que puede servir archivos estáticos si existe.
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ^PostMan.
+// ^PostMan es una plataforma para el desarrollo, prueba, documentación y gestión de APIs. LA cual es comunmente usada para el testeo de APIs, donde en esta se mostrara una especie de barra de navegacion donde podremos colocar nuestra API y utilizar un metodo para enviar, extraer, modificar o eliminar informacion, provando de esta manera que nuestras APIs con sus endopoints estan en correcto funcionamiento. PostMan también permite automatizar pruebas, guardar colecciones, compartir ambientes (environments) y documentar endpoints para equipos. Es una herramienta clave en el flujo de desarrollo backend/frontend.
+
+// ~Metodos.
+// ~Los metodos tanto dentro como fuera de PostMan son metodos que nos permiten realizar y manejar informacion dentro de Endpoints, APIS y bses de datos, los cuales dichos metodos nos permiten extraer, modificar, eliminar y agregar informacion, siendo de esta manera formas de trabajar con dicha informacion por lo cual se cuentan con los metodos principales POST, PUT, PATCH, DELETE y mas.
+// ?Metodos GET.
+// ?Los metodos GET tanto dentro de PostMan como en cualquier ambito de programacion, consta en un metodo el cual nos permite extraer informacion, en este caso dentro de PostMan una vez ingresado el endpoint incluso siendo una simulada, podremos seleccionar el metodo Get n la parte izquierda de donde ingresamos el endpoint, donde si precionamos el boton de la parte derecha SEND de donde se ingreso el endpoint, si esta todo correcto nos retornara la informacion que solicitamos.
+// GET   http://localhost:3000/profesores    SEND  //* Ejemplo de petición GET a un endpoint expuesto por json-server.
+// [
+//     {
+//         "nombre": "Sergie",
+//         "apellido": "Code",
+//         "materias": [
+//             {
+//                 "nombre": "NodeJS dese cero"
+//             },
+//             {
+//                 "nombre": "ReactJS dese cero"
+//             },
+//             {
+//                 "nombre": "JavaScript desde cero"
+//             }
+//         ],
+//         "id": "343a"
+//     }
+// ]
+// *Explicacion:* GET se usa para **leer/obtener** recursos. No debe tener efectos secundarios (no modifica datos). En PostMan suele devolver un cuerpo (body) con datos y un código HTTP (ej. 200).
+
+// ?Metodos POST.
+// ?Los metodos Post son metodos que nos permiten insertar nueva informacion, tanto en PostMan como en muchisimos lugares mas. Por lo que a diferencia del metodo GET que solamente extrae informacion y no se requiere ninguna otra cosa mas que el endpoint, tanto el metodo POST, PUT, PATCH y DELETE se nos solicitara informacion adicional para poder realizar las acciones. En el caso de POST, dentro de PostMan tendremos que seleccionar en la parte izquierda de la barra donde se ingresa el endpoint el metodo POST, ademas de que en la parte inferior de dicha seccion el endpoint, metodo y envio de metodo encontraremos otra mini seccion en la cual deberemos escoger el apartado BODY, ya que el metodo POST, tendremos que enviar un cuerpo de peticion para insertar la informacion, posteriormente de igual manera en la parte inferior de donde se ubica Body deberemos seleccionar la opcion de Raw y en el select deberemos escojer JSON, esto debido a que cuando queremos mandar o realizar un metodo POST, como tenemos que insertar informacion tendremos que mandar un cuerpo dentro de la solicitud, donde en nuestro caso ese cuerpo sera en formato JSON, donde esta opcion nos desglosara una ventana para poder escribir en JSON lo que se insertara. Por lo que al darle enviar simplemente nos retornara el mismo codigo que escribimos indicando que asi se visualiza donde realizamos el POST indicando que se realizo correctamente.
+// POST   http://localhost:3000/profesores    SEND  //* Ejemplo: petición POST para crear un nuevo recurso.
+// Docs   Params   Authorization   Headers   **BODY**   Scripts   Settings
+// none   form-data   x-www-form-urlencoded   **raw**   binary   GraphQL   **JSON ▼**   
+// {
+//     "nombre": "Mario",
+//     "apellido": "Perez",
+//     "materias": [
+//         {
+//             "nombre": "HTML dese cero"
+//         },
+//         {
+//             "nombre": "CSS dese cero"
+//         },
+//         {
+//             "nombre": "JavaScript desde cero"
+//         }
+//     ]
+// }
+// *Explicacion:* POST se usa para **crear** recursos. En PostMan debes enviar el body (normalmente JSON) y los headers adecuados, p. ej. `Content-Type: application/json`. El servidor suele responder con 201 Created si se creó correctamente.
+
+// ?Metodos PUT.
+// ?El metodo PUT consta en **actualizar o reemplazar completamente un recurso existente** dentro del servidor. Es decir, cuando utilizamos PUT estamos enviando una nueva representación completa del recurso que ya existe, sustituyendo la anterior. Por lo que en PostMan para poder ejecutar este metodo correctamente debemos cumplir 2 caracteristicas principales. La primera es contar con el **ID del recurso que vamos a actualizar**, ya que dentro de bases de datos, APIs REST y herramientas como PostMan, el ID es un identificador único y fundamental en metodos como PUT, DELETE y PATCH, debido a que permite que el servidor sepa exactamente sobre qué registro aplicar los cambios. Sin el ID no sería posible identificar el recurso específico a modificar. La segunda caracteristica es que debemos enviar un cuerpo (body) en formato JSON, similar a como lo hacemos en POST, pero en este caso enviando la representación completa del objeto actualizado. Por lo que para ello dentro de nuestro endpoint agregaremos una barra `/` y dos puntos `:` seguido de `id`, esto para especificar en la ruta que la solicitud buscará el recurso correspondiente por su identificador único. Posteriormente nos iremos a la sección Params y dentro de Path Variables ingresaremos el valor real del ID en la tabla. Después deberemos dirigirnos nuevamente a Body, seleccionar raw y escoger el formato JSON, y dentro ingresaremos toda la informacion actualizada del recurso. OJO: Al menos dentro de json-server o implementaciones simples, tendremos que mandar absolutamente todo el objeto nuevamente, ya que si omitimos alguna propiedad, esta puede sobrescribirse como null o incluso eliminarse dependiendo del comportamiento del servidor. Por ende hay que ser muy precavidos al usar PUT, ya que estamos reemplazando completamente el recurso, no solo una parte del mismo.
+// PASO 1.
+// PUT   http://localhost:3000/profesores/:id    SEND  //* PUT requiere identificar explícitamente el recurso por ID dentro de la URL.
+// Docs   **Params**   Authorization   Headers   Body   Scripts   Settings
+// Path Variables
+// ---------------------------------------------------------------------------------------------------------------------
+// |       | Key                       | Value                       | Description                       |  Bulk Edit  |  
+// ---------------------------------------------------------------------------------------------------------------------
+// |       | id                        | e8fd    <-El ID             |                                   |             |
+// ---------------------------------------------------------------------------------------------------------------------
+// *En este paso se especifica el ID real del recurso que será reemplazado, permitiendo que el servidor identifique correctamente el registro.*
+
+
+
+// PASO 2.
+// PUT   http://localhost:3000/profesores/:id    SEND  //* Se mantiene el mismo endpoint con el ID definido.
+// Docs   Params   Authorization   Headers   **BODY**   Scripts   Settings
+// none   form-data   x-www-form-urlencoded   **raw**   binary   GraphQL   **JSON ▼**   //* Se selecciona raw y formato JSON para envio cuerpo.
+// {
+//     "id": "e8fd",  //* Se envía nuevamente el ID dentro del objeto (dependiendo de la API puede ser requerido).
+//     "nombre": "Mario",
+//     "apellido": "Sanchez",
+//     "materias": [
+//         {
+//             "nombre": "HTML dese cero"
+//         },
+//         {
+//             "nombre": "CSS dese cero"
+//         },
+//         {
+//             "nombre": "JavaScript desde cero"
+//         }
+//     ]
+// }
+// *Explicacion:* PUT **reemplaza completamente el recurso existente**. Esto significa que el servidor tomará el objeto enviado y lo establecerá como la nueva versión oficial del recurso. Si el servidor interpreta estrictamente el estándar REST, cualquier campo omitido podría eliminarse o establecerse como null. Por ello, PUT debe utilizarse cuando tengamos la representación completa y definitiva del recurso que deseamos dejar almacenado en el servidor.
+
+// ?Metodos PATCH.
+// ?El metodo PATCH es un metodo HTTP que permite **actualizar parcialmente un recurso existente**, es decir, modificar únicamente uno o varios campos específicos sin necesidad de reemplazar todo el objeto. A diferencia de PUT, PATCH no requiere que enviemos el recurso completo, sino solamente las propiedades que deseamos cambiar. Esto lo hace más eficiente y menos propenso a errores cuando solo necesitamos modificar pequeños fragmentos de información. Para utilizar PATCH correctamente, al igual que con PUT, necesitaremos el ID del recurso que queremos modificar. Por lo tanto, deberemos agregar `/:id` al final del endpoint y posteriormente dirigirnos a la sección Params para definir el valor real del ID en Path Variables. Después nos iremos a Body, seleccionaremos raw y formato JSON, pero esta vez únicamente incluiremos los campos que deseamos modificar, por ejemplo `"nombre": "nuevoNombre"`.
+
+// PASO 1.
+// PATCH   http://localhost:3000/profesores/:id    SEND  //* PATCH también requiere identificar el recurso por su ID en la URL.
+// Docs   **Params**   Authorization   Headers   Body   Scripts   Settings
+// Path Variables
+// ---------------------------------------------------------------------------------------------------------------------
+// |       | Key                       | Value                       | Description                       |  Bulk Edit  |  
+// ---------------------------------------------------------------------------------------------------------------------
+// |       | id                        | e8fd    <-El ID             |                                   |             |
+// ---------------------------------------------------------------------------------------------------------------------
+// *Se define el ID específico del recurso que recibirá la actualización parcial.*
+
+
+// PASO 2.
+// PATCH   http://localhost:3000/profesores/:id    SEND  //* Se ejecuta la petición PATCH sobre el recurso identificado.
+// Docs   Params   Authorization   Headers   **BODY**   Scripts   Settings
+// none   form-data   x-www-form-urlencoded   **raw**   binary   GraphQL   **JSON ▼**   //* Se selecciona raw y JSON como formato del cuerpo.
+// {
+//     "nombre": "Pacho"  //* Únicamente se envía el campo que se desea modificar.
+// }
+// *Explicacion:* PATCH aplica **cambios parciales** al recurso existente. En lugar de reemplazar el objeto completo, el servidor realiza un merge (combinación) entre los datos actuales y los nuevos valores enviados. Es ideal cuando solo se necesita modificar uno o pocos campos específicos, reduciendo el riesgo de sobrescribir información que no deseamos alterar.
+
+// ?Metodos DELETE.
+// ?El metodo DELETE nos permite eliminar un dato completo, por lo que imaginemos que tenemos a un profesor con sus informacion, el DELETE nos permitira eliminar dicho profesor mediante su ID, borrando de esas misma manera toda su informacion. Para ello lo principal sera al igual que los metodos PATCH y PUT en nuestro endpoint agregar /:id y en la tabla dentro de Params agregar dicho id de quien queremos eliminar. Posteriormente lo unico que deberemos hacer es ejecutar SEND ya que lo unico que se require para eliminar un dato es el ID.
+// DELETE   http://localhost:3000/profesores/:id    SEND   //* DELETE requiere identificar el recurso por ID en la URL.
+// Docs   **Params**   Authorization   Headers   Body   Scripts   Settings
+// Path Variables
+// ---------------------------------------------------------------------------------------------------------------------
+// |       | Key                       | Value                       | Description                       |  Bulk Edit  |  
+// ---------------------------------------------------------------------------------------------------------------------
+// |       | id                        | e8fd    <-El ID             |                                   |             |
+// ---------------------------------------------------------------------------------------------------------------------
+// *Explicacion:* DELETE borra el recurso identificado por la ruta. La respuesta puede ser 200 con el recurso eliminado, 204 No Content o 404 si no existía.
+
+// ~Codigos de metodos.
+// ~Comunmente cuando se ejecutan métodos HTTP, tanto en PostMan como en cualquier cliente o servidor web, el sistema devuelve ciertos **códigos numéricos conocidos como códigos de estado HTTP (HTTP Status Codes)**. Estos códigos representan el resultado de la solicitud realizada y permiten identificar rápidamente si la acción fue exitosa, si hubo un error del cliente o si ocurrió un problema en el servidor. En otras palabras, estos números funcionan como indicadores del estado de la operación. Por ejemplo, al realizar un método POST, el servidor puede devolver un código que simboliza que el recurso fue creado correctamente, o bien un código que indique que hubo un error en la solicitud. Comprender estos códigos es fundamental para interpretar correctamente el comportamiento de una API y depurar errores durante el desarrollo.
+//* 200: OK – La solicitud fue exitosa y el servidor devuelve el recurso modificado.
+//* 201: Created – (Común en POST) El recurso se ha creado con éxito.
+//* 204: No Content – La acción fue exitosa, pero el servidor no devuelve ningún contenido (común en PUT o DELETE).
+//* 400: Bad Request – El servidor no entiende la solicitud (error en la sintaxis del JSON o faltan datos).
+//* 401: Unauthorized – No tienes permiso para realizar esta acción (falta el Token o API Key).
+//* 403: Forbidden – Estás autenticado, pero no tienes nivel de acceso para modificar ese recurso.
+//* 404: Not Found – El recurso que intentas actualizar con PUT o PATCH no existe.
+//* 405: Method Not Allowed – El método usado (ej. PATCH) no está permitido en esa URL específica.
+//* 409: Conflict – Hay un conflicto con el estado actual del recurso (ej. intentas crear un usuario que ya existe).
+//* 422: Unprocessable Entity – Los datos son correctos gramaticalmente, pero contienen errores semánticos (ej. un email con formato inválido).
+//* 500: Internal Server Error – El servidor falló al intentar procesar la actualización.
+// *Nota adicional:* En PostMan puedes ver estos códigos en la barra de respuesta; además revisa los headers de respuesta (Content-Type, Location, Retry-After, etc.) para entender mejor el resultado.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
