@@ -615,3 +615,41 @@ console.log(varaibleQueExtraeMedianteEnvVar); //* Imprime en consola el valor va
 // *Nota adicional:* En PostMan puedes ver estos códigos en la barra de respuesta; además revisa los headers de respuesta (Content-Type, Location, Retry-After, etc.) para entender mejor el resultado.
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// ^Codigos HTTP.
+// ^Los codigos HTTP son un conjunto de codigos de estado estandar que se utilizan para comunicar el resultado de una solicitud realizada por un cliente a un servidor web. Estos codigos son numeros de tres digitos que proporcionan informacion sobre el estado de la solicitud realizada y se dividen en cinco categorias principales.
+
+// ~Categorias de codigos HTTP.
+// ~Los codigos HTTP estan divididos en cinco categorias las cuales repserentan por ejemplo respuestas informativas, respuestas, exitosas, redireccion, error de cliente, error de servidro. Estos codigos se agrupan en dichas numeraciones para que sea mas sencillo la ubicacion de los tipos de codigos.
+// ?Respuestas informativas: 1XX.
+// ?Indican que la solicitud fue recibida y esta siendo procesada.
+
+// ?Respuestas exitosas: 2XX.
+// ?Indican que la solicitud fue recibida, entendida y aceptada exitosamente.
+
+// ?Redireccion: 3XX.
+// ?Indican que el cliente necesita realizar una accion adicional para completar la solicitud.
+
+// ?Error del cliente: 4XX.
+// ?Indica que hay un error en la solicitud realizada por el cliente, como una URL incorrecta o falta de permisos.
+
+// ?Error del servidor: 5XX.
+// ?Indica que hay un error en el servidor al intentar procesar la solicitud correctamente.
+
+// ~Los codigos HTTP mas utilizados.
+// ~Existen codigos HTTP, los cuales son los mas usados, entre estos claramente se incluyen un poco de todos, ya que suelen ser muy frecuentes tanto en terminos de exito como de errores.
+// ?200: OK.
+// ?201: Created.
+// ?204: No content.
+// ?301: Permanent redirect.
+// ?302: Found.
+// ?304: Not modified.
+// ?400: Bad request.
+// ?401: Unauthorized.
+// ?403: Forbiden.
+// ?404: Not found.
+// ?500: Internal server error.
+// ?503: Service unavaliable.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
