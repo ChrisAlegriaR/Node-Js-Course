@@ -5,3 +5,7 @@ Course/.env
 Projects/Project_1/node_modules
 Projects/Project_1/package.json
 Projects/Project_1/package-lock.json
+Projects/Project_2/node_modules
+Projects/Project_2/package.json
+Projects/Project_2/package-lock.json
+Projects/Project_2/.env

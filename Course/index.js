@@ -616,7 +616,6 @@ console.log(varaibleQueExtraeMedianteEnvVar); //* Imprime en consola el valor va
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
 // ^Codigos HTTP.
 // ^Los codigos HTTP son un conjunto de codigos de estado estandar que se utilizan para comunicar el resultado de una solicitud realizada por un cliente a un servidor web. Estos codigos son numeros de tres digitos que proporcionan informacion sobre el estado de la solicitud realizada y se dividen en cinco categorias principales.
 
@@ -653,3 +652,29 @@ console.log(varaibleQueExtraeMedianteEnvVar); //* Imprime en consola el valor va
 // ?503: Service unavaliable.
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ^Express.JS.
+// ^Express.JS es una libreria externa la cual nos permite y facilia el trabajo para el desarrollo de los web server y HTTP service en Node. Por lo que Express.JS proporciona una capa de abstracción sobre el manejo de solicitudes HTTP y rutas, lo que permite a los desarrolladores definir fácilmente rutas, manejar solicitudes y respuestas, y configurar middlewares para agregar funcionalidades adicionales. Los desarrolladores pueden crear aplicaciones web de manera rápida y sencilla, enfocándose en la lógica de la aplicación en lugar de preocuparse por detalles de bajo nivel del manejo de solicitudes y respuestas HTTP. Express.JS es un paquete sumamente popular y casi siempre va de la mano con Node cuando se habla de armar una API REST.
+
+// ~Instalacion y declaracion de Express.JS.
+// ~Al ser Express.JS una libreria esta tendra varios pasos para poder ser utilizada dentro de nuestros proyerctos, donde de igual manera a otras librerias tendremos que instalar la libreria con nuestyro node package maneger asi mismo de verificar que este dado en alta en nuestro package.json, asi como la importacion de este a los archivos  donde lo implementaremos.
+// ?Instalar Express.JS
+// ?Al tratarse de una librería externa, express debe instalarse utilizando **npm**. Puede instalarse como dependencia normal si se utilizará en producción, o como dependencia de desarrollo si solo se usará para pruebas locales. Generalmente se instala como devDependency porque su propósito principal es simular APIs durante el desarrollo.
+// npm install express              //* Instala express.js como dependencia normal del proyecto.
+// npm install --save-dev express   //* Instala express.js como dependencia solo de desarrollo.
+
+// ?Express en Package.json.
+// ?Después de la instalación, json-server aparecerá dentro del archivo `package.json`. Esto nos permite verificar que la librería está correctamente integrada y también nos ayuda a controlar las versiones utilizadas dentro del proyecto.
+// "dependencies": {
+//     "express": "^5.2.1"  //* Indica la versión instalada dentro del proyecto.
+// }
+
+// ~Importacion de libreria Express a nuestros archivos a implenmentarlo.
+// ~Para permitir a nuestros archivos JavaScrip utilizar Express es necesario importar dicha libreria a nuestros archivos por lo que para ello existen 2 maneras distintas de importar dicha libreria teniendo la forma antigua usando require o la forma moderna utilizando import. Donde dependiendo el metodo que utilizemos tendremos que darlo de alta en nuestro package.json en type.
+// ?Forma antigua de importacion "require('')".
+// ?La forma tradicional de importación es mediante el uso de `require('')`. Esta función recibe como argumento la ruta del archivo desde el cual queremos importar. Lo que devuelve `require()` es el objeto exportado mediante `module.exports`, por lo que debemos almacenarlo en una variable. 
+// const express = require('express);
+
+// ?Forma nueva de importacion "import".
+// ?La forma moderna de importación es mediante el uso de la palabra reservada `import`. En este caso, dentro de llaves `{}` debemos especificar exactamente el nombre de lexpress, respetando el mismo nombre con el que fue exportado. Después se utiliza la palabra `from` para indicar la ruta del archivo el cual de igual manera es express. A diferencia del modelo antiguo, en ES Modules sí es obligatorio especificar la extensión del archivo (por ejemplo `.js`). Este modelo es más estricto y estandarizado, alineado con el estándar ECMAScript.
+import { express } from 'express'; 
