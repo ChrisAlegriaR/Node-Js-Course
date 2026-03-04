@@ -678,3 +678,7 @@ console.log(varaibleQueExtraeMedianteEnvVar); //* Imprime en consola el valor va
 // ?Forma nueva de importacion "import".
 // ?La forma moderna de importación es mediante el uso de la palabra reservada `import`. En este caso, dentro de llaves `{}` debemos especificar exactamente el nombre de lexpress, respetando el mismo nombre con el que fue exportado. Después se utiliza la palabra `from` para indicar la ruta del archivo el cual de igual manera es express. A diferencia del modelo antiguo, en ES Modules sí es obligatorio especificar la extensión del archivo (por ejemplo `.js`). Este modelo es más estricto y estandarizado, alineado con el estándar ECMAScript.
 import { express } from 'express'; 
+
+// ~Uso de app con Express();
+// ~El uso de Express.js dentro de creacin de servidores suele usar lo que es app, app es una variable que se crea la cual ejecuta a express, esto simplemente almacenando en una variable por ejemplo const app lo que es express(), por lo que solamente con delcarar app se iniciara la ejecucion de express(), posteriormente una vez que con la declaracion de la variable tambien se ejecuta express(), podemos acceder a herramientas que se encuentran dentro de express. Esto se hace de esta manera ya que ya que podriamos decir que cuando declaramos una variable que ejecuta express() activamos express y por ende las herramientas que contiene, por lo que para acceder a estas las extreamos o llamamos mediante un punto por ejemplo app.get(), extrallendo asi la funcion get.
+const app = express();
