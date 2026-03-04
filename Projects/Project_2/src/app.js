@@ -1,8 +1,11 @@
-const { envs } = require('./config/env')
+const { envs } = require('./config/env'); // Todo - Importamos el objeto "envs", el cual exportamos desde el archivo env.js, para poder ser utilizado y leido desde este archivo.
+const { startServer } = require('./server/server') // Todo - Importamos la funcion "startServer", la cual exportamos desde el archivo server.js, para poder ser utilizada y ejecutada desde este archivo.
 
-// *Funcion que imprime un mensaje.
 const main = () => {
-    console.log(envs)
+    startServer({
+        port: envs.PORT,
+        public_path: envs.PUBLIC_PATH
+    })
 }
 
 // *Funcion agnóstica async autocovocada.
