@@ -677,8 +677,50 @@ console.log(varaibleQueExtraeMedianteEnvVar); //* Imprime en consola el valor va
 
 // ?Forma nueva de importacion "import".
 // ?La forma moderna de importación es mediante el uso de la palabra reservada `import`. En este caso, dentro de llaves `{}` debemos especificar exactamente el nombre de lexpress, respetando el mismo nombre con el que fue exportado. Después se utiliza la palabra `from` para indicar la ruta del archivo el cual de igual manera es express. A diferencia del modelo antiguo, en ES Modules sí es obligatorio especificar la extensión del archivo (por ejemplo `.js`). Este modelo es más estricto y estandarizado, alineado con el estándar ECMAScript.
-import { express } from 'express'; 
+import express from 'express'; 
 
 // ~Uso de app con Express();
 // ~El uso de Express.js dentro de creacin de servidores suele usar lo que es app, app es una variable que se crea la cual ejecuta a express, esto simplemente almacenando en una variable por ejemplo const app lo que es express(), por lo que solamente con delcarar app se iniciara la ejecucion de express(), posteriormente una vez que con la declaracion de la variable tambien se ejecuta express(), podemos acceder a herramientas que se encuentran dentro de express. Esto se hace de esta manera ya que ya que podriamos decir que cuando declaramos una variable que ejecuta express() activamos express y por ende las herramientas que contiene, por lo que para acceder a estas las extreamos o llamamos mediante un punto por ejemplo app.get(), extrallendo asi la funcion get.
 const app = express();
+
+// ~Definir rutas con Express.
+// ~
+
+// ~Middlewares.
+// ~Un Middleware en Express es una función la cual actúa como un intermediario en el ciclo de solicitud-respuesta, ejecutándose entre la petición del cliente y la ruta final. En términos sencillos, es aquel que valida, procesa o transforma la información que se envía o recibe. El middleware verifica o modifica los datos y, si todo es correcto, permite que la solicitud progrese hacia la ruta final; de lo contrario, puede detener el proceso y responder directamente al cliente. 
+// ?¿Como se crean los Middlewares?
+// ?Como se comentó previamente, los Middlewares son funciones. Para crearlos debemos declarar una función normal (o también una función flecha) en la cual pasaremos como parámetros req, res y next. Estos representan respectivamente la información de la solicitud (request) enviada por el cliente, el objeto de respuesta (response) que el servidor utilizará para responder, y una función llamada next. La función next es especialmente importante, ya que permite indicar a Express que el Middleware ya terminó su ejecución y que debe continuar con el siguiente paso dentro del flujo de la aplicación. Este siguiente paso puede ser otro Middleware o la función final de la ruta (route handler).Dentro del cuerpo del Middleware declararemos la lógica que queremos ejecutar antes de que la petición llegue a la ruta final, como por ejemplo validar información, registrar logs, autenticar usuarios, modificar datos de la solicitud o incluso detener la ejecución y responder directamente al cliente. Es importante entender que si un Middleware no ejecuta next() ni envía una respuesta con res (por ejemplo res.send(), res.json(), res.status(), etc.), la solicitud quedará "detenida" y el cliente nunca recibirá una respuesta. Por esta razón, en la mayoría de los Middlewares es necesario llamar a next() al finalizar su lógica para permitir que la cadena de ejecución continúe dentro de la aplicación construida con Express.
+function nombreMiddleware(req, res, next){
+    // console.log('Procesos adicionales');
+    next();
+}
+
+// ?¿A quienes o que aplican los Middlewares?.
+// ?Ahora sabemos que los middlewares son funciones intermediarias, pero la pregunta es ¿a quien/que/quienes aplican?, pues los los middlewares se aplican principalmente a las rutas que definimos en la aplicación, por lo que en este caso tenemos 2 multiples opciones de uso, esto debido a que podemos aplicar Middleware de manera global a nivel proyecto donde dichos Middlewares afectaran a todas nuestas rutas y por otra parte tenemos que podemos aplicar Middlewares de manera individual, donde podemos especificar ciertos Middleawares a una sola ruta o conjunto de estas. Donde por una parte la integracion de los middlewar evaria segun el caso de uso.
+// &Middlewares individuales o en conjunto.
+// &Para poder implementar un Middleware en las rutas individuales estas se depven aplicar directamente en la definicion de la ruta o creacion de la ruta, antes del handler, donde unicamente es necesario pasar el nombre de la funcion sin necesidad de definir o pasar los parametros ya que esto lo hace la definicion de la ruta de manera autormatica.
+app.get('/ruta', nombreMiddleware, (req, res) => {
+    res.send("Usuarios");
+});
+
+// &Middlewares globales a nivel proyecto.
+// &Para la implementacion de un middleware en nuestras rutas globales tendremos que implenentarlo mediante app.use(nombreMiddleware), donde a diferencia de los middlewares individuales o en conjunto slos middlewares globales no se integran estos en la definicion de la ruta previamente al handler, en lo que es los middlewares globales solo es necesario el uso de app.use(nombreMiddleware), ya que este middleware afectara a todaas nuestras rutas.
+app.use(nombreMiddleware);
+
+// ?Middlewares ya declarados en Express.
+// ?Dentro de Express existen diversos middlewares ya creados y definidos, los cuales están listos para ser utilizados directamente en nuestra aplicación, ya sea de forma global o dentro de rutas específicas. Para poder utilizar estos middlewares integrados en Express normalmente se utiliza la sintaxis express.nombreMiddleware(), ya que estos forman parte de las utilidades que el propio framework nos proporciona. Por lo tanto, como dato importante, la ubicación donde coloquemos el middleware sigue siendo la misma (por ejemplo usando app.use() o dentro de la definición de una ruta). La diferencia es que, en lugar de utilizar únicamente el nombre de una función middleware creada por nosotros, utilizaremos un middleware proporcionado por Express mediante la sintaxis express.nombreMiddleware().
+// &express.static()
+// &Este middleware integrado en Express permite servir archivos estáticos desde una carpeta específica del proyecto. Los archivos estáticos son aquellos que el servidor envía directamente al navegador sin procesarlos, como HTML, CSS, JavaScript del frontend, imágenes, fuentes o videos. Se utiliza comúnmente para exponer una carpeta pública (por ejemplo "public") donde se almacenan los recursos del cliente. Cuando el navegador solicita un archivo, Express lo buscará dentro de la carpeta especificada y, si lo encuentra, lo enviará directamente como respuesta.
+// app.use(express.static('public'));
+
+// &express.json()
+// &Este middleware permite que Express pueda interpretar cuerpos de petición en formato JSON enviados por el cliente. Es especialmente utilizado en APIs REST cuando el frontend o herramientas como Postman envían datos en formato JSON. El middleware analiza el cuerpo de la petición y convierte el JSON recibido en un objeto JavaScript accesible mediante req.body.
+// app.use(express.json());
+
+// &express.urlencoded()
+// &Este middleware permite procesar datos enviados desde formularios HTML. Convierte los datos codificados en formato "application/x-www-form-urlencoded" en un objeto accesible desde req.body. Se utiliza principalmente cuando se manejan formularios tradicionales enviados desde el navegador.
+// app.use(express.urlencoded({ extended: true }));
+
+// &express.Router()
+// &Aunque no es un middleware como tal, Router es una herramienta integrada de Express que permite crear módulos de rutas. Esto facilita organizar aplicaciones grandes separando rutas en diferentes archivos. También permite aplicar middlewares a un conjunto específico de rutas en lugar de hacerlo globalmente.
+const router = express.Router();
