@@ -683,8 +683,21 @@ import express from 'express';
 // ~El uso de Express.js dentro de creacin de servidores suele usar lo que es app, app es una variable que se crea la cual ejecuta a express, esto simplemente almacenando en una variable por ejemplo const app lo que es express(), por lo que solamente con delcarar app se iniciara la ejecucion de express(), posteriormente una vez que con la declaracion de la variable tambien se ejecuta express(), podemos acceder a herramientas que se encuentran dentro de express. Esto se hace de esta manera ya que ya que podriamos decir que cuando declaramos una variable que ejecuta express() activamos express y por ende las herramientas que contiene, por lo que para acceder a estas las extreamos o llamamos mediante un punto por ejemplo app.get(), extrallendo asi la funcion get.
 const app = express();
 
-// ~Definir rutas con Express.
-// ~
+// ~Rutas con Express.
+// ~Bien sabemos que pese a que un servidor puede funcionar sin rutas es muy poco utilil este sin rutas, por lo que estas se tienen que crear donde en conjunto con un listener las rutas sirven para definir qué hacer cuando llega una petición a cierta URL. Por lo que para esto dentro de express, por lo que para definir una ruta se suele usar una estructura especifica la cual contiene un metodo HTTP, path, middlewares y handler.
+// ?Como declarar una ruta en Express.
+// ?Las rutas en Express.JS estan conformadas de un estructura muy expecifica siendo esta app.metodo('/nombreRuta', middlewares, handler), por lo que estas rutas deben estar siempre estructuradas mediante metodo HTTP, path, middlewares y handler. Ahora bien cada una de estas partes son fundamentales, siendo unicamente los Middlewares opcionales, ya que incluso pese a no declarar una ruta especifica si se tiene que espeificar un valro por defecto.
+// app.metodo('/nombreRuta', nombreMiddleware, handler);  
+
+// ?Metodos en rutas.
+// ?Ahora bien como vimos anterioemnte existen diversos metodos dentro de las rutas que vayamos a crear, esto se debe a que estas rutas mediante el uso de metodos nos serviran para guairnos y saber lo que el frontend esta solicitando realizar al backend, por ejemplo si el frontend require extraer info de la bd por ende usaremos el metodo get, ya que si bien no se hace get a la BD como tal, se podria decir que de cierta forma indica que exteremos informacion, por lo que los metodos aparte de servirnos para saber el tipo de acicon que realiza nuestra ruta sirve para estructurar la misma ruta y integrar mediantes los metodos lo que se necesita.
+// GET    → pedir datos
+// POST   → enviar datos nuevos
+// PUT    → actualizar
+// DELETE → eliminar
+
+// ?Handlers en rutas.
+// ?
 
 // ~Middlewares.
 // ~Un Middleware en Express es una función la cual actúa como un intermediario en el ciclo de solicitud-respuesta, ejecutándose entre la petición del cliente y la ruta final. En términos sencillos, es aquel que valida, procesa o transforma la información que se envía o recibe. El middleware verifica o modifica los datos y, si todo es correcto, permite que la solicitud progrese hacia la ruta final; de lo contrario, puede detener el proceso y responder directamente al cliente. 
@@ -724,3 +737,5 @@ app.use(nombreMiddleware);
 // &express.Router()
 // &Aunque no es un middleware como tal, Router es una herramienta integrada de Express que permite crear módulos de rutas. Esto facilita organizar aplicaciones grandes separando rutas en diferentes archivos. También permite aplicar middlewares a un conjunto específico de rutas en lugar de hacerlo globalmente.
 const router = express.Router();
+
+// ?Next en Middlewares.
