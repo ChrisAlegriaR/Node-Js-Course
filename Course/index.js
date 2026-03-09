@@ -697,7 +697,9 @@ const app = express();
 // DELETE → eliminar
 
 // ?Handlers en rutas.
-// ?
+// ?Los handlers dentro de las rutas son funciones que se declaran después de los middlewares (en caso de que se utilicen dentro de la ruta). Estos handlers reciben normalmente dos parámetros: req y res, que representan request y response, el objeto req contiene la información de la petición que realiza el cliente (como parámetros, query, body, headers, etc.). Por otro lado, res representa la respuesta que el servidor enviará al cliente. Esta parte es fundamental dentro de las rutas, ya que el handler es el encargado de ejecutar la lógica de la ruta y finalmente enviar una respuesta al cliente utilizando métodos como res.send(), res.json() o res.status(). Cabe resaltar que dentro de nuestro handler es donde especificaremos toda la lógica que nuestra ruta debe realizar.
+app.get('/ruta', (req, res) => {
+});
 
 // ~Middlewares.
 // ~Un Middleware en Express es una función la cual actúa como un intermediario en el ciclo de solicitud-respuesta, ejecutándose entre la petición del cliente y la ruta final. En términos sencillos, es aquel que valida, procesa o transforma la información que se envía o recibe. El middleware verifica o modifica los datos y, si todo es correcto, permite que la solicitud progrese hacia la ruta final; de lo contrario, puede detener el proceso y responder directamente al cliente. 
@@ -739,3 +741,7 @@ app.use(nombreMiddleware);
 const router = express.Router();
 
 // ?Next en Middlewares.
+// ?Dentro de los middlewares se utiliza normalmente un parámetro llamado next, el cual es una función. Esta función debe ejecutarse dentro del middleware para indicar a Express que continúe con la ejecución del siguiente paso dentro de la ruta. Cuando Express encuentra next(), entiende que debe pasar al siguiente middleware definido en la ruta o al handler final de la misma.
+function middleware(req, res, next){
+    next();
+}
