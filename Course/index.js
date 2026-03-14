@@ -797,3 +797,60 @@ import { route as create } from './src/Express.js'; //* Importa el router export
 app.use('/libros', create); //* Registra el router importado bajo la ruta base /libros dentro de la aplicación Express.
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ^Mongoose
+// ^Mongoose es una librería o paquetería externa para Node.JS que nos permite trabajar de manera más estructurada con bases de datos **MongoDB** desde aplicaciones escritas en JavaScript. Esta librería nos permite crear lo que se conocen como **modelos**, los cuales representan estructuras de datos que luego podremos utilizar dentro de nuestras solicitudes hacia la base de datos. A diferencia de otras librerías que simplemente ofrecen funciones utilitarias, Mongoose funciona como un **objeto principal** que nos permite generar otros objetos derivados, los cuales representan nuestros modelos de datos. Dichos modelos actúan como una especie de puente entre nuestra aplicación y la base de datos, permitiendo realizar operaciones como crear, leer, actualizar o eliminar información. Debido a que Mongoose se maneja mediante objetos, podemos utilizar el operador `new` para crear instancias basadas en los modelos definidos. Esto permite que los desarrolladores trabajen con la base de datos utilizando estructuras claras y controladas, en lugar de interactuar directamente con documentos sin estructura dentro de MongoDB.
+
+// ~Instalacion y declaracion de Mongoose.
+// ~Al ser Mongoose una librería externa, esta requiere varios pasos antes de poder ser utilizada dentro de nuestros proyectos. De manera similar a otras librerías que hemos visto anteriormente, el primer paso consiste en instalar el paquete utilizando **Node Package Manager (npm)**. Posteriormente debemos verificar que la librería haya sido registrada dentro de nuestro archivo `package.json`, ya que este archivo actúa como el centro de control de dependencias de nuestro proyecto. Finalmente, una vez instalada la librería, será necesario **importarla dentro de los archivos JavaScript** donde deseemos utilizar Mongoose para poder acceder a todas sus funcionalidades y herramientas para trabajar con bases de datos MongoDB.
+// ?Instalar Mongoose.
+// ?Al tratarse de una librería externa, Mongoose debe instalarse utilizando **npm**. Puede instalarse como dependencia normal (`dependencies`) si será utilizada dentro de la aplicación en producción, o como dependencia de desarrollo (`devDependencies`) si únicamente se utilizará durante pruebas o entornos de desarrollo. Sin embargo, en la mayoría de los proyectos backend reales Mongoose se instala como dependencia normal, ya que es la librería encargada de manejar la comunicación entre la aplicación Node.JS y la base de datos MongoDB.
+// npm install mongoose               //* Instala Mongoose como dependencia principal del proyecto.
+// npm install --save-dev mongoose    //* Instala Mongoose como dependencia solo de desarrollo.
+
+// ?Mongoose en Package.json.
+// ?Después de realizar la instalación, Mongoose aparecerá automáticamente dentro del archivo `package.json`. Esto nos permite confirmar que la librería fue instalada correctamente y también nos ayuda a mantener control sobre las versiones utilizadas dentro del proyecto. Además, cuando otro desarrollador clone el proyecto y ejecute `npm install`, npm leerá este archivo y descargará automáticamente todas las dependencias necesarias para ejecutar la aplicación.
+// "dependencies": {
+//     "mongoose": "^9.3.0", //* Indica la versión de Mongoose instalada en el proyecto.
+// }
+
+// ~Importacion de libreria Mongoose a nuestros archivos a implementarlo.
+// ~Para poder utilizar Mongoose dentro de nuestros archivos JavaScript es necesario importar la librería en cada archivo donde vayamos a utilizarla. Node.JS permite importar librerías utilizando dos sistemas de módulos distintos: **CommonJS** (la forma tradicional usando `require`) o **ES Modules** (la forma moderna usando `import`). El método que utilicemos dependerá de la configuración establecida dentro del archivo `package.json`, específicamente en la propiedad `"type"`, la cual determina si el proyecto utilizará el sistema de módulos moderno o el tradicional.
+// ?Forma antigua de importacion "require('')".
+// ?La forma tradicional de importar librerías en Node.JS es mediante el uso de la función `require()`. Esta función carga el módulo especificado y devuelve el contenido exportado por dicho módulo. Normalmente se almacena en una variable constante para poder utilizar posteriormente todas las funcionalidades de la librería dentro del archivo. Este sistema pertenece al modelo **CommonJS**, el cual fue el estándar principal de Node.JS durante muchos años.
+// const mongoose = require('mongoose'); //* Importa la librería mongoose utilizando el sistema de módulos CommonJS.
+
+// ?Forma nueva de importacion "import".
+// ?La forma moderna de importar librerías es mediante la palabra reservada `import`, perteneciente al sistema **ES Modules (ESM)**. Este sistema es el estándar oficial del lenguaje JavaScript moderno y es el recomendado actualmente para proyectos nuevos. En este caso utilizamos la sintaxis `import nombre from 'modulo'`, donde `nombre` será la variable que representará la librería dentro del archivo. Para poder utilizar esta sintaxis en Node.JS es necesario configurar `"type": "module"` dentro del archivo `package.json`.
+import mongoose, { mongo } from 'mongoose'; //* Importa la librería mongoose utilizando el sistema moderno ES Modules.
+// ~Uso y creacion de modelos con Mongoose.
+// ~Una vez que importamos Mongoose en nuestro archivo JavaScript, podemos comenzar a definir la estructura de los datos que queremos almacenar dentro de nuestra base de datos MongoDB. El propósito principal de Mongoose es precisamente la creación de **modelos**, los cuales representan colecciones dentro de la base de datos. Sin embargo, antes de crear un modelo es necesario definir primero un **Schema**. Un Schema es básicamente el plano o guía que define cómo debe verse cada documento dentro de una colección. Para ello utilizamos `new mongoose.Schema({})`, donde dentro de las llaves especificamos las propiedades que tendrá nuestro objeto, por ejemplo nombre, precio o género. En este paso es fundamental el **tipado de datos**, ya que indicamos a Mongoose qué tipo de dato debe recibir cada campo (String, Number, Boolean, Date, etc.). Esto permite que Mongoose valide automáticamente la información antes de guardarla en la base de datos, ayudando a mantener la consistencia y estructura de los datos dentro de la aplicación.
+const nombreEsquema = new mongoose.Schema(  // *Declaracion y creacion del esquema.
+    { // *Apertura de la creacion del esquema.
+        nombre: String, //* Campo tipo texto que representará el nombre del elemento.
+        price: Number,  //* Campo tipo número que representará el precio.
+        genre: String   //* Campo tipo texto que representará el género o categoría.
+    } // *Cierre de objeto de esquema.
+); // *Cierre de la creacion de esquema.
+
+// ~Creacion del modelo con Mongoose.
+// ~Una vez que tenemos nuestro Schema, el cual funciona como la plantilla o estructura que deben seguir nuestros datos, el siguiente paso es crear el **modelo**. El modelo es el objeto que realmente nos permitirá interactuar con la base de datos, realizando operaciones como crear documentos, consultarlos, actualizarlos o eliminarlos. Para crear un modelo utilizamos `mongoose.model()`. Este método requiere dos parámetros principales: el primero es el **nombre del modelo**, el cual se define como un string entre comillas, y el segundo es el **Schema** que se asociará a ese modelo. Dependiendo de cómo estructuremos nuestro proyecto, podemos crear el modelo y almacenarlo en una variable dentro del mismo archivo o bien exportarlo directamente para ser utilizado en otros módulos del proyecto.
+// ?Almacenamiento de modelo mediante variable.
+// ?La creación y almacenamiento de un modelo dentro de una variable nos permite utilizarlo dentro del mismo archivo o exportarlo posteriormente si lo necesitamos. Esto es útil cuando queremos realizar operaciones directamente en ese archivo o cuando queremos tener mayor control sobre el modelo antes de exportarlo.
+const esquemaParaModelo = new mongoose.Schema( // *Declaracion y creacion del esquema.
+    { // *Apertura de la creacion del esquema.
+        nombre: String, //* Campo simple de ejemplo que representa una propiedad del modelo.
+    } // *Cierre de objeto de esquema.
+); // *Cierre de la creacion de esquema.
+
+const modeloVariable = mongoose.model('nombreModelo', esquemaParaModelo); //* Se crea el modelo asociando el nombre del modelo con el esquema definido.
+
+// ?Creación y exportación de modelo
+// ?Ahora bien, aunque podemos exportar la variable que almacena el modelo, también es posible exportar directamente el modelo sin necesidad de almacenarlo previamente en una variable. Esto es posible porque `mongoose.model()` retorna directamente el objeto del modelo ya construido. De esta forma podemos exportarlo como un módulo independiente. Este enfoque suele utilizarse en arquitecturas donde cada archivo representa una colección específica de la base de datos, permitiendo mantener el código más limpio y organizado.
+// & Forma antigua (CommonJS).
+// &Esta forma pertenece al sistema de módulos tradicional de Node.js. Aquí `module.exports` actúa como el valor que el archivo exportará hacia otros archivos. En este caso no utilizamos llaves `{}` porque no estamos exportando múltiples elementos, sino únicamente el modelo. De esta manera, cuando otro archivo utilice `require()` para importar este módulo, recibirá directamente el modelo listo para ser utilizado sin necesidad de acceder a propiedades adicionales.
+module.exports = mongoose.model('nombreModelo', esquemaParaModelo); //* Exporta directamente el modelo utilizando CommonJS.
+
+// & Forma moderna (ES Modules).
+// &Esta es la forma moderna de exportación en JavaScript utilizando ES Modules. Aquí utilizamos `export default` porque el modelo es el elemento principal que queremos exportar desde este archivo. Al ser el valor por defecto, cuando lo importemos en otro archivo no necesitaremos usar llaves `{}`. Esto hace que el código sea más simple y también permite que el nombre asignado al importar el modelo pueda ser cualquiera que deseemos dentro del archivo que lo recibe.
+export default mongoose.model('nombreModelo', esquemaParaModelo); //* Exporta el modelo utilizando ES Modules.
