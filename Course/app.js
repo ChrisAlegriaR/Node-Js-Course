@@ -870,7 +870,7 @@ router.get('/nombreRuta', async (req, res) => { //* Se define una ruta GET asín
 import mongoose, { mongo } from 'mongoose'; //* Importa la librería mongoose utilizando el sistema moderno ES Modules.
 
 // ~Uso y creacion de modelos con Mongoose.
-// ~Una vez que importamos Mongoose en nuestro archivo JavaScript, podemos comenzar a definir la estructura de los datos que queremos almacenar dentro de nuestra base de datos MongoDB. El propósito principal de Mongoose es precisamente la creación de **modelos**, los cuales representan colecciones dentro de la base de datos. Sin embargo, antes de crear un modelo es necesario definir primero un **Schema**. Un Schema es básicamente el plano o guía que define cómo debe verse cada documento dentro de una colección. Para ello utilizamos `new mongoose.Schema({})`, donde dentro de las llaves especificamos las propiedades que tendrá nuestro objeto, por ejemplo nombre, precio o género. En este paso es fundamental el **tipado de datos**, ya que indicamos a Mongoose qué tipo de dato debe recibir cada campo (String, Number, Boolean, Date, etc.). Esto permite que Mongoose valide automáticamente la información antes de guardarla en la base de datos, ayudando a mantener la consistencia y estructura de los datos dentro de la aplicación.
+// ~Una vez que importamos Mongoose en nuestro archivo JavaScript, podemos comenzar a definir la estructura de los datos que queremos almacenar dentro de nuestra base de datos MongoDB, ya que mediante estos modelos le decimos a mongose la estructura de la informacion en nuestra tabla pudiendo con estos modelos realizar todas las acciones desde crear hasta eliminar informacion. El propósito principal de Mongoose es precisamente la creación de **modelos**, los cuales representan colecciones dentro de la base de datos. Sin embargo, antes de crear un modelo es necesario definir primero un **Schema**. Un Schema es básicamente el plano o guía que define cómo debe verse cada documento dentro de una colección. Para ello utilizamos `new mongoose.Schema({})`, donde dentro de las llaves especificamos las propiedades que tendrá nuestro objeto, por ejemplo nombre, precio o género. En este paso es fundamental el **tipado de datos**, ya que indicamos a Mongoose qué tipo de dato debe recibir cada campo (String, Number, Boolean, Date, etc.). Esto permite que Mongoose valide automáticamente la información antes de guardarla en la base de datos, ayudando a mantener la consistencia y estructura de los datos dentro de la aplicación.
 const nombreEsquema = new mongoose.Schema(  // *Declaracion y creacion del esquema.
     { // *Apertura de la creacion del esquema.
         nombre: String, //* Campo tipo texto que representará el nombre del elemento.
@@ -880,7 +880,7 @@ const nombreEsquema = new mongoose.Schema(  // *Declaracion y creacion del esque
 ); // *Cierre de la creacion de esquema.
 
 // ~Creacion del modelo con Mongoose.
-// ~Una vez que tenemos nuestro Schema, el cual funciona como la plantilla o estructura que deben seguir nuestros datos, el siguiente paso es crear el **modelo**. El modelo es el objeto que realmente nos permitirá interactuar con la base de datos, realizando operaciones como crear documentos, consultarlos, actualizarlos o eliminarlos. Para crear un modelo utilizamos `mongoose.model()`. Este método requiere dos parámetros principales: el primero es el **nombre del modelo**, el cual se define como un string entre comillas, y el segundo es el **Schema** que se asociará a ese modelo. Dependiendo de cómo estructuremos nuestro proyecto, podemos crear el modelo y almacenarlo en una variable dentro del mismo archivo o bien exportarlo directamente para ser utilizado en otros módulos del proyecto.
+// ~Una vez que tenemos nuestro Schema, el cual funciona como la plantilla o estructura que deben seguir nuestros datos, el siguiente paso es crear el **modelo**. El modelo es el objeto que realmente nos permitirá interactuar con la base de datos, realizando operaciones como crear documentos, consultarlos, actualizarlos o eliminarlos. Para crear un modelo utilizamos `mongoose.model()`. Este método requiere dos parámetros principales: el primero es el **nombre del modelo**, el cual se define como un string entre comillas (!IMPORTANTE: El nombre del modelo debe ser igual a la tabla de nuestra base de datos ya que mediante este nombre de igual manera buscara.), y el segundo es el **Schema** que se asociará a ese modelo. Dependiendo de cómo estructuremos nuestro proyecto, podemos crear el modelo y almacenarlo en una variable dentro del mismo archivo o bien exportarlo directamente para ser utilizado en otros módulos del proyecto.
 // ?Almacenamiento de modelo mediante variable.
 // ?La creación y almacenamiento de un modelo dentro de una variable nos permite utilizarlo dentro del mismo archivo o exportarlo posteriormente si lo necesitamos. Esto es útil cuando queremos realizar operaciones directamente en ese archivo o cuando queremos tener mayor control sobre el modelo antes de exportarlo.
 const esquemaParaModelo = new mongoose.Schema( // *Declaracion y creacion del esquema.
@@ -901,5 +901,91 @@ const modeloVariable = mongoose.model('nombreModelo', esquemaParaModelo); //* Se
 // &Esta es la forma moderna de exportación en JavaScript utilizando ES Modules. Aquí utilizamos `export default` porque el modelo es el elemento principal que queremos exportar desde este archivo. Al ser el valor por defecto, cuando lo importemos en otro archivo no necesitaremos usar llaves `{}`. Esto hace que el código sea más simple y también permite que el nombre asignado al importar el modelo pueda ser cualquiera que deseemos dentro del archivo que lo recibe.
 export default mongoose.model('nombreModelo', esquemaParaModelo); //* Exporta el modelo utilizando ES Modules.
 
-// ~
-// ~
+// ~Uso de funciones de Mongoose en rutas.
+// ~Una vez que conocemos la creación y exportación de esquemas y modelos con Mongoose, es fundamental entender cómo se utilizan dentro de nuestras rutas en Express. Cuando exportamos un modelo basado en un Schema, este se convierte en nuestra principal herramienta para interactuar con la base de datos, permitiéndonos realizar operaciones como buscar, crear, actualizar o eliminar información. Sin embargo, todo esto solo es posible si previamente se ha establecido una conexión activa con la base de datos (por ejemplo con mongoose.connect()). Los modelos incluyen múltiples funciones integradas que ya saben a qué colección deben apuntar, ya que internamente usan el nombre definido en el modelo. Es importante entender que todas estas operaciones son **asíncronas**, debido a que dependen de una comunicación con una base de datos externa. Esto implica que nuestras rutas también deben ser asíncronas, utilizando `async`, `await` y estructuras como `try...catch` para manejar correctamente los resultados y posibles errores. No manejar correctamente esto es uno de los errores más comunes en backend.
+// ?Estructura de uso de funciones mediante modelo Mongoose.
+// ?La estructura para utilizar funciones de un modelo Mongoose sigue un patrón muy claro y repetitivo en backend profesional. Primero, definimos una ruta asíncrona. Dentro de ella, usamos un bloque `try` donde ejecutaremos la operación. Después, declaramos una variable que almacenará el resultado de la acción, utilizando `await` para esperar la respuesta de la base de datos. Finalmente, en el `catch` manejamos errores. Este patrón se repite prácticamente en todas las operaciones CRUD, por lo que dominarlo es clave para entrevistas y desarrollo real.
+app.get('/nombreRuta', async(req, res) => { //* Se define una ruta GET en Express; el uso de async permite utilizar await dentro de la función para manejar operaciones asíncronas.
+    try{ //* Se inicia un bloque try donde se ejecutará la lógica principal; aquí se capturan errores potenciales de operaciones con la base de datos.
+        const variableAlmacenaAccion = await nombreModelo.funcion(); //* Se ejecuta una función del modelo (ejemplo genérico) y se usa await para pausar la ejecución hasta obtener la respuesta de la base de datos.
+        //* **Concepto clave:** await evita callbacks o .then(), haciendo el código más legible y secuencial.
+    } catch(error){ //* Si ocurre cualquier error dentro del try (ej: fallo de conexión, query inválida), se ejecuta este bloque.
+        //* **Error común:** no manejar el error y dejar la petición colgada (sin respuesta al cliente).
+    } // *Cierre del catch.
+}) //* Fin de la definición de la ruta.
+
+// ?Tipos de funciones en modelos Mongoose.
+// ?Dentro de los modelos de Mongoose existen diferentes tipos de funciones diseñadas para cubrir operaciones específicas en la base de datos. Estas funciones forman lo que conocemos como **CRUD (Create, Read, Update, Delete)**. Cada función tiene un propósito claro y su uso correcto depende del tipo de operación que queremos realizar. Lo importante es entender que estas funciones abstraen completamente la lógica de acceso a la base de datos, es decir, nosotros no escribimos consultas SQL o comandos directos, sino que usamos métodos que ya saben cómo interactuar con MongoDB utilizando la conexión previamente establecida.
+// &Extraccion de informacion general find().
+// &El método `find()` nos permite obtener todos los documentos de una colección. Es una de las funciones más utilizadas cuando queremos listar información. Internamente, Mongoose traduce esta operación a una consulta sobre la colección correspondiente (basada en el nombre del modelo). Es importante saber que `find()` siempre devuelve un **arreglo**, incluso si solo hay un elemento o ninguno. En aplicaciones reales, esta función suele combinarse con filtros, paginación o proyecciones para optimizar el rendimiento.
+app.get('/nombreRuta', async(req, res) => { //* Ruta GET típica para obtener todos los registros de una colección.
+    try{ //* Bloque de ejecución segura para manejar errores.
+        const variableAlmacenaAccion = await nombreModelo.find(); //* Se llama al método find() del modelo, que devuelve un arreglo con todos los documentos.
+        //* **Importante:** aunque haya un solo resultado, SIEMPRE será un array ([]), nunca un objeto directo.
+    } catch(error){ //* Captura errores de base de datos o ejecución.
+        //* Error típico: problemas de conexión o consultas mal formadas.
+    } // *Cierre del catch.
+}) //* Fin de la ruta.
+
+// &Extraccion de informacion mediante ID findById(id).
+// &El método `findById(id)` permite obtener un documento específico utilizando su identificador único (_id). Este ID normalmente se recibe desde la URL mediante `req.params`. Es importante validar que el ID tenga un formato correcto, ya que si no es válido puede generar errores en la consulta. Este método devuelve un solo objeto (o null si no existe), a diferencia de `find()` que devuelve un arreglo.
+app.get('/nombreRuta', async(req, res) => { //* Ruta GET para obtener un documento específico.
+    try{ //* Inicio del bloque seguro.
+        const variableAlmacenaAccion = await nombreModelo.findById(req.params.id); //* Se obtiene el ID desde la URL y se busca el documento correspondiente.
+        //* **Buena práctica:** validar req.params.id antes (ej: mongoose.Types.ObjectId.isValid).
+    } catch(error){ //* Manejo de errores.
+        //* Error común: ID inválido o que no existe en la base de datos.
+    } // *Cierre del catch.
+}) //* Fin de la ruta.
+
+// &Creacion de informacion save().
+// &El método `save()` se utiliza para guardar un nuevo documento en la base de datos. A diferencia de otros métodos, primero debemos crear una instancia del modelo usando `new`, pasando los datos que queremos guardar (generalmente provenientes de `req.body`). Esto es importante porque Mongoose necesita transformar esos datos en un documento que siga la estructura del Schema. Después, se ejecuta `.save()`, lo cual envía la información a la base de datos. Si la operación es exitosa, MongoDB devuelve el documento con su `_id` generado automáticamente.
+app.post('/nombreRuta', async(req, res) => { //* Ruta POST para crear nuevos registros.
+    try{ //* Inicio del bloque seguro.
+        const nuevoDato = new nombreModelo(req.body); //* Se crea una nueva instancia del modelo usando los datos enviados por el cliente (req.body).
+        //* **Concepto clave:** aquí Mongoose valida los datos según el Schema antes de guardarlos.
+        const variableAlmacenaAccion = await nuevoDato.save(); //* Se guarda el documento en la base de datos y se espera la respuesta.
+        //* **Resultado:** devuelve el documento ya guardado con su _id generado automáticamente.
+    } catch(error){ //* Manejo de errores.
+        //* Error típico: validaciones fallidas del schema o campos requeridos faltantes.
+    } // *Cierre del catch.
+}) //* Fin de la ruta.
+
+// &Actualizacion de informacion mediante ID findByIdAndUpdate(id, datos).
+// &El método `findByIdAndUpdate()` permite actualizar un documento en una sola operación. Recibe el ID del documento a actualizar y los nuevos datos. Es importante entender que, por defecto, este método devuelve el documento antiguo, por lo que comúnmente se utiliza la opción `{ new: true }` para obtener el documento ya actualizado. Este método es muy eficiente porque evita tener que hacer primero un find y luego un update.
+app.put('/nombreRuta/:id', async(req, res) => { //* Ruta PUT para actualizar un documento existente.
+    try{ //* Inicio del bloque seguro.
+        const variableAlmacenaAccion = await nombreModelo.findByIdAndUpdate(
+            req.params.id, //* ID del documento a actualizar obtenido desde la URL.
+            req.body, //* Nuevos datos enviados por el cliente.
+            {new: true} //* Opción para devolver el documento ya actualizado en lugar del antiguo.
+        );
+        //* **Error común:** olvidar {new: true} y recibir datos viejos.
+    } catch(error){ //* Manejo de errores.
+        //* Error común: ID inexistente o estructura de datos inválida.
+    } // *Cierre del catch.
+}) //* Fin de la ruta.
+
+// &Eliminacion de informacion mediante ID findByIdAndDelete(id).
+// &El método `findByIdAndDelete()` permite eliminar un documento de manera permanente utilizando su ID. Es importante tener cuidado con este tipo de operaciones, ya que son irreversibles. En sistemas reales, a veces se implementan "soft deletes" en lugar de eliminaciones reales. Este método devuelve el documento eliminado si la operación fue exitosa, lo cual puede ser útil para confirmaciones o logs.
+app.delete('/nombreRuta/:id', async(req, res) => { //* Ruta DELETE para eliminar un documento.
+    try{ //* Inicio del bloque seguro.
+        const variableAlmacenaAccion = await nombreModelo.findByIdAndDelete(req.params.id); //* Se elimina el documento correspondiente al ID.
+        //* **Concepto importante:** la operación es permanente (hard delete).
+    } catch(error){ //* Manejo de errores.
+        //* Error común: intentar eliminar un documento que no existe.
+    } // *Cierre del catch.
+}) //* Fin de la ruta.
+
+// &Busqueda de un solo dato coincidente findOne({filtro}).
+// &El método `findOne()` permite buscar un único documento basado en un criterio específico, como un correo, username o cualquier campo. A diferencia de `find()`, no devuelve un arreglo, sino un solo objeto (el primero que coincida). Es muy útil cuando trabajamos con campos únicos. Es importante notar que si existen múltiples coincidencias, solo se devolverá la primera encontrada.
+app.get('/nombreRuta', async(req, res) => { //* Ruta GET para buscar un documento con un filtro específico.
+    try{ //* Inicio del bloque seguro.
+        const variableAlmacenaAccion = await nombreModelo.findOne({ correo: req.body.correo }); //* Busca el primer documento que coincida con el campo correo.
+        //* **Buena práctica:** este tipo de datos normalmente debería venir en req.query o params, no en body para GET.
+    } catch(error){ //* Manejo de errores.
+        //* Error típico: filtro mal definido o campo inexistente.
+    } // *Cierre del catch.
+}) //* Fin de la ruta.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
