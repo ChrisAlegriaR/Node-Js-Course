@@ -761,11 +761,11 @@ function middleware(req, res, next){ // *Declaracion de Middleware con 3 paramet
 // ~Ahora que sabemos el uso fundamental de `app.use`, `app.get`, middlewares y demás herramientas dentro de Express, es importante comprender cómo se organizan correctamente las rutas en aplicaciones reales. Hasta ahora podríamos declarar todas nuestras rutas directamente en el mismo archivo donde levantamos el servidor utilizando `app.listen`, lo cual funciona perfectamente para proyectos pequeños o ejemplos simples. Sin embargo, cuando una aplicación comienza a crecer y tiene muchas rutas (usuarios, productos, libros, autenticación, etc.), mantener todas las rutas en un solo archivo se vuelve difícil de mantener y de leer. Por esta razón, en proyectos reales es muy común crear una carpeta llamada **routes**, donde cada archivo representa un conjunto de rutas relacionadas con una entidad específica. Por ejemplo, podríamos tener archivos como `libros.route.js`, `usuarios.route.js` o `auth.route.js`. Dentro de cada uno de estos archivos se declaran únicamente las rutas correspondientes a ese módulo. De esta forma, el archivo principal donde levantamos el servidor permanece limpio y organizado, ya que solo se encargará de **importar las rutas y conectarlas al servidor**. Para lograr esto utilizamos una herramienta integrada de Express llamada **Router**, que permite encapsular rutas y exportarlas para ser utilizadas en otros archivos.
 // ?Exportar una ruta mediante Route.
 // ?Para poder declarar rutas en archivos externos y posteriormente utilizarlas dentro del archivo principal del servidor, necesitamos utilizar `express.Router()`. Router es una función integrada de Express que nos permite crear una especie de **mini aplicación de rutas** independiente. Para utilizarla, primero declaramos una variable (generalmente llamada `router` o `route`) y le asignamos el resultado de ejecutar `express.Router()`. Esto nos devuelve un objeto especial que tiene métodos similares a `app` como `.get()`, `.post()`, `.put()`, `.delete()`, etc. Gracias a esto podremos declarar rutas dentro de este objeto y posteriormente **exportarlas** para ser utilizadas en el archivo donde se inicializa el servidor.
-const route = express.Router(); //* Se crea una instancia de Router que funcionará como contenedor de rutas modularizadas.
+const router = express.Router(); //* Se crea una instancia de Router que funcionará como contenedor de rutas modularizadas.
 
 // ?Implementacion de Router en la declaracion de nuestra ruta.
 // ?Una vez declarada la variable `route` que ejecuta `express.Router()`, podremos declarar nuestras rutas de la misma forma que lo hacíamos anteriormente con `app.get()`, `app.post()`, etc., pero en este caso sustituyendo `app` por `route`. Esto se debe a que `route` funciona como un **contenedor modular de rutas**, permitiendo agrupar múltiples endpoints relacionados dentro de un mismo archivo. De esta manera, en lugar de escribir todas las rutas dentro del archivo principal del servidor, podemos organizarlas en archivos separados según su funcionalidad. Esto mejora la **organización del código, la escalabilidad del proyecto y la facilidad de mantenimiento**. Posteriormente, este conjunto de rutas se exportará para poder conectarlo con la aplicación principal mediante `app.use()` en el archivo donde levantamos el servidor.
-route.get('/nombreRuta', (req, res) => { // *Declaracion de la ruta mediante el uso de route.
+router.get('/nombreRuta', (req, res) => { // *Declaracion de la ruta mediante el uso de route.
     //* Handler de la ruta declarada dentro del Router.
     //* Aquí se colocaría la lógica correspondiente al endpoint.
 });
@@ -774,7 +774,7 @@ route.get('/nombreRuta', (req, res) => { // *Declaracion de la ruta mediante el 
 // ?Una vez que tenemos nuestra ruta creada usando `route.metodo()`, podremos exportarla para que pueda ser utilizada dentro de otros archivos del proyecto, especialmente dentro del archivo principal donde se levanta el servidor con `app.listen()`. Para ello utilizaremos los métodos de exportación estándar de JavaScript, ya sea mediante la forma moderna usando `export` o mediante el modelo antiguo utilizando `module.exports`. Esto se debe a que `router` funciona como una especie de **contenedor o paquete de rutas**, es decir, agrupa todas las rutas que definimos dentro de ese archivo. Cuando exportamos el router estamos enviando ese conjunto de rutas hacia otro archivo, normalmente el archivo principal del servidor. De esta manera el servidor sabrá qué hacer cuando un cliente acceda a las URLs que pertenecen a ese módulo de rutas.
 // &Exportacion moderna.
 // &La forma moderna de exportación utiliza la sintaxis de **ES Modules**, la cual consiste en utilizar la palabra reservada `export` seguida de llaves `{}`. Dentro de estas llaves se especifica el nombre de la variable que queremos exportar, en este caso `route`. Este método es el más utilizado actualmente en proyectos modernos de JavaScript cuando el proyecto está configurado con `"type": "module"` dentro del `package.json`.
-export { route }; //* Exporta la instancia de Router creada anteriormente para que pueda ser importada en otros archivos del proyecto.
+export { router }; //* Exporta la instancia de Router creada anteriormente para que pueda ser importada en otros archivos del proyecto.
 
 // &Exportacion antigua.
 // &La forma antigua de exportación pertenece al sistema **CommonJS**, el cual fue el sistema tradicional utilizado por Node.JS durante muchos años. En este modelo utilizamos `module.exports` para exportar variables, funciones u objetos desde un archivo. Dentro del objeto que asignamos a `module.exports` incluimos la variable `router` que contiene nuestras rutas.
@@ -795,6 +795,51 @@ import { route as create } from './src/Express.js'; //* Importa el router export
 // ?Declaracion (activacion) de rutas mediante Route.
 // ?Una vez que hemos importado nuestras rutas dentro del archivo donde se encuentra el listener del servidor, es necesario **registrarlas o activarlas dentro de la aplicación Express**. Esto se hace utilizando `app.use()`. Aunque normalmente `app.use()` se utiliza para registrar middlewares, en este caso se utiliza porque **Router funciona internamente como un middleware**, ya que intercepta solicitudes y las dirige hacia las rutas correspondientes. Dentro de `app.use()` podemos especificar primero una ruta base (por ejemplo `/libros`) y después pasar como segundo parámetro el router que importamos. Esto significa que todas las rutas definidas dentro de ese router quedarán automáticamente **prefijadas con esa ruta base**. Por ejemplo, si dentro del router tenemos `/crear`, al registrarlo con `app.use('/libros', create)` la ruta final sería `/libros/crear`. Este patrón permite mantener un orden claro dentro de nuestras APIs y organizar mejor los endpoints.
 app.use('/libros', create); //* Registra el router importado bajo la ruta base /libros dentro de la aplicación Express.
+
+// ?Rutas aplicadas a bases de datos
+// ?Sabemos bien que existen rutas con múltiples tipos de usos, desde una ruta que redirige a una página, muestra cierta información o ejecuta alguna acción. Sin embargo, uno de los usos más importantes y comunes en el desarrollo backend es realizar operaciones sobre **fuentes externas**, como bases de datos o servicios externos. Debido a esto, es fundamental entender cómo estructurar correctamente nuestras rutas cuando interactúan con una base de datos. A diferencia de rutas simples, estas operaciones suelen ser **asíncronas**, lo que significa que no se ejecutan de manera inmediata, sino que requieren tiempo para completarse. Por esta razón, nuestros handlers deben declararse como `async`, además de utilizar estructuras de control de errores como `try...catch` (y opcionalmente `finally`). También es importante el uso de `await` para esperar el resultado de las operaciones antes de continuar la ejecución, y finalmente, siempre debemos enviar una respuesta al cliente utilizando `res`, evitando dejar la petición sin resolver.
+// &Rutas Asíncronas
+// &Como se mencionó previamente, dentro de nuestras rutas podemos realizar operaciones asíncronas, como consultar o modificar datos en una base de datos. Para poder manejar este tipo de operaciones correctamente, es necesario declarar nuestro handler como `async`, colocándolo antes de los parámetros `(req, res)`. Esto nos permitirá utilizar `await` dentro de la función. Aunque técnicamente podemos usar `await` sin `try...catch`, es altamente recomendable envolver nuestra lógica en un bloque `try...catch`, ya que esto nos permite capturar errores y responder adecuadamente al cliente en caso de fallo, evitando que el servidor se rompa o quede en un estado inconsistente.
+router.get('/nombreRuta', async (req, res) => { //* Se define una ruta GET en Express con un handler asíncrono para poder usar await dentro de la función.
+    try{ //* Se inicia un bloque try para ejecutar la lógica principal y capturar posibles errores.
+
+        //* Aquí iría la lógica principal de la ruta (consultas, inserciones, etc.) 
+
+    } catch(error){ //* Se captura cualquier error que ocurra dentro del bloque try.
+        //* Aquí manejamos cualquier error que ocurra dentro del try 
+    } //* Fin del bloque catch.
+}); //* Fin de la definición de la ruta.
+
+
+// &Solicitudes mediante Await.
+// &Dentro del bloque `try`, es donde realizamos nuestras operaciones asíncronas, como por ejemplo consultar datos desde una base de datos. Para ello, normalmente creamos una variable que almacenará el resultado de la operación. Esta variable utilizará la palabra clave `await`, la cual le indica a JavaScript que debe esperar a que la promesa se resuelva antes de continuar con la ejecución del código. Después de `await`, colocamos la operación correspondiente (por ejemplo, un método de Mongoose como `.find()`). Si ocurre algún error durante esta operación, automáticamente será capturado por el bloque `catch`.
+router.get('/nombreRuta', async (req, res) => { //* Se define nuevamente una ruta GET asíncrona para ejemplificar el uso de await en consultas.
+    try{ //* Se inicia el bloque try donde se ejecutará la lógica asíncrona.
+        const books = await modeloMongoose.find(); //* Se realiza una consulta a la base de datos usando Mongoose y se espera (await) a que regrese todos los documentos de la colección.
+    } catch(error){ //* Si ocurre algún error durante la consulta, se captura aquí.
+        console.log(error); //* Se imprime el error en consola para depuración.
+    } //* Fin del bloque catch.
+}); //* Fin de la ruta.
+
+// &Uso de res y req.
+// &Algo muy importante a considerar es el uso de los parámetros `req` (request) y `res` (response), los cuales son fundamentales en cualquier ruta de Express. El objeto `req` contiene toda la información enviada por el cliente (por ejemplo, datos en el body, parámetros en la URL o query params). Este se utiliza principalmente cuando queremos enviar información hacia la base de datos, como en operaciones de creación o actualización. Por otro lado, `res` se utiliza para enviar una respuesta al cliente. Esta respuesta puede ser información obtenida de la base de datos, un mensaje de confirmación o un error. Es extremadamente importante **siempre responder con `res`**, ya que de lo contrario la petición quedará "colgada" (sin respuesta), generando problemas en la aplicación.
+router.get('/nombreRuta', async (req, res) => { //* Se define una ruta GET asíncrona donde se utilizarán req y res.
+    try{ //* Se inicia el bloque try para ejecutar la lógica de la ruta.
+        const { titulo, autor } = req.body; //* Se extraen los datos enviados por el cliente desde el body de la petición (aunque en GET no es lo más común).
+
+        const book = { //* Se crea un objeto literal que representa la información del libro a guardar.
+            titulo: 'Principito', //* Se define el título del libro.
+            autor: 'Charles JR' //* Se define el autor del libro.
+        }; //* Fin del objeto book.
+
+        const newBook = new modeloMongoose(book); //* Se crea una nueva instancia del modelo de Mongoose usando el objeto book (esto es necesario para usar .save()).
+        const bookSend = await newBook.save(); //* Se guarda el documento en la base de datos y se espera a que la operación termine.
+        res.status(200).json(bookSend); //* Se envía una respuesta HTTP con estado 200 (OK) y el objeto guardado en formato JSON al cliente.
+
+    } catch(error){ //* Se captura cualquier error ocurrido durante la ejecución del try.
+        res.status(500).send(error); //* Se envía una respuesta HTTP con estado 500 (error del servidor) junto con el error.
+    } //* Fin del bloque catch.
+}); //* Fin de la ruta.
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -855,3 +900,6 @@ const modeloVariable = mongoose.model('nombreModelo', esquemaParaModelo); //* Se
 // & Forma moderna (ES Modules).
 // &Esta es la forma moderna de exportación en JavaScript utilizando ES Modules. Aquí utilizamos `export default` porque el modelo es el elemento principal que queremos exportar desde este archivo. Al ser el valor por defecto, cuando lo importemos en otro archivo no necesitaremos usar llaves `{}`. Esto hace que el código sea más simple y también permite que el nombre asignado al importar el modelo pueda ser cualquiera que deseemos dentro del archivo que lo recibe.
 export default mongoose.model('nombreModelo', esquemaParaModelo); //* Exporta el modelo utilizando ES Modules.
+
+// ~
+// ~
