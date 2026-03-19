@@ -810,7 +810,6 @@ router.get('/nombreRuta', async (req, res) => { //* Se define una ruta GET en Ex
     } //* Fin del bloque catch.
 }); //* Fin de la definición de la ruta.
 
-
 // &Solicitudes mediante Await.
 // &Dentro del bloque `try`, es donde realizamos nuestras operaciones asíncronas, como por ejemplo consultar datos desde una base de datos. Para ello, normalmente creamos una variable que almacenará el resultado de la operación. Esta variable utilizará la palabra clave `await`, la cual le indica a JavaScript que debe esperar a que la promesa se resuelva antes de continuar con la ejecución del código. Después de `await`, colocamos la operación correspondiente (por ejemplo, un método de Mongoose como `.find()`). Si ocurre algún error durante esta operación, automáticamente será capturado por el bloque `catch`.
 router.get('/nombreRuta', async (req, res) => { //* Se define nuevamente una ruta GET asíncrona para ejemplificar el uso de await en consultas.
@@ -821,25 +820,30 @@ router.get('/nombreRuta', async (req, res) => { //* Se define nuevamente una rut
     } //* Fin del bloque catch.
 }); //* Fin de la ruta.
 
-// &Uso de res y req.
-// &Algo muy importante a considerar es el uso de los parámetros `req` (request) y `res` (response), los cuales son fundamentales en cualquier ruta de Express. El objeto `req` contiene toda la información enviada por el cliente (por ejemplo, datos en el body, parámetros en la URL o query params). Este se utiliza principalmente cuando queremos enviar información hacia la base de datos, como en operaciones de creación o actualización. Por otro lado, `res` se utiliza para enviar una respuesta al cliente. Esta respuesta puede ser información obtenida de la base de datos, un mensaje de confirmación o un error. Es extremadamente importante **siempre responder con `res`**, ya que de lo contrario la petición quedará "colgada" (sin respuesta), generando problemas en la aplicación.
-router.get('/nombreRuta', async (req, res) => { //* Se define una ruta GET asíncrona donde se utilizarán req y res.
-    try{ //* Se inicia el bloque try para ejecutar la lógica de la ruta.
-        const { titulo, autor } = req.body; //* Se extraen los datos enviados por el cliente desde el body de la petición (aunque en GET no es lo más común).
+// ~Res y req.
+// ~Algo muy importante a considerar es el uso de los parámetros `req` (request) y `res` (response), los cuales son fundamentales en cualquier ruta de Express. El objeto `req` contiene toda la información enviada por el cliente (por ejemplo, datos en el body, parámetros en la URL o query params). Este se utiliza principalmente cuando queremos enviar información hacia la base de datos, como en operaciones de creación o actualización. Por otro lado, `res` se utiliza para enviar una respuesta al cliente. Esta respuesta puede ser información obtenida de la base de datos, un mensaje de confirmación o un error. Es extremadamente importante **siempre responder con `res`**, ya que de lo contrario la petición quedará "colgada" (sin respuesta), generando problemas en la aplicación.
+// ?Estructura.
+// ?La estructura e implementacion de reques y response es realmente simple ya que unicamente en nuestro handler deberemos de integrarlos a ambos como parametros. Por lo que se comento anteriormente este de forma automatica podra recibir informacion proporcionada y si nosotros lo deseamos podremos utilizar a response para devolver una respuesta.
+app.get('/nombreRuta', (req, res) => {
 
-        const book = { //* Se crea un objeto literal que representa la información del libro a guardar.
-            titulo: 'Principito', //* Se define el título del libro.
-            autor: 'Charles JR' //* Se define el autor del libro.
-        }; //* Fin del objeto book.
+})
 
-        const newBook = new modeloMongoose(book); //* Se crea una nueva instancia del modelo de Mongoose usando el objeto book (esto es necesario para usar .save()).
-        const bookSend = await newBook.save(); //* Se guarda el documento en la base de datos y se espera a que la operación termine.
-        res.status(200).json(bookSend); //* Se envía una respuesta HTTP con estado 200 (OK) y el objeto guardado en formato JSON al cliente.
+// ?Informacion enviada mediante "request" (req).
+// ?Ahora, bien sabemos que en nuestras rutas podemos utilizar informacion enviada, pero es importante comentar que es muy comun que esta informacion no sea enviada solamente como una variable o como una exportacion, si no que cuando se trabaja con rutas la informacion se suele enviar de una forma o manera muy concreta siendo esta enviada en 2 tipos de formatos diferentes donde se tiene a body y el tipo params, donde el tipo body es un cuerpo tipo JSON en el cual se mandan objetos complejos o datos sensibles (como formularios de registro) que no queremos que se vean en la URL, mientras que el params es una variable dinamica que se incrusta directamente en la ruta (ej: /usuario/:id) y sirve para identificar un recurso especifico que queremos consultar o modificar. Donde directamente podemos acceder a ambos valores meiante el uso de req.nombreTipo, y de esa forma podremos acceder o a body o a params.
+// &Req.body.
+// &El uso de req.body consiste y se basa en que el usuario esta pasando mediante req informacion en formato JSON, esto se realiza de esta manera ya que el uso principal de req.body consta en el paso de informacion a las rutas que requieren crear o actualizar registros en la base de datos (métodos POST y PUT). Se prefiere usar el body cuando la informacion es extensa o privada, como un formulario de registro con nombre, correo y contraseña, ya que estos datos viajan "ocultos" dentro de la peticion y no quedan expuestos en la barra de direcciones del navegador. Por lo que para este caso al igual que en params es muy comun destructurar el contenido o la informacion ya que se envia como paquete.
+app.post('/nombreRuta', (req, res) => {
+    const { nombre, edad, genero } = req.body;
+})
 
-    } catch(error){ //* Se captura cualquier error ocurrido durante la ejecución del try.
-        res.status(500).send(error); //* Se envía una respuesta HTTP con estado 500 (error del servidor) junto con el error.
-    } //* Fin del bloque catch.
-}); //* Fin de la ruta.
+// &Req.params.
+// &A diferencia del anterior, el uso de req.params se basa en extraer datos que vienen escritos directamente en la URL. Se utiliza principalmente para identificar o buscar un recurso unico y especifico. Por ejemplo, si quieres ver el perfil de un usuario con ID 5, la ruta seria /usuarios/5; aqui el "5" es el parametro que usamos para decirle al servidor exactamente a quién queremos traer de la base de datos. Por lo que para este caso al igual que en params es muy comun destructurar el contenido o la informacion ya que se envia como paquete.
+app.get('/nombreRuta', (req, res) => {
+    const { id } = req.params;
+});
+
+// ?Informacion retornada mediante "response" (res).
+// ?
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
