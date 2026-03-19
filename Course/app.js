@@ -824,26 +824,69 @@ router.get('/nombreRuta', async (req, res) => { //* Se define nuevamente una rut
 // ~Algo muy importante a considerar es el uso de los parámetros `req` (request) y `res` (response), los cuales son fundamentales en cualquier ruta de Express. El objeto `req` contiene toda la información enviada por el cliente (por ejemplo, datos en el body, parámetros en la URL o query params). Este se utiliza principalmente cuando queremos enviar información hacia la base de datos, como en operaciones de creación o actualización. Por otro lado, `res` se utiliza para enviar una respuesta al cliente. Esta respuesta puede ser información obtenida de la base de datos, un mensaje de confirmación o un error. Es extremadamente importante **siempre responder con `res`**, ya que de lo contrario la petición quedará "colgada" (sin respuesta), generando problemas en la aplicación.
 // ?Estructura.
 // ?La estructura e implementacion de reques y response es realmente simple ya que unicamente en nuestro handler deberemos de integrarlos a ambos como parametros. Por lo que se comento anteriormente este de forma automatica podra recibir informacion proporcionada y si nosotros lo deseamos podremos utilizar a response para devolver una respuesta.
-app.get('/nombreRuta', (req, res) => {
-
-})
+app.get('/nombreRuta', (req, res) => { //* Se define una ruta GET donde Express automáticamente provee los objetos req (request) y res (response).
+    //* **Concepto clave:** req contiene los datos de entrada (input del cliente) y res se usa para enviar la salida (output del servidor).
+    //* **Error común:** olvidar usar res para responder, lo que deja la petición en espera indefinida.
+}) //* Fin de la ruta.
 
 // ?Informacion enviada mediante "request" (req).
 // ?Ahora, bien sabemos que en nuestras rutas podemos utilizar informacion enviada, pero es importante comentar que es muy comun que esta informacion no sea enviada solamente como una variable o como una exportacion, si no que cuando se trabaja con rutas la informacion se suele enviar de una forma o manera muy concreta siendo esta enviada en 2 tipos de formatos diferentes donde se tiene a body y el tipo params, donde el tipo body es un cuerpo tipo JSON en el cual se mandan objetos complejos o datos sensibles (como formularios de registro) que no queremos que se vean en la URL, mientras que el params es una variable dinamica que se incrusta directamente en la ruta (ej: /usuario/:id) y sirve para identificar un recurso especifico que queremos consultar o modificar. Donde directamente podemos acceder a ambos valores meiante el uso de req.nombreTipo, y de esa forma podremos acceder o a body o a params.
 // &Req.body.
 // &El uso de req.body consiste y se basa en que el usuario esta pasando mediante req informacion en formato JSON, esto se realiza de esta manera ya que el uso principal de req.body consta en el paso de informacion a las rutas que requieren crear o actualizar registros en la base de datos (métodos POST y PUT). Se prefiere usar el body cuando la informacion es extensa o privada, como un formulario de registro con nombre, correo y contraseña, ya que estos datos viajan "ocultos" dentro de la peticion y no quedan expuestos en la barra de direcciones del navegador. Por lo que para este caso al igual que en params es muy comun destructurar el contenido o la informacion ya que se envia como paquete.
-app.post('/nombreRuta', (req, res) => {
-    const { nombre, edad, genero } = req.body;
-})
+app.post('/nombreRuta', (req, res) => { //* Ruta POST donde normalmente se reciben datos para crear un recurso.
+    const { nombre, edad, genero } = req.body; //* Se destructuran los datos enviados por el cliente dentro del body.
+    //* **Concepto clave:** req.body es un objeto JSON que contiene toda la información enviada en la petición.
+    //* **Buena práctica:** validar que los campos existan antes de usarlos (ej: if(!nombre) ...).
+    //* **Error común:** olvidar usar express.json(), lo que provoca que req.body sea undefined.
+}) //* Fin de la ruta.
 
 // &Req.params.
 // &A diferencia del anterior, el uso de req.params se basa en extraer datos que vienen escritos directamente en la URL. Se utiliza principalmente para identificar o buscar un recurso unico y especifico. Por ejemplo, si quieres ver el perfil de un usuario con ID 5, la ruta seria /usuarios/5; aqui el "5" es el parametro que usamos para decirle al servidor exactamente a quién queremos traer de la base de datos. Por lo que para este caso al igual que en params es muy comun destructurar el contenido o la informacion ya que se envia como paquete.
-app.get('/nombreRuta', (req, res) => {
-    const { id } = req.params;
-});
+app.get('/nombreRuta/:id', (req, res) => { //* Se define una ruta con un parámetro dinámico (:id) dentro de la URL.
+    const { id } = req.params; //* Se extrae el valor del parámetro desde la URL mediante destructuración.
+    //* **Concepto clave:** req.params siempre devuelve strings, incluso si parecen números.
+    //* **Buena práctica:** validar el formato del ID antes de usarlo (especialmente en bases de datos como MongoDB).
+    //* **Error común:** no definir :id en la ruta pero intentar usar req.params.id.
+}); //* Fin de la ruta.
 
 // ?Informacion retornada mediante "response" (res).
-// ?
+// ?Ahora bien, sabemos que existe el parámetro "response" (`res`) dentro de nuestras rutas en Express. Este objeto es fundamental, ya que es el encargado de enviar una respuesta al cliente que realizó la petición. En otras palabras, todo lo que el cliente solicita (ya sea información, una acción o una validación) debe terminar con una respuesta por parte del servidor. Esta respuesta puede ser muy variada: puede ser información proveniente de una base de datos, un mensaje de confirmación, un error, o incluso un estado sin contenido. Es importante entender que `res` no es opcional en la práctica real, ya que si no se utiliza para responder, la petición quedará abierta indefinidamente, lo que genera problemas como **timeouts, consumo innecesario de recursos y mala experiencia de usuario**. Por ello, una regla clave en backend es: **toda ruta debe responder siempre con `res`**.
+// &Formato de retorno de informacion mediante "response".
+// &El formato de retorno de información en Express es bastante flexible, pero sigue ciertas convenciones ampliamente adoptadas en el desarrollo profesional. Generalmente, las respuestas se envían en formato JSON, ya que es un estándar para comunicación entre frontend y backend. Además, también se utilizan códigos de estado HTTP (status codes) para indicar el resultado de la operación. Estos formatos pueden combinarse para ofrecer respuestas claras, estructuradas y fáciles de interpretar tanto por humanos como por sistemas.
+// Todo - res.JSON().
+// Todo - El uso de `res.json()` consiste en enviar una respuesta en formato JSON al cliente. Este es el método más utilizado en APIs REST modernas, ya que permite estructurar la información en forma de objetos o arreglos. Internamente, Express convierte automáticamente el objeto JavaScript a JSON (usando JSON.stringify), por lo que no es necesario hacerlo manualmente. Este método es ideal cuando queremos devolver datos de la base de datos, resultados de operaciones o mensajes personalizados. Además, permite incluir múltiples propiedades (por ejemplo: message, data, error, status interno), lo que lo hace muy versátil. Es importante saber que si no se especifica un status previamente, Express asignará automáticamente un **status 200 (OK)**, lo cual puede ser incorrecto si estamos enviando un error.
+app.get('/nombreRuta', (req, res) => { //* Se define una ruta GET que responderá con un JSON.
+    res.json( //* Se utiliza el método json() para enviar una respuesta estructurada.
+        { //* Se abre el objeto que será convertido automáticamente a formato JSON.
+            message: 'Hubo un error al extraer la informacion, ya que no existe tu ID.', //* Se define un mensaje descriptivo del problema.
+            error: 404 //* Se incluye un código de error dentro del cuerpo (esto NO cambia el status HTTP real).
+        } //* Se cierra el objeto JSON.
+    ) //* Se cierra el método json().
+    //* **Error común:** no usar res.status() junto con json(), lo que provoca que la respuesta sea 200 aunque haya error.
+}) //* Fin de la ruta.
+
+app.get('/nombreRuta', (req, res) => { //* Se define otra ruta GET para enviar datos reales.
+    res.json(valorRecibidoBD) //* Se envía directamente la información obtenida de la base de datos.
+    //* **Concepto clave:** Express convierte automáticamente el objeto a JSON (no usar JSON.stringify manualmente).
+}) //* Fin de la ruta.
+
+// Todo - res.status().
+// Todo - El método `res.status()` se utiliza para establecer el código de estado HTTP de la respuesta. Este código es extremadamente importante, ya que comunica al cliente si la operación fue exitosa, fallida o si ocurrió algún tipo de error. Existen múltiples códigos (200, 201, 400, 404, 500, etc.), cada uno con un significado específico. Es importante elegir correctamente el código según el contexto, ya que esto forma parte de las buenas prácticas en el diseño de APIs. Sin embargo, `res.status()` por sí solo **no envía ninguna respuesta**, solo configura el estado, por lo que debe combinarse con métodos como `.json()` o `.send()`.
+app.get('/nombreRuta', (req, res) => { //* Se define una ruta GET donde se establecerá un status HTTP.
+    res.status(400) //* Se asigna el código 400 (Bad Request), indicando error del cliente.
+    //* **Error crítico:** si no se envía respuesta después (json/send), la petición se queda colgada.
+}) //* Fin de la ruta.
+
+// Todo - Fucion y retorno de "response" con JSON() y STATUS().
+// Todo - En aplicaciones reales, lo correcto es combinar ambos métodos: `res.status()` y `res.json()`. Esto permite enviar tanto el estado de la operación (a nivel HTTP) como información adicional (mensaje, datos, errores, etc.). Esta combinación es considerada una **buena práctica estándar en APIs REST**, ya que proporciona respuestas claras, estructuradas y profesionales. Por ejemplo, no es correcto devolver un error con status 200, ni devolver un status sin información. Lo ideal es siempre usar ambos para mantener consistencia y claridad en la comunicación entre cliente y servidor.
+app.get('/nombreRuta', (req, res) => { //* Se define una ruta GET donde se usará status + JSON.
+    res.status(201).json( //* Se establece el status 201 (Created) y se encadena con json().
+        { //* Se abre el objeto JSON de respuesta.
+            message: 'Se creó el elemento con éxito.' //* Mensaje indicando operación exitosa.
+        } //* Se cierra el objeto JSON.
+    ); //* Se cierra la cadena status().json().
+    //* **Buena práctica:** siempre combinar status + json para respuestas completas y correctas.
+}) //* Fin de la ruta.
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
