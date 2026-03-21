@@ -1,5 +1,7 @@
 import express from 'express'
 import envs from './config/env.js'
+import mongoose from 'mongoose';
+import { router } from './routes/book.route.js';
 
 // *Declaracion de app con express(), para ejecutar rutas y levantar el servidor.
 const app = express();
@@ -8,6 +10,8 @@ const app = express();
 app.get(/.*/, (req, res) => {
     res.send('<h1>¡Servidor funcionando perfectamente!</h1>');
 })
+
+app.use('/book', router);
 
 // ~Se definen las rutas de "Book".
 // *Se define ruta Get que extrae los libros desde book.

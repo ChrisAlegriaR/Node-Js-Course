@@ -3,6 +3,39 @@ import bookModel from '../models/book.model.js';
 
 const router = express.Router(); 
 
+// *Middleware
+const getBook = async(req, res, next) => {
+    let book;
+    const { id } = req.params;
+
+    if(!id.match(/^[0-9a-fA-F]{25}$/)) {
+        return res.status(404).json(
+            {
+                message: 'El id del libro no es valido'
+            }
+        )
+    }
+    try{
+        book = await bookModel.findById(id);
+        if(!book){
+            return res.status(404).json(
+                {
+                    message: 'El libro no fue encontrado.'
+                }
+            )
+        }
+    } catch(error){
+        res.status(500).json(
+            {
+                message: error.message
+            }
+        ) 
+
+        res.book = book;
+        next();
+    }
+}
+
 // *Obtener todos los libros. [GET]
 router.get('/', async (req, res) => { 
     try{ 
@@ -48,3 +81,5 @@ router.post('/', async (req, res) => {
         })
     }
 })
+
+export { router };
