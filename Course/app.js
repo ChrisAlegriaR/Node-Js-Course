@@ -1036,3 +1036,39 @@ app.get('/nombreRuta', async(req, res) => { //* Ruta GET para buscar un document
 }) //* Fin de la ruta.
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ^Body Parser.
+// ^El body-parser es una libreria externa la cual nos permite analizar y leer los datos que el cliente envia a las rutas, esto quiere decir que body-parser es un middleware el cual analiza la informacion enviada a la ruta, esto debido a que cuando se manda informacion a una ruta, esta usualmente suele ir por asi decirlo enpaquetada, por lo cual body-parser nos permite desenpaquetar esta informacion, por lo que una vez esta informacion enviada mediante req se desenpaqueta esta procede a encontrarse o acceder a esta mediante req.body.
+
+// ~Instalacion y declaracion de Body Parser.
+// ~Al ser Body Parser una librería externa, esta requiere varios pasos antes de poder ser utilizada dentro de nuestros proyectos. De manera similar a otras librerías que hemos visto anteriormente, el primer paso consiste en instalar el paquete utilizando **Node Package Manager (npm)**. Posteriormente debemos verificar que la librería haya sido registrada dentro de nuestro archivo `package.json`, ya que este archivo actúa como el centro de control de dependencias de nuestro proyecto. Finalmente, una vez instalada la librería, será necesario **importarla dentro de los archivos JavaScript** donde deseemos utilizar Body Parser para poder acceder a todas sus funcionalidades y herramientas para trabajar con bases de datos MongoDB.
+// ?Instalar Body Parser.
+// ?Al tratarse de una librería externa, Body Parser debe instalarse utilizando **npm**. Puede instalarse como dependencia normal (`dependencies`) si será utilizada dentro de la aplicación en producción, o como dependencia de desarrollo (`devDependencies`) si únicamente se utilizará durante pruebas o entornos de desarrollo. Sin embargo, en la mayoría de los proyectos backend reales Body Parser se instala como dependencia normal, ya que es la librería encargada de manejar la comunicación entre la aplicación Node.JS y la base de datos MongoDB.
+// npm install Body Parser               //* Instala Body Parser como dependencia principal del proyecto.
+// npm install --save-dev Body Parser    //* Instala Body Parser como dependencia solo de desarrollo.
+
+// ?Body Parser en Package.json.
+// ?Después de realizar la instalación, Body Parser aparecerá automáticamente dentro del archivo `package.json`. Esto nos permite confirmar que la librería fue instalada correctamente y también nos ayuda a mantener control sobre las versiones utilizadas dentro del proyecto. Además, cuando otro desarrollador clone el proyecto y ejecute `npm install`, npm leerá este archivo y descargará automáticamente todas las dependencias necesarias para ejecutar la aplicación.
+// "dependencies": {
+//     "mongoose": "^9.3.0", //* Indica la versión de Body Parser instalada en el proyecto.
+// }
+
+// ~Importacion de libreria Body Parser a nuestros archivos a implementarlo.
+// ~Para poder utilizar Body Parser dentro de nuestros archivos JavaScript es necesario importar la librería en cada archivo donde vayamos a utilizarla. Node.JS permite importar librerías utilizando dos sistemas de módulos distintos: **CommonJS** (la forma tradicional usando `require`) o **ES Modules** (la forma moderna usando `import`). El método que utilicemos dependerá de la configuración establecida dentro del archivo `package.json`, específicamente en la propiedad `"type"`, la cual determina si el proyecto utilizará el sistema de módulos moderno o el tradicional.
+// ?Forma antigua de importacion "require('')".
+// ?La forma tradicional de importar librerías en Node.JS es mediante el uso de la función `require()`. Esta función carga el módulo especificado y devuelve el contenido exportado por dicho módulo. Normalmente se almacena en una variable constante para poder utilizar posteriormente todas las funcionalidades de la librería dentro del archivo. Este sistema pertenece al modelo **CommonJS**, el cual fue el estándar principal de Node.JS durante muchos años.
+// const mongoose = require('mongoose'); //* Importa la librería mongoose utilizando el sistema de módulos CommonJS.
+
+// ?Forma nueva de importacion "import".
+// ?La forma moderna de importar librerías es mediante la palabra reservada `import`, perteneciente al sistema **ES Modules (ESM)**. Este sistema es el estándar oficial del lenguaje JavaScript moderno y es el recomendado actualmente para proyectos nuevos. En este caso utilizamos la sintaxis `import nombre from 'modulo'`, donde `nombre` será la variable que representará la librería dentro del archivo. Para poder utilizar esta sintaxis en Node.JS es necesario configurar `"type": "module"` dentro del archivo `package.json`.
+import mongoose, { mongo } from 'mongoose'; //* Importa la librería Body Parser utilizando el sistema moderno ES Modules.
+
+// // *Parseo de los bodies.
+// app.use(bodyParser.json())
+
+// // *Conección a MongoDB.
+// // mongoose.connect(envs.mongo_url, {dbName: envs.mongo_db});
+// const db = mongoose.connection;
+
+// // *Declaracion de rutas books.
+// app.use('/books', book_router);
