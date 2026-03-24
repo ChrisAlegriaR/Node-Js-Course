@@ -1035,10 +1035,13 @@ app.get('/nombreRuta', async(req, res) => { //* Ruta GET para buscar un document
     } // *Cierre del catch.
 }) //* Fin de la ruta.
 
+// ~Conección a MongoDB.
+// ~Ahora sigue la sección fundamental y mas importante es la conexion con MongoDB, ya que como vimos anteriormente si bien  mongoose es la libreria que nos permite crear Schemas, modelos y usar metodos para la extraccion, publicacion, modificacion e incluso eliminacion de informacion, es necesario tener una coneccion a la base de datos para poder realizar las acciones antes mencionadas. Por lo que para esto existe el comando 
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // ^Body Parser / Express.json().
-// ^El body-parser es una libreria externa la cual nos permite analizar y leer los datos que el cliente envia a las rutas, esto quiere decir que body-parser es un middleware el cual analiza la informacion enviada a la ruta, esto debido a que cuando se manda informacion a una ruta, esta usualmente suele ir por asi decirlo enpaquetada, por lo cual body-parser nos permite desenpaquetar esta informacion, por lo que una vez esta informacion enviada mediante req se desenpaqueta esta procede a encontrarse o acceder a esta mediante req.body. Asi mismo es super importante ddecir y mencionar que desde la version 4.16 de Node body-parser fue incluido dentro de express, donde este no debe ser instalado y puede ser usado directamente mediante express.json().
+// ^El **body-parser** es una librería externa de Express que permite analizar y leer los datos que el cliente envía a nuestras rutas. Su función principal es actuar como un **middleware de interpretación del cuerpo de la petición**, es decir, toma la información que llega "empaquetada" dentro de la request y la transforma en un formato que JavaScript pueda entender y manipular correctamente. Esto es fundamental porque, cuando un cliente envía información a una ruta, dicha información no siempre llega lista para ser usada directamente; normalmente llega en un formato crudo que necesita ser procesado primero. Gracias a body-parser, esa información puede accederse posteriormente mediante `req.body`. Cabe destacar que, desde Express 4.16, esta funcionalidad fue incorporada directamente dentro del propio framework, por lo que en la mayoría de los casos ya no es necesario instalar body-parser por separado, pudiendo usar directamente `express.json()` como alternativa nativa y más práctica.
 
 // ~Instalacion y declaracion de Body Parser.
 // ~Al ser Body Parser una librería externa, esta requiere varios pasos antes de poder ser utilizada dentro de nuestros proyectos. De manera similar a otras librerías que hemos visto anteriormente, el primer paso consiste en instalar el paquete utilizando **Node Package Manager (npm)**. Posteriormente debemos verificar que la librería haya sido registrada dentro de nuestro archivo `package.json`, ya que este archivo actúa como el centro de control de dependencias de nuestro proyecto. Finalmente, una vez instalada la librería, será necesario **importarla dentro de los archivos JavaScript** donde deseemos utilizar Body Parser para poder acceder a todas sus funcionalidades y herramientas para trabajar con bases de datos MongoDB.
@@ -1064,21 +1067,23 @@ app.get('/nombreRuta', async(req, res) => { //* Ruta GET para buscar un document
 import bodyParser from 'body-parser'; //* Importa la librería Body Parser utilizando el sistema moderno ES Modules.
 
 // ~Uso de body-parser.json() / express.json().
-// ~Al ser body-parser y express.json() middlewares que desenpaquetan la informacion recibida mediante req, estos se usan de igual manera donde mismo que cualquier middleware, esto es despues de la especificacion de la ruta y antes del handler, por lo que una vez se implenente dicho middleware la informacion enviada podra ser accedida mediante req.body. Ya que de igual manera tanto express como con body-parser se debe de utilizar la extencion .json(), para que el cuerpo de la informacion enviada pueda ser desenpaquetada mediante JSON.
+// ~Tanto `body-parser.json()` como `express.json()` cumplen la misma función: actuar como middlewares que **desenpaquetan** la información recibida mediante `req` para que pueda ser utilizada dentro del handler. Estos middlewares se colocan antes de la función final de la ruta, exactamente igual que cualquier otro middleware de Express. Una vez implementados, permiten que los datos enviados por el cliente queden disponibles en `req.body`. Es importante entender que ambos están pensados específicamente para trabajar con cuerpos de petición en formato **JSON**, por lo que es necesario indicar la extensión `.json()` para que Express sepa cómo interpretar la información entrante.
 // &Body-Parser.
-// &Body parser se debera ingresar y ejecutar como funcion al declarar dicho middleware en la ruta, ya que como bien sabemos los middlewares son funciones. por lo que para esto se debera usar bodyParser.json(), el cual al ingresar o declarar dicho middleware dentro de nuestra ruta, toda la informacion enviada mediante req podra ser accedida mediante req.body.
-app.post('/nombreRuta', bodyParser.json(), (req, res) => {
-
-})
+// &Body-parser es un middleware externo que se debe importar previamente, ya sea mediante `require()` o `import`, dependiendo del sistema de módulos que estemos utilizando. Su comportamiento es el de una función middleware, por lo que debe ejecutarse dentro del flujo de la ruta antes de que llegue al handler principal. Al usar `bodyParser.json()`, le indicamos al servidor que convierta el cuerpo de la petición en un objeto JavaScript accesible mediante `req.body`, lo cual resulta esencial cuando queremos recibir información enviada desde el frontend, Postman o cualquier otro cliente HTTP.
+app.post('/nombreRuta', bodyParser.json(), (req, res) => { //* Se define una ruta POST e inmediatamente se inserta el middleware bodyParser.json() para interpretar el cuerpo de la petición antes de ejecutar el handler.
+    //* **Concepto clave:** el middleware se ejecuta antes del callback principal, por lo que transforma la información entrante en un objeto utilizable por JavaScript.
+    //* **Importante:** si no se utiliza este middleware, `req.body` puede llegar como `undefined`, lo que impediría acceder a los datos enviados por el cliente.
+}) //* Cierre de la ruta POST con body-parser.
 
 // &Express.json().
-// &De igual manera que con body-parser se debera ingresar express junto con la extension JSON, siendo express.json(), el cual al ingresar o declarar dicho middleware dentro de nuestra ruta, toda la informacion enviada mediante req podra ser accedida mediante req.body.
-app.post('/nombreRuta', express.json(), (req, res) => {
+// &`express.json()` es el middleware nativo incluido en Express en versiones modernas, por lo que en la mayoría de los casos reemplaza completamente la necesidad de instalar `body-parser`. Su funcionamiento es esencialmente el mismo: leer el cuerpo de la petición, interpretar el JSON recibido y convertirlo en un objeto JavaScript accesible desde `req.body`. Esta opción es la más recomendada actualmente porque reduce dependencias innecesarias, simplifica el proyecto y mantiene un enfoque más limpio y moderno dentro de la aplicación.
+app.post('/nombreRuta', express.json(), (req, res) => { //* Se define una ruta POST usando el middleware nativo express.json() para procesar el body en formato JSON.
+    //* **Concepto clave:** `express.json()` cumple prácticamente el mismo papel que `body-parser.json()`, pero sin requerir una librería adicional.
+    //* **Buena práctica:** usar `express.json()` en aplicaciones modernas para mantener el proyecto más simple, ligero y fácil de mantener.
+    //* **Error común:** olvidar incluir este middleware y después intentar leer `req.body`, lo que provoca que la información no esté disponible dentro de la ruta.
+}) //* Cierre de la ruta POST con express.json().
 
-})
-
-// // *Parseo de los bodies.
-// app.use(bodyParser.json())
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // // *Conección a MongoDB.
 // // mongoose.connect(envs.mongo_url, {dbName: envs.mongo_db});
