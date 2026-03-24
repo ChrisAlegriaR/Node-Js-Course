@@ -1036,7 +1036,8 @@ app.get('/nombreRuta', async(req, res) => { //* Ruta GET para buscar un document
 }) //* Fin de la ruta.
 
 // ~Conección a MongoDB.
-// ~Ahora sigue la sección fundamental y mas importante es la conexion con MongoDB, ya que como vimos anteriormente si bien  mongoose es la libreria que nos permite crear Schemas, modelos y usar metodos para la extraccion, publicacion, modificacion e incluso eliminacion de informacion, es necesario tener una coneccion a la base de datos para poder realizar las acciones antes mencionadas. Por lo que para esto existe el comando 
+// ~Ahora sigue una de las secciones más fundamentales e importantes dentro de una API con base de datos: la conexión con **MongoDB**. Esto es indispensable porque, aunque ya sabemos que **Mongoose** nos permite crear Schemas, modelos y utilizar métodos para extraer, crear, modificar e incluso eliminar información, nada de eso podrá ejecutarse correctamente si antes no existe una conexión activa con la base de datos. En otras palabras, Mongoose nos da las herramientas para trabajar con los datos, pero MongoDB es el lugar real donde esos datos se almacenan y se consultan. Por esa razón, antes de realizar cualquier operación con nuestros modelos, debemos establecer la conexión utilizando `mongoose.connect()`. Dentro de este método se coloca la URL de conexión de MongoDB, la cual normalmente se obtiene desde MongoDB Atlas o desde una instancia local, y además se puede especificar un objeto de configuración donde se indica el nombre de la base de datos mediante `dbName`. Una vez establecida esta conexión, todos los modelos y schemas que utilicemos dentro de la aplicación tomarán automáticamente esa conexión para ejecutar sus operaciones sobre la base de datos correcta, sin necesidad de volver a configurarla en cada ruta.
+// mongoose.connect('mongodb://localhost:27017', { dbName: 'libros' }); //* Establece la conexión entre Mongoose y MongoDB, indicando la URL del servidor y el nombre de la base de datos a utilizar.
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1084,10 +1085,3 @@ app.post('/nombreRuta', express.json(), (req, res) => { //* Se define una ruta P
 }) //* Cierre de la ruta POST con express.json().
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// // *Conección a MongoDB.
-// // mongoose.connect(envs.mongo_url, {dbName: envs.mongo_db});
-// const db = mongoose.connection;
-
-// // *Declaracion de rutas books.
-// app.use('/books', book_router);
