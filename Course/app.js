@@ -1095,4 +1095,19 @@ app.post('/nombreRuta', express.json(), (req, res) => { //* Se define una ruta P
 // ~Imagenes.
 // ~Las imagenes son las encargadas de ejecutar un proceso dentro de los contenedores en Dcoker, ademas de ser estas las responsables de levantar los contenedores, esto debido a que las imagenes son archivos las cuales contieenn instrucciones de lo que un contenedor alamcenara y lo que se ejecutara, podierndo dentro de estas especificar el proceso, credenciales y mas, descargando asi lo necesario desde la red haciendo asi que el contenedor ejecute la imagen, ya que como el ejemplo previo el contenedor es la consola y la imagen el disco teniendo dicha imagen toda la info y proceso necesarios para ser ejecutado.
 // ?Archivos yml.
-// ?Ahora bien las imagenes son archivos los cuales comunmente son declarados dentro de los proyectos directamente ne la raiz del proyecto, estos archivos son los responsables de contener el codigo que sirve como instrucciones para Docker para ejecutar y crear el contenedor y e proceso dentr ode este, por lo que comunmente se crea este archiv con el nombre docker-compose.yml, y dentro de este se debe de seguir una estructura muy especvifica segun el proceso a realizar, siendo los archivos YML extremandamente sensibles a espacios, simbolos, letras y mayiusculas.
+// ?Ahora bien las imagenes son archivos los cuales comunmente son declarados dentro de los proyectos directamente ne la raiz del proyecto, estos archivos son los responsables de contener el codigo que sirve como instrucciones para Docker para ejecutar y crear el contenedor y e proceso dentr ode este, por lo que comunmente se crea este archiv con el nombre docker-compose.yml, y dentro de este se debe de seguir una estructura muy especvifica segun el proceso a realizar, siendo los archivos YML extremandamente sensibles a espacios, simbolos, letras y mayiusculas y sobre todo las sangrias. Dentro de este se declarfa el serivcio, el cual se especifica el nombre de este, nombre de la imagen a descargar, las politicas de reinicio para que el servicio este siempre activo, las variables de entorno para manejar credenciales de acceso, los volumenes para que la informacion no se pierda al apagar el contenedor y los puertos para conectar nuestra computadora con el servicio interno.
+// version: '3.8'
+
+// services:
+//   mongo-db:
+//     image: mongo:6.0.13
+//     container_name: mi_mongo_favorito
+//     restart: always
+//     environment:
+//       # Ponemos los datos directo para descartar que el .env falle
+//       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+//       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+//     volumes:
+//       - ./mongo_data:/data/db
+//     ports:
+//       - 27017:27017
