@@ -1085,3 +1085,14 @@ app.post('/nombreRuta', express.json(), (req, res) => { //* Se define una ruta P
 }) //* Cierre de la ruta POST con express.json().
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ^Docker
+// ^Docker es una plataforma utilizada en una computadora la cual nos permite montar y crear contenedores dentro de los cuales ppodemos ejecutar imagenes, ahora bien, una definicion y explicacion simple y sencilla de entender de Docker es que este crea conternededores klos cuales son procesos, por lo que docker los crea en nuestro dispisiutivo los cuales consumen recursos del mismo, donde mediante imagenes, las cuales son archivois con un codigo y cierta estructura que sirven de instrucciones para docker, mediante los cuales docker descarga o estabolece infgormacion creando, ejecutando y/o lanzando siertos servicios, esto podiendo avarcar desde crerar una conexion BD, hasta ejecutar aplicaciones web.
+
+// ~Contenedores.
+// ~Como se menciono anteriormente dentro de Docker podemos crear contenedores, los cuales como su nombre lo dice es un espacio o proceso el cual almacena cierta informacion o ejecucion, en este caso el contenedor sera unicamente el espacio ya que lo que este ejecutara es la imagen, siendo asi que el contenedor provee y almacena el proceso ademas de ejecutarlo y la imagen contiene toda la informacion necesaria para la ejecucion, haciendo asi que el contenedor provea lo indispensable como recuersos del ordenardor o mas. Por lo que si pudieramos establecer un ejemplo simple el contenedor seria una consola y la imagen seria del disco o juego.
+
+// ~Imagenes.
+// ~Las imagenes son las encargadas de ejecutar un proceso dentro de los contenedores en Dcoker, ademas de ser estas las responsables de levantar los contenedores, esto debido a que las imagenes son archivos las cuales contieenn instrucciones de lo que un contenedor alamcenara y lo que se ejecutara, podierndo dentro de estas especificar el proceso, credenciales y mas, descargando asi lo necesario desde la red haciendo asi que el contenedor ejecute la imagen, ya que como el ejemplo previo el contenedor es la consola y la imagen el disco teniendo dicha imagen toda la info y proceso necesarios para ser ejecutado.
+// ?Archivos yml.
+// ?Ahora bien las imagenes son archivos los cuales comunmente son declarados dentro de los proyectos directamente ne la raiz del proyecto, estos archivos son los responsables de contener el codigo que sirve como instrucciones para Docker para ejecutar y crear el contenedor y e proceso dentr ode este, por lo que comunmente se crea este archiv con el nombre docker-compose.yml, y dentro de este se debe de seguir una estructura muy especvifica segun el proceso a realizar, siendo los archivos YML extremandamente sensibles a espacios, simbolos, letras y mayiusculas.
