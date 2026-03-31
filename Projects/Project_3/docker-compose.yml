@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  mongo-db:
+    image: mongo:6.0.13
+    container_name: mi_mongo_favorito
+    restart: always
+    environment:
+      # Ponemos los datos directo para descartar que el .env falle
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    volumes:
+      - ./mongo_data:/data/db
+    ports:
+      - 27017:27017
