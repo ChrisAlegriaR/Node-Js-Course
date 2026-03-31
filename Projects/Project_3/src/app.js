@@ -8,9 +8,9 @@ import bodyParser from 'body-parser';
 const app = express();
 
 // *Se define ruta por defecto en caso de que no se encuentre ninguna especificada (404).
-app.get(/.*/, (req, res) => {
-    res.send('<h1>¡Servidor funcionando perfectamente!</h1>');
-})
+// app.get(/.*/, (req, res) => {
+//     res.send('<h1>¡Servidor funcionando perfectamente!</h1>');
+// })
 
 // *Parseo de los bodies.
 app.use(bodyParser.json())
