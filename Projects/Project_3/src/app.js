@@ -16,7 +16,7 @@ app.get(/.*/, (req, res) => {
 app.use(bodyParser.json())
 
 // *Conección a MongoDB.
-// mongoose.connect(envs.mongo_url, {dbName: envs.mongo_db});
+mongoose.connect(envs.mongo_url, {dbName: envs.mongo_db});
 const db = mongoose.connection;
 
 // *Declaracion de rutas books.
