@@ -1111,3 +1111,14 @@ app.post('/nombreRuta', express.json(), (req, res) => { //* Se define una ruta P
 //       - ./mongo_data:/data/db
 //     ports:
 //       - 27017:27017
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ^Otras paqueterias o librerias
+// ^Si bien ya hemos visto previamente las librerias mas indispensables y mas comunknete usadas en el mundo Backend con Node.JS, existen una infinidad casi ilimitada de estas librerias, creadas tando de manera oifical omo por la misma comunidad, por lo que para no abarcar mucho espacio dentro de este codigo o manual respecto a cada libreria en esta secdcion se integrara un9cqmente el nombre de las librerias su funcion y el comando o nombre comando para instalarlas, no se incluira la foma de isntalacion ya que en su mayoria como se vio anteriromente estas se pueden instalar mediante npm i nombrePaqueteria y se peude integrar --save-dev si se desea usar solo durante desarrollo, ademas su forma de utilizarlas varia cada una e inlcuso su forma de ejecucion, importacion o implementacion.
+
+// ~TS Node Dev.
+// ~La libreria TS Node Dev es una libreria la cual nos permite la ejecucion directa de archivos TypeScript, lo cual nos permite mediante esta libreria la ejecucion automatica de dichos archivos sin la necesidad de transformar nuestro archivo TypeScript a JavaScript, o por otro lado sin la necesidad de crear un observador mediante tsc --watch para que cada que realizemos un cambio en nuestor typescript genere el javascript, por ende esta paqueteria es muy util ya que esta lo que hace es que cuando se detecta un cambio reinicia el servidor  y ejecutando el nuevo codigo(algo similar a lo que hace nodemon pero para typescript). Es, en pocas palabras, como usar Nodemon pero diseñado específicamente para trabajar con TypeScript de forma directa y rápida. Para instalarlo mediante npm init se puede especificar esta libreria como ts-node-dev.
+
+// ~Rimraf.
+// ~
