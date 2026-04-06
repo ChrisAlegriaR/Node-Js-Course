@@ -1121,4 +1121,7 @@ app.post('/nombreRuta', express.json(), (req, res) => { //* Se define una ruta P
 // ~La libreria TS Node Dev es una libreria la cual nos permite la ejecucion directa de archivos TypeScript, lo cual nos permite mediante esta libreria la ejecucion automatica de dichos archivos sin la necesidad de transformar nuestro archivo TypeScript a JavaScript, o por otro lado sin la necesidad de crear un observador mediante tsc --watch para que cada que realizemos un cambio en nuestor typescript genere el javascript, por ende esta paqueteria es muy util ya que esta lo que hace es que cuando se detecta un cambio reinicia el servidor  y ejecutando el nuevo codigo(algo similar a lo que hace nodemon pero para typescript). Es, en pocas palabras, como usar Nodemon pero diseñado específicamente para trabajar con TypeScript de forma directa y rápida. Para instalarlo mediante npm init se puede especificar esta libreria como ts-node-dev.
 
 // ~Rimraf.
-// ~
+// ~Rimraf es una paqueteria o libreria la cual, nos permite dentro de nuestro codigo borrar carpetas, esta carpeta es especialmente utiliz ya que mediante de la implementacio nde esta libreria podemos eliminar dichas carpetas en determinadas situaciones.
+
+// ~Prisma.
+// ~El paquete o libreria prisma es una herramienta la cual su funcion es muy similar a Mongoose, ya que este nos permite trabajar mediante nuestro codigo y backend con bases de datos, el cual de la misma manera que mongoose nos facilita el trabajo e implementacion de las bases de datos, facilitandonos la interaccion con estas.
