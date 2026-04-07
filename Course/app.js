@@ -1112,6 +1112,10 @@ app.post('/nombreRuta', express.json(), (req, res) => { //* Se define una ruta P
 //     ports:
 //       - 27017:27017
 
+// ?Ejecucion de imagenes.
+// ?Una vez tengamos nuestras imagenes (archivo yml con el codigo/instrucciones necesarias), deberemos levantar nuestra imagen dentro del contenedor. Por lo que con el simple hecho de levantar la imagen esta automaticamente lo levantara en un contenedor, por lo que para esto es indispensable y necesario que nuestro archivo o imagen yml se llame docker-compose.yml, ya que si configuramos otro nombre deberemos agregar pasaso adicionales para que docker ubique nuestro archivo. Por lo que para levantarlo es necesario tener ejecutando en segundo plano docker, por lo que se usara el comando docker-compose up -d y si todo esta correctamente se levantara la imagen.
+// docker compose up -d
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // ^Otras paqueterias o librerias
