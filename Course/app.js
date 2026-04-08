@@ -1117,15 +1117,49 @@ app.post('/nombreRuta', express.json(), (req, res) => { //* Se define una ruta P
 // docker compose up -d
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 // ^Otras paqueterias o librerias
-// ^Si bien ya hemos visto previamente las librerias mas indispensables y mas comunknete usadas en el mundo Backend con Node.JS, existen una infinidad casi ilimitada de estas librerias, creadas tando de manera oifical omo por la misma comunidad, por lo que para no abarcar mucho espacio dentro de este codigo o manual respecto a cada libreria en esta secdcion se integrara un9cqmente el nombre de las librerias su funcion y el comando o nombre comando para instalarlas, no se incluira la foma de isntalacion ya que en su mayoria como se vio anteriromente estas se pueden instalar mediante npm i nombrePaqueteria y se peude integrar --save-dev si se desea usar solo durante desarrollo, ademas su forma de utilizarlas varia cada una e inlcuso su forma de ejecucion, importacion o implementacion.
+// ^Si bien ya hemos visto previamente las librerías más indispensables y más comúnmente usadas en el mundo backend con Node.JS, existen una infinidad prácticamente ilimitada de librerías creadas tanto de manera oficial como por la misma comunidad. Debido a esto, y para no abarcar demasiado espacio dentro de este manual o código explicando una por una cada librería en profundidad, en esta sección solamente se incluirá el nombre de la librería, su función principal y el comando o nombre del comando con el que se instala. No se profundizará en su forma de uso, importación o ejecución porque cada una puede variar considerablemente dependiendo de su propósito. Además, como ya se vio anteriormente, la mayoría de estas herramientas pueden instalarse mediante `npm i nombrePaqueteria` y, en caso de que solo se necesiten durante el desarrollo, también pueden agregarse con `--save-dev`.
 
 // ~TS Node Dev.
-// ~La libreria TS Node Dev es una libreria la cual nos permite la ejecucion directa de archivos TypeScript, lo cual nos permite mediante esta libreria la ejecucion automatica de dichos archivos sin la necesidad de transformar nuestro archivo TypeScript a JavaScript, o por otro lado sin la necesidad de crear un observador mediante tsc --watch para que cada que realizemos un cambio en nuestor typescript genere el javascript, por ende esta paqueteria es muy util ya que esta lo que hace es que cuando se detecta un cambio reinicia el servidor  y ejecutando el nuevo codigo(algo similar a lo que hace nodemon pero para typescript). Es, en pocas palabras, como usar Nodemon pero diseñado específicamente para trabajar con TypeScript de forma directa y rápida. Para instalarlo mediante npm init se puede especificar esta libreria como ts-node-dev.
+// ~TS Node Dev es una librería diseñada para ejecutar archivos TypeScript de manera directa, sin necesidad de realizar manualmente una compilación previa a JavaScript cada vez que hacemos un cambio. Esto la convierte en una herramienta muy útil durante el desarrollo, ya que automatiza el proceso de ejecución y reinicio del servidor cuando detecta modificaciones en los archivos TypeScript. En otras palabras, su comportamiento es muy similar al de Nodemon, pero enfocado específicamente en proyectos TypeScript. Gracias a esto, evita que tengamos que depender constantemente de `tsc --watch` para compilar el código o de pasos adicionales para ejecutar el archivo resultante. Es una paquetería especialmente práctica cuando queremos una experiencia de desarrollo rápida, fluida y orientada a TypeScript. Para instalarla normalmente se utiliza el nombre `ts-node-dev`, ya que ese es el paquete que se agrega al proyecto.
+// npm i ts-node-dev
 
 // ~Rimraf.
-// ~Rimraf es una paqueteria o libreria la cual, nos permite dentro de nuestro codigo borrar carpetas, esta carpeta es especialmente utiliz ya que mediante de la implementacio nde esta libreria podemos eliminar dichas carpetas en determinadas situaciones.
+// ~Rimraf es una paquetería o librería que nos permite eliminar carpetas de forma programática desde nuestro código. Su utilidad principal aparece cuando necesitamos borrar directorios completos, incluyendo todo su contenido, de manera segura y controlada desde Node.JS. Esto resulta especialmente útil en procesos de limpieza, scripts de mantenimiento o automatización de tareas donde se necesita eliminar carpetas generadas temporalmente, carpetas de compilación o directorios que ya no son necesarios dentro del proyecto. En pocas palabras, Rimraf facilita la eliminación de carpetas cuando las operaciones del sistema de archivos normales no son suficientes o no resultan tan cómodas de usar. Para instalarla normalmente se utiliza el nombre `rimraf`.
+// npm i rimraf
 
 // ~Prisma.
-// ~El paquete o libreria prisma es una herramienta la cual su funcion es muy similar a Mongoose, ya que este nos permite trabajar mediante nuestro codigo y backend con bases de datos, el cual de la misma manera que mongoose nos facilita el trabajo e implementacion de las bases de datos, facilitandonos la interaccion con estas.
+// ~Prisma es una herramienta de acceso a bases de datos cuya función es muy similar a la de Mongoose, ya que permite interactuar con bases de datos desde nuestro código backend de una forma más estructurada y amigable. Su objetivo es simplificar el trabajo con la base de datos, ayudándonos a definir modelos, hacer consultas y manejar operaciones de persistencia de información de manera más clara y mantenible. Prisma actúa como una capa de abstracción entre la aplicación y la base de datos, facilitando la interacción con ella sin necesidad de escribir consultas tan directas o manuales en cada caso. Por esta razón, es una opción muy utilizada en proyectos modernos donde se busca organización, escalabilidad y una mejor experiencia de desarrollo. Para instalarlo normalmente se utiliza el nombre `prisma`.
+// npm i prisma
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ^Implementacion de TypeScript en proyectos Node.JS.
+// ^Como bien sabemos, la forma base, estándar y más común de trabajar con proyectos de Node.JS es utilizando JavaScript puro. Sin embargo, también es totalmente posible (y altamente recomendable en muchos casos) trabajar con TypeScript, ya que este lenguaje añade **tipado estático**, mejorando la robustez, mantenibilidad y escalabilidad del proyecto. Implementar TypeScript en Node.JS implica algunos pasos adicionales, ya que Node no entiende TypeScript de forma nativa. Por ello, es necesario instalar herramientas que permitan compilar o interpretar este lenguaje. Además, muchas librerías están originalmente escritas en JavaScript, por lo que se requiere instalar definiciones de tipos (`@types/...`) para que TypeScript pueda reconocerlas correctamente. Esto genera que, en muchos casos, tengamos **dos dependencias por librería**: una para la librería en sí y otra para su tipado.
+
+// ~Instalacion de TypeScript.
+// ~Como se mencionó anteriormente, es necesario declarar TypeScript como una dependencia dentro del proyecto para indicarle a Node.JS que trabajaremos con este lenguaje. Sin embargo, es importante entender que esto **no convierte automáticamente Node en TypeScript**, sino que instala las herramientas necesarias (como el compilador `tsc`) para poder trabajar con archivos `.ts`. A partir de aquí, podremos compilar TypeScript a JavaScript o usar herramientas que lo ejecuten directamente. TypeScript no reemplaza a JavaScript, sino que se transpila a JavaScript para poder ejecutarse en Node.
+// npm i typescript //* Instala TypeScript y agrega el compilador necesario para trabajar con archivos .ts.
+
+// ~Declaracion de dependencia asignando TypeScript a paqueterias y librerias.
+// ~Una vez que tenemos TypeScript instalado, el siguiente paso es asegurar que las librerías que usamos sean compatibles con este. Dado que muchas librerías están escritas en JavaScript, TypeScript necesita archivos de definición de tipos para poder entender su estructura interna. Estos archivos se instalan mediante paquetes que siguen la convención `@types/nombrePaquete`. Esto permite que tengamos autocompletado, validación de tipos y detección de errores en tiempo de desarrollo. Por lo que `@types/...` NO instala la librería, solo agrega su tipado, siendo asi buena practica instalar estos paquetes como `devDependencies`, ya que solo se usan en desarrollo.
+// npm i @types/nombrePaquete //* Instala los tipos de una librería para hacerla compatible con TypeScript.
+
+// Archivo Package.json
+// "devDependencies": { //* Dependencias usadas solo en desarrollo (no necesarias en producción).
+//     "@types/bcrypt": "^6.0.0", //* Tipos para la librería bcrypt (hash de contraseñas).
+//     "@types/express": "^5.0.6", //* Tipos para Express (rutas, req, res, middlewares).
+//     "@types/jsonwebtoken": "^9.0.10", //* Tipos para manejar tokens JWT.
+//     "@types/node": "^25.5.2", //* Tipos nativos de Node (fs, path, process, etc.).
+//     "prisma": "^7.6.0", //* Herramienta ORM para manejo de base de datos.
+//     "rimraf": "^6.1.3", //* Librería para eliminar carpetas.
+//     "ts-node-dev": "^2.0.0" //* Ejecuta TypeScript directamente con reinicio automático.
+//  },
+
+// "dependencies": { //* Dependencias necesarias en producción.
+//     "@prisma/client": "^7.7.0", //* Cliente generado por Prisma para interactuar con la BD.
+//     "bcrypt": "^6.0.0", //* Librería para encriptar contraseñas.
+//     "dotenv": "^17.4.1", //* Permite usar variables de entorno desde un archivo .env.
+//     "express": "^5.2.1", //* Framework para crear servidores y APIs.
+//     "jsonwebtoken": "^9.0.3", //* Librería para autenticación con JWT.
+//     "typescript": "^6.0.2" //* TypeScript como dependencia principal del proyecto.
+// }
