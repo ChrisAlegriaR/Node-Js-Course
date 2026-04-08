@@ -1117,6 +1117,7 @@ app.post('/nombreRuta', express.json(), (req, res) => { //* Se define una ruta P
 // docker compose up -d
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ^Otras paqueterias o librerias
 // ^Si bien ya hemos visto previamente las librerías más indispensables y más comúnmente usadas en el mundo backend con Node.JS, existen una infinidad prácticamente ilimitada de librerías creadas tanto de manera oficial como por la misma comunidad. Debido a esto, y para no abarcar demasiado espacio dentro de este manual o código explicando una por una cada librería en profundidad, en esta sección solamente se incluirá el nombre de la librería, su función principal y el comando o nombre del comando con el que se instala. No se profundizará en su forma de uso, importación o ejecución porque cada una puede variar considerablemente dependiendo de su propósito. Además, como ya se vio anteriormente, la mayoría de estas herramientas pueden instalarse mediante `npm i nombrePaqueteria` y, en caso de que solo se necesiten durante el desarrollo, también pueden agregarse con `--save-dev`.
 
@@ -1133,6 +1134,7 @@ app.post('/nombreRuta', express.json(), (req, res) => { //* Se define una ruta P
 // npm i prisma
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ^Implementacion de TypeScript en proyectos Node.JS.
 // ^Como bien sabemos, la forma base, estándar y más común de trabajar con proyectos de Node.JS es utilizando JavaScript puro. Sin embargo, también es totalmente posible (y altamente recomendable en muchos casos) trabajar con TypeScript, ya que este lenguaje añade **tipado estático**, mejorando la robustez, mantenibilidad y escalabilidad del proyecto. Implementar TypeScript en Node.JS implica algunos pasos adicionales, ya que Node no entiende TypeScript de forma nativa. Por ello, es necesario instalar herramientas que permitan compilar o interpretar este lenguaje. Además, muchas librerías están originalmente escritas en JavaScript, por lo que se requiere instalar definiciones de tipos (`@types/...`) para que TypeScript pueda reconocerlas correctamente. Esto genera que, en muchos casos, tengamos **dos dependencias por librería**: una para la librería en sí y otra para su tipado.
 
