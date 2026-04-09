@@ -1181,3 +1181,24 @@ app.post('/nombreRuta', express.json(), (req, res) => { //* Se define una ruta P
 // ?Comando completo.
 // ?Como se vio previamente, estas opciones forman parte de la configuración inicial de TypeScript y pueden declararse directamente al momento de generar el archivo `tsconfig.json`. Esto permite que desde el inicio el proyecto quede preparado con una estructura clara: una carpeta para el código fuente en TypeScript y otra para la salida en JavaScript. Por lo tanto, el comando de inicialización puede enriquecerse incluyendo estas opciones desde el principio, evitando tener que configurarlas manualmente después. Esta práctica resulta muy útil en proyectos Node.JS porque mantiene el orden y deja explícito dónde se escribe el código original y dónde se generan los archivos compilados.
 // npx tsc --init --outDir dist/ --rootDir src  //* Inicializa TypeScript y define desde el inicio la carpeta de salida (dist) y la carpeta raíz del código fuente (src).
+
+// ~Configuracion de exclusion e inclucion en tsconfig.
+// ~Existe un paso adicional que, aunque puede considerarse secundario, es altamente recomendable implementar para mantener un proyecto limpio, optimizado y bien organizado: la configuración de **exclusión (`exclude`) e inclusión (`include`)** dentro del archivo `tsconfig.json`. Estas propiedades permiten controlar exactamente **qué archivos o carpetas serán procesados por TypeScript** y cuáles deben ignorarse completamente. Su comportamiento es muy similar al de un `.gitignore`, pero en este caso enfocado al proceso de compilación. Esto es importante porque evita que TypeScript pierda tiempo procesando archivos innecesarios, como dependencias externas o archivos ya compilados, además de prevenir errores o conflictos. TypeScript, por defecto, puede intentar leer muchos archivos del proyecto. Con `include` y `exclude` nosotros tomamos control total de ese comportamiento, optimizando rendimiento y organización.
+// ?exclude.
+// ?La propiedad `exclude` se utiliza para indicar qué carpetas o archivos **NO deben ser procesados ni transformados** por TypeScript. Es decir, cualquier archivo dentro de estas rutas será ignorado completamente durante la compilación. Esto es especialmente útil para evitar procesar carpetas como `node_modules` (dependencias externas) o `dist` (archivos ya compilados), ya que no tiene sentido volver a transformarlos. Ignorar estas carpetas mejora el rendimiento del compilador y evita problemas innecesarios.
+// ?**Buena práctica:** siempre excluir `node_modules` y la carpeta de salida (`dist` o `build`).
+
+// ?include.
+// ?La propiedad `include` se utiliza para especificar exactamente qué carpetas o archivos **SÍ deben ser considerados** por TypeScript para su compilación. Normalmente se apunta a la carpeta donde vive nuestro código fuente (por ejemplo `src/`). Esto asegura que el compilador solo procese lo que realmente nos interesa y no archivos externos o innecesarios.
+// ?**Concepto clave:** `include` actúa como un filtro positivo (qué sí procesar), mientras que `exclude` actúa como filtro negativo (qué ignorar).
+
+// ~**Ubicación en tsconfig.json:**
+// ~Estas propiedades se declaran directamente en el nivel principal del archivo `tsconfig.json`, es decir, **no van dentro de "compilerOptions"**, sino al mismo nivel. Esto es importante porque muchas personas cometen el error de colocarlas dentro de otro objeto, lo cual hace que no funcionen correctamente.
+
+// "exclude": [ //* Define carpetas o archivos que TypeScript debe ignorar completamente.
+//     "node_modules", //* Evita procesar dependencias externas (muy importante).
+//     "dist" //* Evita procesar archivos ya compilados.
+// ],
+// "include": [ //* Define carpetas o archivos que TypeScript sí debe procesar.
+//     "src" //* Indica que solo el código dentro de src será transformado.
+// ]
