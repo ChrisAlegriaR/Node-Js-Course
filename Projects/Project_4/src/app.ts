@@ -12,4 +12,6 @@ app.use(express.json());
 // Autenticacion.
 
 // Usuarios
+
+// *Exportacion de app con todas las rutas creadas.
 export default app;
