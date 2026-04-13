@@ -6,6 +6,7 @@ config();
 
 // *Declaracion de objeto el cual almacenara las credenciales ubicadas en process.env.
 const variables = {
+    port: process.env.PORT
 }
 
 // *Exportacion del objeto que almacena las credenciales.

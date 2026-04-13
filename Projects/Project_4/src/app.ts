@@ -1,6 +1,7 @@
 // *Importacion de herramientas, variables y librerias.
 import express  from "express"; 
 import variables from "./config/env.js";
+import { router as authRouter } from "./routes/authRoutes.js";
 
 // *Declaracion de app mediante express().
 const app = express();
@@ -10,6 +11,7 @@ app.use(express.json());
 
 // *Declaracion de rutas.
 // Autenticacion.
+app.use(authRouter);
 
 // Usuarios
 

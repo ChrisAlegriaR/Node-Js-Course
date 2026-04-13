@@ -1,6 +1,8 @@
+// *Importacion de herramientas, variables y librerias.
 import app from "./app.js";
 import variables from "./config/env.js";
 
-app.listen(3000, ()=>{
-    console.log('El servidor se esta ejecutando en el punto 3000')
+// *Declaracion del iniciaador del servidor, siendo este el que levantara el mismo.
+app.listen(variables.port, () => {
+    console.log(`El puerto se esta ejecutando correctamente en el puerto ${variables.port}`);
 })
