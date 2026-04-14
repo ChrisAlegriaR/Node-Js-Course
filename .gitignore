@@ -18,3 +18,7 @@ Projects/Project_4/node_modules
 Projects/Project_4/package.json
 Projects/Project_4/package-lock.json
 Projects/Project_4/tsconfig.json
+Projects/Project_4/.env
+Projects/Project_4/prisma/
+Projects/Project_4/src/generated/
+Projects/Project_4/prisma.config.ts
