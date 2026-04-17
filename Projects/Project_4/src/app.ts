@@ -10,8 +10,7 @@ const app = express();
 app.use(express.json());
 
 // *Declaracion de rutas.
-// Autenticacion.
-app.use(authRouter);
+app.use('/auth', authRouter);
 
 // Usuarios
 
