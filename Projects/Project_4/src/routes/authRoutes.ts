@@ -1,14 +1,12 @@
 import express from "express";
-import { register } from "../controllers/authController";
+import { login, register } from "../controllers/authController";
 import User from "../models/user";
 
 const router = express.Router();
 
 router.post('/register', register);
 
-router.post('/login', () => {
-
-});
+router.post('/login', login);
 
 router.get('/', async(req,res) => {
     try{
