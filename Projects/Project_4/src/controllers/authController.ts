@@ -33,9 +33,11 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 
     } catch(error:any){
         if(error.code === "P2002" && error.meta.target.includes("email")){
-            res.status(400).json({message: "Esta registrando un correo ya registrado."}
-            )
-        }
+            res.status(400).json({message: "Esta registrando un correo ya registrado."});
+        }   
+
+        console.log(error)
+        res.status(500).json({error: "Hubo un error en el registro."})
     }
 }
 

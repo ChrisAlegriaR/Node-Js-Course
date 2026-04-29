@@ -14,7 +14,7 @@ app.use(express.json());
 app.use('/auth', authRouter);
 
 // *Declaracion de rutas de usuarios
-app.use(usersRouter);
+app.use('/users', usersRouter);
 
 // *Exportacion de app con todas las rutas creadas.
 export default app;

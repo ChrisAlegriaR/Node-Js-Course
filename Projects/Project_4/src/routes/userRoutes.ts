@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import  jwt from "jsonwebtoken";
 import variables from "../config/env";
+import { createUser, deleteUser, getAllUsers, getUserById, updateUser } from "../controllers/usersController";
 
 const router = express.Router();
 
@@ -18,7 +19,6 @@ const authenticateToken = async(req: Request, res: Response, next: NextFunction)
                 console.error('Error en la autenticacion.');
                 res.status(403).json({error: "No tienes acceso a este recurso"})
             } 
-
             next();
         });    
 
@@ -27,10 +27,10 @@ const authenticateToken = async(req: Request, res: Response, next: NextFunction)
     }
 } 
 
-router.post("/", authenticateToken, (req, res) => {})
-router.get("/", authenticateToken, (req, res) => {})
-router.get("/:id", authenticateToken, (req, res) => {})
-router.put("/:id", authenticateToken, (req, res) => {})
-router.delete("/:id", authenticateToken, (req, res) => {})
+router.post("/", authenticateToken, createUser);
+router.get("/", authenticateToken, getAllUsers);
+router.get("/:id", authenticateToken, getUserById);
+router.put("/:id", authenticateToken, updateUser);
+router.delete("/:id", authenticateToken, deleteUser);
 
 export { router };
