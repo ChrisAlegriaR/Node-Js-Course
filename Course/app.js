@@ -1220,3 +1220,22 @@ app.post('/nombreRuta', express.json(), (req, res) => { //* Se define una ruta P
 // import { type Request, type Response, type NextFunction } from "express" //* Se importan los tipos necesarios desde Express para tipar correctamente req, res y next.
 
 // export const register = async(req: Request, res: Response, next: NextFunction) => {} //* Se declara una función asíncrona donde req, res y next quedan tipados para que TypeScript valide su uso correctamente.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ^Configuraciones y generación de build.
+// ^Como bien se sabe existen 2 puntos importantes dentro de un backend, los cuales son el desarrollo de este y su publicacion o alta en produccion. Por lo que para el segtundo punto es indispensable generar un build el cual transforma nuestro codigo backend en un formato ejecutable listo para desplegarse en un servidor, por lo cual para ellos es necesario e indispensable tomar en cuenta 2 pasos importantes, los cuales son la defclaracion de ubicacion o ruta del start asi como la creacion de el build de nuestro backend.
+
+// ~Declaracion de app en main.
+// ~Como bien sabemos dentro de nuestros archiuvos package.json, contamos con diferentes apartados, configuracion y caracteristicas para nuestro backend, el cual al enforcarnos en el apartado de preparacion para la generacion de un build de desglose, es necesario encoarnos en el apartado de main, el cual si bien contamos con comandos personalizados como start o dev para desarrollo, estos nos permiten ejecutar el backend mediante npm run "comando", pero existe un apartado dentro de nurestro package.json el cual es main, el cual tendremos que declarar en este la ubicacion del archivo princiupal, y esto varia ya que por ejemplo podemos mediante start o dev ejecutar un archivo pricnipal en una ubicacion pero, realmente por ejemplo cuando se trasbaja con typescript lo guardaremos en otro. Por lo cual en resumen es inidspensable dar de alta la ubicacion final del archivo pirncipal del backend dentro del apartado "main".
+// "main": "app.js",
+
+// ~Genereacion de build
+// ~Una vez que nuestra ruta "main" del archivp principal de nuestro backend este correctamente, procederemos a generar nuestro build. El cual mediante un comando que daremos de alta en nuestro "package.json", el cual dentro de los scrips daremos de alta un comando de nombre "build", en el cual le declararemos que ejecute el comando de "tsc", el cual copilara ttod nuestro cidigo y generara nuestra build, por lo que una vez demos de alta el comando en nuestor package .json deberemos de ejecuta npm run build en nuestra consola o terminal, pero ejecutar el comando responsable de generar nuestra build.
+// Package.json
+// "scripts": {
+//     "build": "tsc"
+// }
+
+// Consola.
+// npm run build
