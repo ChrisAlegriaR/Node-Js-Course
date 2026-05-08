@@ -1224,18 +1224,37 @@ app.post('/nombreRuta', express.json(), (req, res) => { //* Se define una ruta P
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // ^Configuraciones y generación de build.
-// ^Como bien se sabe existen 2 puntos importantes dentro de un backend, los cuales son el desarrollo de este y su publicacion o alta en produccion. Por lo que para el segtundo punto es indispensable generar un build el cual transforma nuestro codigo backend en un formato ejecutable listo para desplegarse en un servidor, por lo cual para ellos es necesario e indispensable tomar en cuenta 2 pasos importantes, los cuales son la defclaracion de ubicacion o ruta del start asi como la creacion de el build de nuestro backend.
+// ^Como bien se sabe, dentro del desarrollo Backend existen dos etapas extremadamente importantes: la etapa de desarrollo y la etapa de producción. Durante desarrollo normalmente trabajamos con herramientas que facilitan escribir código, detectar errores y reiniciar automáticamente el servidor, mientras que en producción lo importante es ejecutar una versión optimizada, estable y preparada para desplegarse en un servidor real. Por lo que para esto es necesario generar un "build", el cual consiste en compilar y transformar nuestro proyecto TypeScript en archivos JavaScript listos para ejecución. Este proceso es fundamental ya que Node.JS en producción ejecuta directamente archivos JavaScript. Por ende, para generar correctamente un build debemos tomar en cuenta configuraciones esenciales como la ubicación del archivo principal del proyecto, la carpeta donde se almacenará la compilación final y el comando responsable de generar dicha build.
 
 // ~Declaracion de app en main.
-// ~Como bien sabemos dentro de nuestros archiuvos package.json, contamos con diferentes apartados, configuracion y caracteristicas para nuestro backend, el cual al enforcarnos en el apartado de preparacion para la generacion de un build de desglose, es necesario encoarnos en el apartado de main, el cual si bien contamos con comandos personalizados como start o dev para desarrollo, estos nos permiten ejecutar el backend mediante npm run "comando", pero existe un apartado dentro de nurestro package.json el cual es main, el cual tendremos que declarar en este la ubicacion del archivo princiupal, y esto varia ya que por ejemplo podemos mediante start o dev ejecutar un archivo pricnipal en una ubicacion pero, realmente por ejemplo cuando se trasbaja con typescript lo guardaremos en otro. Por lo cual en resumen es inidspensable dar de alta la ubicacion final del archivo pirncipal del backend dentro del apartado "main".
-// "main": "app.js",
-
-// ~Genereacion de build.
-// ~Una vez que nuestra ruta "main" del archivp principal de nuestro backend este correctamente, procederemos a generar nuestro build. El cual mediante un comando que daremos de alta en nuestro "package.json", el cual dentro de los scrips daremos de alta un comando de nombre "build", en el cual le declararemos que ejecute el comando de "tsc", el cual copilara ttod nuestro cidigo y generara nuestra build, por lo que una vez demos de alta el comando en nuestor package .json deberemos de ejecuta npm run build en nuestra consola o terminal, pero ejecutar el comando responsable de generar nuestra build.
-// Package.json
-// "scripts": {
-//     "build": "tsc"
+// ~Dentro de nuestro archivo package.json existen múltiples propiedades importantes, pero una de las más relevantes para producción es "main". Esta propiedad le indica a Node.JS cuál es el archivo principal de entrada de nuestro proyecto. Aunque durante desarrollo normalmente usamos comandos personalizados como npm run dev o npm run start para ejecutar el servidor, en producción el entorno necesita saber exactamente cuál es el archivo principal ya compilado que debe ejecutar. Esto es especialmente importante cuando trabajamos con TypeScript, ya que nuestros archivos originales estarán en .ts, pero la versión final ejecutable estará en .js dentro de otra carpeta como dist/. Por lo tanto, el apartado "main" debe apuntar al archivo JavaScript final generado por el build. Esto ayuda tanto a Node.JS como a plataformas de despliegue a localizar correctamente el punto de entrada principal de la aplicación.
+// Archivo package.json
+// {
+//     "main": "dist/app.js" //* Se define el archivo principal que Node.JS ejecutará en producción.
+        //* **Concepto clave:** main debe apuntar al archivo JavaScript compilado y no al TypeScript original.
+        //* **Importante:** si la ruta es incorrecta, Node no podrá iniciar el servidor.
+        //* **Buena práctica:** usar rutas claras como dist/app.js o build/server.js.
 // }
+//* Fin de la configuración de main.
+
+// ~Generación de build.
+// ~Una vez configurada correctamente la propiedad "main", el siguiente paso es generar el build del proyecto. Este proceso consiste en compilar todos nuestros archivos TypeScript hacia JavaScript utilizando el compilador de TypeScript (tsc). Normalmente este comando se declara dentro de los scripts del package.json para facilitar su ejecución mediante npm run. Al ejecutar el build, TypeScript tomará todos los archivos .ts definidos dentro de rootDir, los transformará a .js y los almacenará en la carpeta especificada en outDir. Esta versión generada será la que realmente se utilizará en producción. Además, separar el código fuente del código compilado ayuda a mantener un proyecto mucho más limpio y organizado.
+// Archivo package.json
+// "scripts": { //* Se abre la sección de scripts personalizados ejecutables con npm run.
+//     "build": "tsc" //* Se crea el comando build que ejecutará el compilador de TypeScript.
+        //* **Concepto clave:** tsc significa TypeScript Compiler.
+        //* **Importante:** este comando genera físicamente los archivos JavaScript.
+        //* **Buena práctica:** siempre generar un build antes de subir el proyecto a producción.
+// } //* Cierre de scripts.
+
+//* Fin de la configuración del script build.
 
 // Consola.
-// npm run build
+// npm run build //* Ejecuta el script build definido en package.json.
+//* npm busca el comando "build" dentro de scripts y ejecuta "tsc".
+//* TypeScript comenzará a compilar todos los archivos .ts del proyecto.
+//* Los archivos JavaScript generados se guardarán en la carpeta definida en outDir.
+//* **Concepto clave:** este proceso genera una versión lista para producción.
+//* **Diferencia importante:** a diferencia de ts-node-dev, aquí los archivos sí se crean físicamente.
+//* **Error común:** intentar ejecutar Node sobre archivos .ts sin haber generado el build.
+//* **Buena práctica:** probar el build antes de desplegarlo para verificar que no existan errores de compilación.
