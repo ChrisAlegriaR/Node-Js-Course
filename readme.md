@@ -56,3 +56,4 @@ All the content in this repository, both in the **projects** and the **course**,
 
 ## 🔥 Developer  
 This project was developed by `©ChrisAlegria`. All rights reserved.
+
